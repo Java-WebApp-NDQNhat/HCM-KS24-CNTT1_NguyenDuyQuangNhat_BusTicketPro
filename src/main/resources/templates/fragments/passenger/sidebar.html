@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<aside class="hidden md:flex flex-col h-screen w-[280px] fixed left-0 top-0 overflow-y-auto bg-surface-container-lowest border-r border-outline-variant/30 shadow-md z-50" th:fragment="passengerSidebar">
+    <div class="flex items-center gap-md p-lg border-b border-outline-variant/20">
+        <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-on-primary fill text-[20px]" data-icon="directions_bus">directions_bus</span>
+        </div>
+        <div>
+            <h1 class="font-manrope text-title-lg font-bold text-on-surface">TransRoute</h1>
+            <p class="font-inter text-label-sm text-on-surface-variant">Fleet Management</p>
+        </div>
+    </div>
+    <nav class="flex flex-col p-md gap-base flex-1 mt-md">
+        <a class="flex items-center gap-md bg-surface-container-high text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary hover:bg-surface-container transition-all duration-150 ease-in-out cursor-pointer active:scale-95" href="#">
+            <span class="material-symbols-outlined fill text-[20px]" data-icon="dashboard">dashboard</span>
+            <span class="font-inter text-label-md">Dashboard</span>
+        </a>
+        <a class="flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out cursor-pointer active:scale-95 rounded-lg" href="#">
+            <span class="material-symbols-outlined text-[20px]" data-icon="directions_bus">directions_bus</span>
+            <span class="font-inter text-label-md">Fleet Management</span>
+        </a>
+        <a class="flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out cursor-pointer active:scale-95 rounded-lg" href="#">
+            <span class="material-symbols-outlined text-[20px]" data-icon="confirmation_number">confirmation_number</span>
+            <span class="font-inter text-label-md">Ticket Sales</span>
+        </a>
+        <a class="flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out cursor-pointer active:scale-95 rounded-lg" href="#">
+            <span class="material-symbols-outlined text-[20px]" data-icon="map">map</span>
+            <span class="font-inter text-label-md">Route Planning</span>
+        </a>
+        <a class="flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out cursor-pointer active:scale-95 rounded-lg" href="#">
+            <span class="material-symbols-outlined text-[20px]" data-icon="badge">badge</span>
+            <span class="font-inter text-label-md">Staff Directory</span>
+        </a>
+        <a class="flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out cursor-pointer active:scale-95 rounded-lg" href="#">
+            <span class="material-symbols-outlined text-[20px]" data-icon="terminal">terminal</span>
+            <span class="font-inter text-label-md">System Logs</span>
+        </a>
+    </nav>
+    <div class="p-md mt-auto border-t border-outline-variant/20 flex flex-col gap-md">
+        <button class="w-full bg-primary text-on-primary font-inter text-label-md py-sm px-md rounded-lg shadow-sm hover:bg-surface-tint transition-colors duration-150 flex items-center justify-center gap-sm">
+            <span class="material-symbols-outlined text-[18px]">add</span>
+            New Booking
+        </button>
+        <div class="flex flex-col gap-xs">
+            <a class="flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out cursor-pointer rounded-lg" href="#">
+                <span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
+                <span class="font-inter text-label-md">Settings</span>
+            </a>
+            <a class="flex items-center gap-md text-error px-md py-sm hover:bg-error-container transition-all duration-150 ease-in-out cursor-pointer rounded-lg" href="#">
+                <span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
+                <span class="font-inter text-label-md">Logout</span>
+            </a>
+        </div>
+    </div>
+</aside>
+</body>
+</html>
+
