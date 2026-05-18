@@ -21,7 +21,7 @@ public class AuthService {
         this.userMapper = userMapper;
     }
 
-    public void registerUser(RegisterDTO registerDTO) {
+    public void register(RegisterDTO registerDTO) {
         String hashedPassword = passwordEncoder.encode(registerDTO.getPassword());
 
         User user = userMapper.toEntity(registerDTO);
