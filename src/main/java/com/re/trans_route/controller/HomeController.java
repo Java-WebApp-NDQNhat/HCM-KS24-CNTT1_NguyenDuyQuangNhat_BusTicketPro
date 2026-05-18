@@ -13,6 +13,6 @@ public class HomeController {
         if (UserContext.currentUser != null) {
             return "redirect:/user/dashboard";
         }
-        return "/auth/login";
+        return "redirect:/auth/login";
     }
 }

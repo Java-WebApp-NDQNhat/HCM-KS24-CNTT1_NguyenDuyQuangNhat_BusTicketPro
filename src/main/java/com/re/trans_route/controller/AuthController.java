@@ -1,5 +1,6 @@
 package com.re.trans_route.controller;
 
+import com.re.trans_route.dto.LoginDTO;
 import com.re.trans_route.dto.RegisterDTO;
 import com.re.trans_route.service.AuthService;
 import org.springframework.stereotype.Controller;
@@ -32,5 +33,11 @@ public class AuthController {
             model.addAttribute("error", e.getMessage());
             return "/auth/register";
         }
+    }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        model.addAttribute("loginDTO", new LoginDTO());
+        return "/auth/login";
     }
 }
