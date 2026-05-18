@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html class="light" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: commonHead('Register - TransRoute SaaS', @{/css/register.css})"></head>
+
+<body class="bg-background text-on-background min-h-screen flex items-center justify-center p-margin-mobile md:p-margin-desktop antialiased">
+<!-- Ambient Background Graphic -->
+<div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary-fixed/30 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-surface-container-high/40 rounded-full blur-[150px]"></div>
+</div>
+
+<!-- Main Registration Card -->
+<main class="relative z-10 w-full max-w-[480px]">
+    <!-- Brand Header -->
+    <div class="text-center mb-xl">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-primary text-on-primary mb-md shadow-lg shadow-primary/20">
+            <span class="material-symbols-outlined text-[32px]">directions_bus</span>
+        </div>
+        <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background mb-xs">Join TransRoute</h1>
+        <p class="font-body-md text-body-md text-on-surface-variant">Create your fleet management account.</p>
+    </div>
+    <!-- Glassmorphic Card -->
+    <div class="bg-surface-container-lowest/90 backdrop-blur-xl border border-outline-variant/30 rounded-xl shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.05)] p-lg md:p-xl">
+        <form class="flex flex-col gap-lg" method="post" th:action="@{/register}" th:object="${registerDTO}">
+            <!-- Full Name Field -->
+            <div class="flex flex-col gap-xs">
+                <label class="font-label-md text-label-md text-on-surface" for="fullName">Full Name</label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">person</span>
+                    <input class="w-full pl-[44px] pr-md py-[10px] bg-surface border border-outline-variant/50 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-on-surface-variant/50" id="fullName" name="fullName" placeholder="Jane Doe" required="" type="text" th:field="*{fullName}"/>
+                </div>
+            </div>
+            <!-- Email Field -->
+            <div class="flex flex-col gap-xs">
+                <label class="font-label-md text-label-md text-on-surface" for="email">Email Address</label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">mail</span>
+                    <input class="w-full pl-[44px] pr-md py-[10px] bg-surface border border-outline-variant/50 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-on-surface-variant/50" id="email" name="email" placeholder="jane@example.com" required="" type="email" th:field="*{email}"/>
+                </div>
+            </div>
+            <!-- Phone Field -->
+            <div class="flex flex-col gap-xs">
+                <label class="font-label-md text-label-md text-on-surface" for="phone">Phone Number</label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">call</span>
+                    <input class="w-full pl-[44px] pr-md py-[10px] bg-surface border border-outline-variant/50 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-on-surface-variant/50" id="phone" name="phone" placeholder="+1 (555) 000-0000" required="" type="tel" th:field="*{phone}"/>
+                </div>
+            </div>
+            <!-- Password Field with Strength Meter -->
+            <div class="flex flex-col gap-xs">
+                <label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">lock</span>
+                    <input class="w-full pl-[44px] pr-[44px] py-[10px] bg-surface border border-outline-variant/50 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-on-surface-variant/50" id="password" name="password" placeholder="••••••••" required="" type="password" th:field="*{password}"/>
+                    <button class="absolute right-md top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer" onclick="togglePasswordVisibility('password', 'visibilityIcon1')" type="button">
+                        <span class="material-symbols-outlined" id="visibilityIcon1">visibility_off</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Confirm Password Field -->
+            <div class="flex flex-col gap-xs">
+                <label class="font-label-md text-label-md text-on-surface" for="confirmPassword">Confirm Password</label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">lock_reset</span>
+                    <input class="w-full pl-[44px] pr-[44px] py-[10px] bg-surface border border-outline-variant/50 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-on-surface-variant/50" id="confirmPassword" name="confirmPassword" placeholder="••••••••" required="" type="password" th:field="*{confirmPassword}"/>
+                    <button class="absolute right-md top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer" onclick="togglePasswordVisibility('confirmPassword', 'visibilityIcon2')" type="button">
+                        <span class="material-symbols-outlined" id="visibilityIcon2">visibility_off</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Submit Button -->
+            <button class="w-full bg-primary text-on-primary font-label-md text-label-md py-[12px] rounded-lg mt-sm hover:shadow-[0px_4px_12px_rgba(0,0,0,0.15)] active:scale-[0.98] transition-all duration-200 flex justify-center items-center gap-sm" type="submit">
+                Create Account
+                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+            </button>
+        </form>
+        <!-- Login Link -->
+        <div class="mt-lg text-center">
+            <p class="font-body-md text-body-md text-on-surface-variant">
+                Already have an account?
+                <a class="font-label-md text-label-md text-primary hover:underline underline-offset-4 ml-xs transition-all" th:href="@{/login}">Sign in</a>
+            </p>
+        </div>
+    </div>
+    <!-- Footer -->
+    <div class="mt-xl text-center">
+        <p class="font-label-sm text-label-sm text-outline">
+            By registering, you agree to our <a class="hover:text-primary transition-colors" th:href="@{/terms}">Terms of Service</a> and <a class="hover:text-primary transition-colors" th:href="@{/privacy}">Privacy Policy</a>.
+        </p>
+    </div>
+</main>
+</body>
+
+</html>
