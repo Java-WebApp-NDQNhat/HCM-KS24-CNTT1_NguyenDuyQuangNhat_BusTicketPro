@@ -1,17 +1,17 @@
 package com.re.trans_route.annotation;
 
-import com.re.trans_route.validator.PassWordMatchValidator;
+import com.re.trans_route.validator.UniqueEmailValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
 @Documented
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PassWordMatchValidator.class)
-@Target(ElementType.TYPE)
-public @interface PasswordMatch {
-    String message() default "Mật khẩu xác nhận không khớp với mật khẩu!";
+@Constraint(validatedBy = UniqueEmailValidator.class)
+public @interface UniqueEmail {
+    String message() default "Email đã được đăng ký!!";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
