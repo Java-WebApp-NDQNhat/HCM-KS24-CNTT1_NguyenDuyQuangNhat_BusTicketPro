@@ -32,8 +32,15 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
 
-                // 3. Tắt tính năng tự động hiển thị form đăng nhập mặc định của Spring
-                .formLogin(AbstractHttpConfigurer::disable)
+                // 3. Đăng nhập bằng form tùy chỉnh
+                .formLogin(form -> form
+                        .loginPage("/auth/login")
+                        .loginProcessingUrl("/auth/login")
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                        .defaultSuccessUrl("/page/tmp", true)
+                        .permitAll()
+                )
                 .httpBasic(AbstractHttpConfigurer::disable);
 
         return http.build();

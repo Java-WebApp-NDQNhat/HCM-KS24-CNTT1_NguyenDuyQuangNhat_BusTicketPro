@@ -9,5 +9,7 @@ import org.mapstruct.Mapping;
 public interface UserMapper {
     @Mapping(source = "fullName", target = "userName")
     @Mapping(target = "passwordHash", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "id", ignore = true)
     User toEntity(RegisterDTO userDTO);
 }
