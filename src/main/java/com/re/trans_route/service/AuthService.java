@@ -26,6 +26,7 @@ public class AuthService {
 
         User user = userMapper.toEntity(registerDTO);
         user.setPasswordHash(hashedPassword);
+        user.setRoleId(3L);
         userRepository.save(user);
     }
 

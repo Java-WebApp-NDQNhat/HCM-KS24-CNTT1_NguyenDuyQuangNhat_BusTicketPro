@@ -3,9 +3,12 @@ package com.re.trans_route.controller;
 import com.re.trans_route.dto.LoginDTO;
 import com.re.trans_route.dto.RegisterDTO;
 import com.re.trans_route.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,7 +28,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(RegisterDTO registerDTO, Model model) {
+    public String register(@Valid @ModelAttribute("registerDTO") RegisterDTO registerDTO,
+                           BindingResult result,
+                           Model model) {
+        if (result.hasErrors()) {
+            return "/auth/register";
+        }
+
         try {
             authService.register(registerDTO);
             return "redirect:/auth/login";
@@ -39,5 +48,22 @@ public class AuthController {
     public String login(Model model) {
         model.addAttribute("loginDTO", new LoginDTO());
         return "/auth/login";
+    }
+
+    @PostMapping("/login")
+    public String login(@Valid @ModelAttribute("loginDTO") LoginDTO loginDTO,
+                        BindingResult result,
+                        Model model) {
+        if (result.hasErrors()) {
+            return "/auth/login";
+        }
+
+        try {
+//            authService.login(loginDTO);
+            return "redirect:/user/dashboard";
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "/auth/login";
+        }
     }
 }

@@ -42,7 +42,6 @@
         </div>
 
         <form class="flex flex-col gap-md" method="post" th:action="@{/auth/login}" th:object="${loginDTO}">
-
             <div class="flex flex-col gap-xs group">
                 <label class="font-label-md text-label-md text-on-surface ml-1" for="email">Work Email</label>
                 <div class="relative">
@@ -51,6 +50,7 @@
                     </div>
                     <input class="w-full bg-surface-container-lowest border border-outline-variant rounded-xl pl-11 pr-4 py-[14px] font-body-md text-body-md text-on-surface placeholder:text-outline-variant focus:outline-none focus:border-on-tertiary-container focus:ring-4 focus:ring-on-tertiary-container/10 transition-all shadow-sm" id="email" required type="email" th:field="*{email}"/>
                 </div>
+                <p class="font-label-sm text-label-sm text-error" th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></p>
             </div>
 
             <div class="flex flex-col gap-xs group">
@@ -64,6 +64,7 @@
                         <span class="material-symbols-outlined text-[20px]">visibility_off</span>
                     </button>
                 </div>
+                <p class="font-label-sm text-label-sm text-error" th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></p>
             </div>
 
             <div class="flex items-center justify-between mt-xs mb-sm">
@@ -109,10 +110,6 @@
         </div>
 
         <div class="mt-sm flex flex-col items-center gap-md">
-            <div class="flex items-center gap-1.5 px-3 py-1.5 bg-surface-container/50 rounded-full border border-outline-variant/30">
-                <span class="material-symbols-outlined text-[14px] text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">lock</span>
-                <span class="font-label-sm text-[10px] leading-tight text-outline">Password protected with BCrypt/PBKDF2 encryption</span>
-            </div>
             <p class="font-body-md text-body-md text-on-surface-variant">
                 Don't have an account?
                 <a class="font-label-md text-label-md text-on-tertiary-container hover:underline ml-1" th:href="@{/auth/register}">Request access</a>

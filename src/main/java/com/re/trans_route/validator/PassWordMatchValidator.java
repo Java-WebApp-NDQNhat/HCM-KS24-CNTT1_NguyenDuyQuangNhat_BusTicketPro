@@ -10,7 +10,17 @@ public class PassWordMatchValidator implements ConstraintValidator<PasswordMatch
         try {
             String password = (String) value.getClass().getMethod("getPassword").invoke(value);
             String rePass = (String) value.getClass().getMethod("getRePass").invoke(value);
-            return password != null && password.equals(rePass);
+            if (password == null || rePass == null) {
+                return true;
+            }
+            boolean matches = password.equals(rePass);
+            if (!matches) {
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
+                        .addPropertyNode("rePass")
+                        .addConstraintViolation();
+            }
+            return matches;
         } catch (Exception e) {
             return false;
         }
