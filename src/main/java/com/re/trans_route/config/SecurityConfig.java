@@ -51,18 +51,27 @@ public class SecurityConfig {
                         .requestMatchers("/error", "/favicon.ico").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/passenger/**").hasRole("PASSENGER")
+//                        .requestMatchers("/staff/**").hasRole("STAFF")
                         .anyRequest().authenticated()
                 )
 
-                // 3. Controller xử lý đăng nhập, tắt formLogin mặc định
+                // 3. Controller xu? li' form dang nhap., tat' form default
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(logout -> logout
                         .logoutUrl("/auth/logout")
-                        .logoutSuccessUrl("/auth/login")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessUrl("/auth/login") // logout xong se~ qua day
+                        .invalidateHttpSession(true)    // xoa' session treen server
+                        .clearAuthentication(true)  // xoa' thong tin dang nhap. tren SecurityContextHolder
+                        .deleteCookies("JSESSIONID") // xoa' cookie session tren client
                 )
-                .httpBasic(AbstractHttpConfigurer::disable);
+                .httpBasic(AbstractHttpConfigurer::disable)
+
+                // cau' hinh` khi reload server mat' session ma` client con` khi do' tu. load ve` dang nhap.
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.sendRedirect("/auth/login");
+                        })
+                );
 
         return http.build();
     }

@@ -1,0 +1,49 @@
+<nav
+  class="bg-surface/80 dark:bg-surface-container/80 backdrop-blur-xl sticky top-0 w-full z-40 border-b border-outline-variant/30 dark:border-outline/20 shadow-sm flex justify-between items-center px-lg h-16 w-full"
+  th:fragment="ticketDetailTopbar"
+>
+  <div class="flex items-center gap-md cursor-pointer active:scale-95 duration-200">
+    <span
+      class="material-symbols-outlined text-primary dark:text-primary-fixed"
+      style="font-variation-settings: 'FILL' 1;"
+      >directions_bus</span
+    >
+    <span
+      class="font-manrope text-headline-md font-bold text-on-surface dark:text-surface-bright"
+      >TransRoute SaaS</span
+    >
+  </div>
+  <div class="hidden md:flex items-center gap-lg">
+    <span
+      class="text-primary font-bold border-b-2 border-primary pb-1 font-inter text-body-md"
+      >Ticket Lookup</span
+    >
+    <span
+      class="text-on-surface-variant dark:text-outline font-inter text-body-md hover:bg-surface-variant/50 dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95 duration-200 px-2 py-1 rounded"
+      >Support</span
+    >
+  </div>
+  <div class="flex items-center gap-md">
+    <button
+      class="text-primary dark:text-primary-fixed hover:bg-surface-variant/50 dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95 duration-200 p-2 rounded-full flex items-center justify-center"
+    >
+      <span class="material-symbols-outlined">notifications</span>
+    </button>
+    <button
+      class="text-primary dark:text-primary-fixed hover:bg-surface-variant/50 dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95 duration-200 p-2 rounded-full flex items-center justify-center"
+    >
+      <span class="material-symbols-outlined">settings</span>
+    </button>
+    <div
+      class="h-8 w-8 bg-surface-variant rounded-full overflow-hidden cursor-pointer active:scale-95 duration-200"
+    >
+      <img
+        alt="User profile avatar"
+        class="w-full h-full object-cover"
+        data-alt="A close-up portrait of a professional looking individual, representing a user profile avatar. The lighting is soft and flattering, typical of a professional headshot. The aesthetic is clean and modern, fitting within a sleek UI design."
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTMPH2Y3n2c7MTa6i97a9REC9SxBHplV0AdxRAWVL-ywTItyL7hh0XRkm4Mc__5Ckt42ar963ylQsUhS5T7tN_MkeZUHv38VJU9i6MYrdewgbk9Tf8pbbAs8ROg1wc9_rW-NXfRQgnqIboWoN9hCnD3l-eCmTjASRVHFSrZaxB19Q3E6rnjlcE2e5-HWdRmPzWgSxQO-QkWXK1GIN03TL-3v7-UKXJFtVkE3C6UgQ5oKZ7kGPK3-GlP0yUOF8Morui2f6Bcp7EohU"
+      />
+    </div>
+  </div>
+</nav>
+

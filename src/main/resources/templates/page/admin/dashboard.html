@@ -1,290 +1,473 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/admin/head :: adminHead('Admin Analytics Dashboard - TransRoute SaaS')"></head>
-<body class="bg-background dark:bg-on-background text-on-surface dark:text-surface-bright font-body-md min-h-screen flex antialiased">
+  <head
+    th:replace="~{fragments/head :: commonHead('Admin Analytics Dashboard - TransRoute SaaS', null, 'admin')}"
+  ></head>
+  <body
+    class="bg-background dark:bg-on-background text-on-surface dark:text-surface-bright font-body-md min-h-screen flex antialiased"
+  >
+    <div th:replace="~{fragments/admin/sidebar :: adminSidebar}"></div>
 
-<div th:replace="fragments/admin/sidebar :: adminSidebar"></div>
+    <div class="flex-1 md:ml-[280px] flex flex-col min-h-screen">
+      <!-- TopNavBar -->
+      <header th:replace="~{fragments/component/header :: adminHeader}"></header>
 
-<div class="flex-1 md:ml-[280px] flex flex-col min-h-screen">
-    <!-- TopNavBar -->
-    <header class="flex justify-between items-center px-lg h-16 w-full bg-surface/80 dark:bg-surface-container/80 backdrop-blur-xl sticky top-0 z-40 border-b border-outline-variant/30 dark:border-outline/20 shadow-sm">
-
-        <button class="md:hidden text-on-surface dark:text-surface-bright mr-md">
-            <span class="material-symbols-outlined" data-icon="menu">menu</span>
-        </button>
-
-        <div class="flex-1 max-w-md relative hidden sm:block">
-            <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
-            <input class="w-full bg-surface-container-low dark:bg-surface-container-highest border border-outline-variant/50 text-on-surface dark:text-surface-bright text-label-md rounded-full py-2 pl-xl pr-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="Search routes, buses..." type="text"/>
-        </div>
-
-        <div class="flex items-center gap-md ml-auto">
-
-            <button class="text-on-surface-variant dark:text-outline hover:bg-surface-variant/50 dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95 duration-200 p-2 rounded-full flex items-center justify-center">
-                <span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
-            </button>
-            <button class="text-on-surface-variant dark:text-outline hover:bg-surface-variant/50 dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95 duration-200 p-2 rounded-full flex items-center justify-center relative">
-                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-                <span class="absolute top-1 right-2 w-2 h-2 bg-error rounded-full"></span>
-            </button>
-            <button class="text-on-surface-variant dark:text-outline hover:bg-surface-variant/50 dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95 duration-200 p-2 rounded-full flex items-center justify-center">
-                <span class="material-symbols-outlined" data-icon="settings">settings</span>
-            </button>
-            <div class="hidden sm:block h-6 w-px bg-outline-variant/50 mx-sm"></div>
-            <button class="hidden sm:flex text-label-md text-primary dark:text-primary-fixed hover:bg-surface-variant/50 dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95 duration-200 px-sm py-1 rounded">
-                Support
-            </button>
-            <div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/50 cursor-pointer">
-                <img alt="User profile avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwAGBjtStKQ-ohE0-3byff3JH4_XQvri6_PM19i1KZaGuPK6AsXO_1z9yegyknfTxIZkRSCeZA0JOSmolMBL7jKIOO3mu5Ey93PxxDJbUusEYJ-rxWN8-fxukpTQSvs9QYmMlT_Xle5_CXYPFCuM29qdeBRAZl6cgo4-uBh4I9HB4ruDXIKBmmqwJkOTunqwSdL8cY5ZyB6nwitcvJ43m4tGQ7e3CmtiShVxqsbz9OjGylDbcoKeBKRHWxHNY6ArOIvxsgnhizz1A"/>
-            </div>
-        </div>
-    </header>
-
-    <main class="flex-1 p-margin-mobile md:p-gutter lg:p-margin-desktop overflow-x-hidden">
+      <main
+        class="flex-1 p-margin-mobile md:p-gutter lg:p-margin-desktop overflow-x-hidden"
+      >
         <div class="mb-lg">
-            <h1 class="font-headline-lg-mobile md:font-headline-lg text-on-surface dark:text-surface-bright">Admin Analytics</h1>
-            <p class="font-body-md text-on-surface-variant dark:text-outline mt-1">Overview of system performance and operational metrics.</p>
+          <h1
+            class="font-headline-lg-mobile md:font-headline-lg text-on-surface dark:text-surface-bright"
+          >
+            Admin Analytics
+          </h1>
+          <p
+            class="font-body-md text-on-surface-variant dark:text-outline mt-1"
+          >
+            Overview of system performance and operational metrics.
+          </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg mb-xl">
-
-            <div class="glass-panel rounded-xl p-md border border-outline-variant/30 card-shadow relative overflow-hidden group">
-                <div class="flex justify-between items-start mb-sm relative z-10">
-                    <div>
-                        <span class="font-label-md text-on-surface-variant dark:text-outline">Total Revenue</span>
-                        <h3 class="font-headline-md text-on-surface dark:text-surface-bright mt-1">$124,500</h3>
-                    </div>
-                    <span class="flex items-center gap-xs font-label-sm text-[#059669] bg-[#059669]/10 px-2 py-1 rounded-full">
-<span class="material-symbols-outlined text-[14px]" data-icon="trending_up">trending_up</span>
-                            12%
-                        </span>
-                </div>
-
-                <div class="h-12 w-full mt-4 relative z-0 opacity-50 group-hover:opacity-100 transition-opacity">
-                    <svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 30">
-                        <path class="sparkline-area-primary" d="M0,30 L0,20 C20,25 40,5 60,15 C80,25 90,5 100,10 L100,30 Z"></path>
-                        <path class="sparkline-line-success" d="M0,20 C20,25 40,5 60,15 C80,25 90,5 100,10"></path>
-                    </svg>
-                </div>
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg mb-xl"
+        >
+          <div
+            class="glass-panel rounded-xl p-md border border-outline-variant/30 card-shadow relative overflow-hidden group"
+          >
+            <div class="flex justify-between items-start mb-sm relative z-10">
+              <div>
+                <span
+                  class="font-label-md text-on-surface-variant dark:text-outline"
+                  >Total Revenue</span
+                >
+                <h3
+                  class="font-headline-md text-on-surface dark:text-surface-bright mt-1"
+                >
+                  $124,500
+                </h3>
+              </div>
+              <span
+                class="flex items-center gap-xs font-label-sm text-[#059669] bg-[#059669]/10 px-2 py-1 rounded-full"
+              >
+                <span
+                  class="material-symbols-outlined text-[14px]"
+                  data-icon="trending_up"
+                  >trending_up</span
+                >
+                12%
+              </span>
             </div>
 
-            <div class="bg-surface-container-lowest dark:bg-surface-container-low rounded-xl p-md border border-outline-variant/30 card-shadow flex flex-col justify-between">
-                <div class="flex justify-between items-start">
-                    <span class="font-label-md text-on-surface-variant dark:text-outline">Total Tickets Sold</span>
-                    <div class="w-8 h-8 rounded-full bg-primary-fixed/20 flex items-center justify-center">
-                        <span class="material-symbols-outlined text-primary text-[18px]" data-icon="confirmation_number">confirmation_number</span>
-                    </div>
-                </div>
-                <div class="mt-lg">
-                    <h3 class="font-headline-md text-on-surface dark:text-surface-bright">8,432</h3>
-                    <p class="font-label-sm text-on-surface-variant dark:text-outline mt-1">+4% from last week</p>
-                </div>
+            <div
+              class="h-12 w-full mt-4 relative z-0 opacity-50 group-hover:opacity-100 transition-opacity"
+            >
+              <svg
+                class="w-full h-full"
+                preserveaspectratio="none"
+                viewbox="0 0 100 30"
+              >
+                <path
+                  class="sparkline-area-primary"
+                  d="M0,30 L0,20 C20,25 40,5 60,15 C80,25 90,5 100,10 L100,30 Z"
+                ></path>
+                <path
+                  class="sparkline-line-success"
+                  d="M0,20 C20,25 40,5 60,15 C80,25 90,5 100,10"
+                ></path>
+              </svg>
             </div>
+          </div>
 
-            <div class="bg-surface-container-lowest dark:bg-surface-container-low rounded-xl p-md border border-outline-variant/30 card-shadow flex flex-col justify-between">
-                <div class="flex justify-between items-start">
-                    <span class="font-label-md text-on-surface-variant dark:text-outline">Pending Bookings</span>
-                    <div class="w-8 h-8 rounded-full bg-tertiary-fixed/20 flex items-center justify-center">
-                        <span class="material-symbols-outlined text-tertiary text-[18px]" data-icon="pending_actions">pending_actions</span>
-                    </div>
-                </div>
-                <div class="mt-lg">
-                    <h3 class="font-headline-md text-on-surface dark:text-surface-bright">142</h3>
-                    <p class="font-label-sm text-on-surface-variant dark:text-outline mt-1">Needs attention</p>
-                </div>
+          <div
+            class="bg-surface-container-lowest dark:bg-surface-container-low rounded-xl p-md border border-outline-variant/30 card-shadow flex flex-col justify-between"
+          >
+            <div class="flex justify-between items-start">
+              <span
+                class="font-label-md text-on-surface-variant dark:text-outline"
+                >Total Tickets Sold</span
+              >
+              <div
+                class="w-8 h-8 rounded-full bg-primary-fixed/20 flex items-center justify-center"
+              >
+                <span
+                  class="material-symbols-outlined text-primary text-[18px]"
+                  data-icon="confirmation_number"
+                  >confirmation_number</span
+                >
+              </div>
             </div>
-
-            <div class="bg-surface-container-lowest dark:bg-surface-container-low rounded-xl p-md border border-outline-variant/30 card-shadow flex flex-col justify-between">
-                <div class="flex justify-between items-start">
-                    <span class="font-label-md text-on-surface-variant dark:text-outline">Cancellation Rate</span>
-                    <span class="flex items-center gap-xs font-label-sm text-error bg-error-container px-2 py-1 rounded-full">
-<span class="material-symbols-outlined text-[14px]" data-icon="trending_down">trending_down</span>
-                            -1.2%
-                        </span>
-                </div>
-                <div class="mt-lg flex items-end justify-between">
-                    <h3 class="font-headline-md text-on-surface dark:text-surface-bright">3.4%</h3>
-
-                    <div class="h-6 w-16">
-                        <svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 50 15">
-                            <path class="sparkline-line-error" d="M0,5 L10,10 L20,2 L30,12 L40,8 L50,14"></path>
-                        </svg>
-                    </div>
-                </div>
+            <div class="mt-lg">
+              <h3
+                class="font-headline-md text-on-surface dark:text-surface-bright"
+              >
+                8,432
+              </h3>
+              <p
+                class="font-label-sm text-on-surface-variant dark:text-outline mt-1"
+              >
+                +4% from last week
+              </p>
             </div>
+          </div>
+
+          <div
+            class="bg-surface-container-lowest dark:bg-surface-container-low rounded-xl p-md border border-outline-variant/30 card-shadow flex flex-col justify-between"
+          >
+            <div class="flex justify-between items-start">
+              <span
+                class="font-label-md text-on-surface-variant dark:text-outline"
+                >Pending Bookings</span
+              >
+              <div
+                class="w-8 h-8 rounded-full bg-tertiary-fixed/20 flex items-center justify-center"
+              >
+                <span
+                  class="material-symbols-outlined text-tertiary text-[18px]"
+                  data-icon="pending_actions"
+                  >pending_actions</span
+                >
+              </div>
+            </div>
+            <div class="mt-lg">
+              <h3
+                class="font-headline-md text-on-surface dark:text-surface-bright"
+              >
+                142
+              </h3>
+              <p
+                class="font-label-sm text-on-surface-variant dark:text-outline mt-1"
+              >
+                Needs attention
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-surface-container-lowest dark:bg-surface-container-low rounded-xl p-md border border-outline-variant/30 card-shadow flex flex-col justify-between"
+          >
+            <div class="flex justify-between items-start">
+              <span
+                class="font-label-md text-on-surface-variant dark:text-outline"
+                >Cancellation Rate</span
+              >
+              <span
+                class="flex items-center gap-xs font-label-sm text-error bg-error-container px-2 py-1 rounded-full"
+              >
+                <span
+                  class="material-symbols-outlined text-[14px]"
+                  data-icon="trending_down"
+                  >trending_down</span
+                >
+                -1.2%
+              </span>
+            </div>
+            <div class="mt-lg flex items-end justify-between">
+              <h3
+                class="font-headline-md text-on-surface dark:text-surface-bright"
+              >
+                3.4%
+              </h3>
+
+              <div class="h-6 w-16">
+                <svg
+                  class="w-full h-full"
+                  preserveaspectratio="none"
+                  viewbox="0 0 50 15"
+                >
+                  <path
+                    class="sparkline-line-error"
+                    d="M0,5 L10,10 L20,2 L30,12 L40,8 L50,14"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg mb-xl">
-
-            <div class="lg:col-span-2 bg-surface-container-lowest dark:bg-surface-container-low rounded-xl p-lg border border-outline-variant/30 card-shadow">
-                <div class="flex justify-between items-center mb-lg">
-                    <h3 class="font-title-lg text-on-surface dark:text-surface-bright">Revenue Over Time</h3>
-                    <select class="bg-surface-container text-label-md text-on-surface border-none rounded-lg py-1 px-sm focus:ring-0 cursor-pointer">
-                        <option>Last 30 Days</option>
-                        <option>This Quarter</option>
-                        <option>Year to Date</option>
-                    </select>
-                </div>
-
-                <div class="h-64 w-full relative flex items-end border-b border-l border-outline-variant/20 pb-4 pl-4 pt-4">
-
-                    <div class="absolute left-0 top-0 h-full flex flex-col justify-between text-label-sm text-outline pr-2 -translate-x-full">
-                        <span>$150k</span>
-                        <span>$100k</span>
-                        <span>$50k</span>
-                        <span>$0</span>
-                    </div>
-
-                    <div class="absolute inset-0 pt-4 pl-4 w-full h-full flex flex-col justify-between pointer-events-none">
-                        <div class="w-full border-t border-outline-variant/10"></div>
-                        <div class="w-full border-t border-outline-variant/10"></div>
-                        <div class="w-full border-t border-outline-variant/10"></div>
-                        <div class="w-full border-t border-outline-variant/10"></div>
-                    </div>
-
-                    <div class="w-full h-full relative z-10 overflow-hidden">
-                        <svg class="w-full h-full absolute bottom-0" preserveaspectratio="none" viewbox="0 0 100 100">
-
-                            <path d="M0,100 L0,70 Q10,80 20,60 T40,40 T60,50 T80,20 T100,10 L100,100 Z" fill="url(#gradient-primary)" opacity="0.2"></path>
-
-                            <path class="text-primary dark:text-primary-fixed" d="M0,70 Q10,80 20,60 T40,40 T60,50 T80,20 T100,10" fill="none" stroke="currentColor" stroke-width="2"></path>
-                            <defs>
-                                <lineargradient id="gradient-primary" x1="0" x2="0" y1="0" y2="1">
-                                    <stop class="text-primary dark:text-primary-fixed" offset="0%" stop-color="currentColor" stop-opacity="0.8"></stop>
-                                    <stop class="text-primary dark:text-primary-fixed" offset="100%" stop-color="currentColor" stop-opacity="0"></stop>
-                                </lineargradient>
-                            </defs>
-                        </svg>
-                    </div>
-
-                    <div class="absolute bottom-0 left-4 w-full flex justify-between text-label-sm text-outline pt-2 translate-y-full">
-                        <span>Week 1</span>
-                        <span>Week 2</span>
-                        <span>Week 3</span>
-                        <span>Week 4</span>
-                    </div>
-                </div>
+          <div
+            class="lg:col-span-2 bg-surface-container-lowest dark:bg-surface-container-low rounded-xl p-lg border border-outline-variant/30 card-shadow"
+          >
+            <div class="flex justify-between items-center mb-lg">
+              <h3
+                class="font-title-lg text-on-surface dark:text-surface-bright"
+              >
+                Revenue Over Time
+              </h3>
+              <select
+                class="bg-surface-container text-label-md text-on-surface border-none rounded-lg py-1 px-sm focus:ring-0 cursor-pointer"
+              >
+                <option>Last 30 Days</option>
+                <option>This Quarter</option>
+                <option>Year to Date</option>
+              </select>
             </div>
 
-            <div class="bg-surface-container-lowest dark:bg-surface-container-low rounded-xl p-lg border border-outline-variant/30 card-shadow">
-                <div class="flex justify-between items-center mb-lg">
-                    <h3 class="font-title-lg text-on-surface dark:text-surface-bright">Route Performance</h3>
-                    <button class="text-primary dark:text-primary-fixed p-1 rounded hover:bg-surface-variant/50 transition-colors">
-                        <span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
-                    </button>
-                </div>
-                <div class="flex flex-col gap-md h-64 overflow-y-auto pr-2">
+            <div
+              class="h-64 w-full relative flex items-end border-b border-l border-outline-variant/20 pb-4 pl-4 pt-4"
+            >
+              <div
+                class="absolute left-0 top-0 h-full flex flex-col justify-between text-label-sm text-outline pr-2 -translate-x-full"
+              >
+                <span>$150k</span>
+                <span>$100k</span>
+                <span>$50k</span>
+                <span>$0</span>
+              </div>
 
-                    <div>
-                        <div class="flex justify-between font-label-md text-on-surface-variant mb-1">
-                            <span>NY - BOS</span>
-                            <span class="font-semibold text-on-surface">92%</span>
-                        </div>
-                        <div class="w-full bg-surface-container rounded-full h-2">
-                            <div class="bg-primary h-2 rounded-full" style="width: 92%"></div>
-                        </div>
-                    </div>
+              <div
+                class="absolute inset-0 pt-4 pl-4 w-full h-full flex flex-col justify-between pointer-events-none"
+              >
+                <div class="w-full border-t border-outline-variant/10"></div>
+                <div class="w-full border-t border-outline-variant/10"></div>
+                <div class="w-full border-t border-outline-variant/10"></div>
+                <div class="w-full border-t border-outline-variant/10"></div>
+              </div>
 
-                    <div>
-                        <div class="flex justify-between font-label-md text-on-surface-variant mb-1">
-                            <span>CHI - DET</span>
-                            <span class="font-semibold text-on-surface">78%</span>
-                        </div>
-                        <div class="w-full bg-surface-container rounded-full h-2">
-                            <div class="bg-primary h-2 rounded-full opacity-80" style="width: 78%"></div>
-                        </div>
-                    </div>
+              <div class="w-full h-full relative z-10 overflow-hidden">
+                <svg
+                  class="w-full h-full absolute bottom-0"
+                  preserveaspectratio="none"
+                  viewbox="0 0 100 100"
+                >
+                  <path
+                    d="M0,100 L0,70 Q10,80 20,60 T40,40 T60,50 T80,20 T100,10 L100,100 Z"
+                    fill="url(#gradient-primary)"
+                    opacity="0.2"
+                  ></path>
 
-                    <div>
-                        <div class="flex justify-between font-label-md text-on-surface-variant mb-1">
-                            <span>LA - SF</span>
-                            <span class="font-semibold text-on-surface">65%</span>
-                        </div>
-                        <div class="w-full bg-surface-container rounded-full h-2">
-                            <div class="bg-primary h-2 rounded-full opacity-60" style="width: 65%"></div>
-                        </div>
-                    </div>
+                  <path
+                    class="text-primary dark:text-primary-fixed"
+                    d="M0,70 Q10,80 20,60 T40,40 T60,50 T80,20 T100,10"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  ></path>
+                  <defs>
+                    <lineargradient
+                      id="gradient-primary"
+                      x1="0"
+                      x2="0"
+                      y1="0"
+                      y2="1"
+                    >
+                      <stop
+                        class="text-primary dark:text-primary-fixed"
+                        offset="0%"
+                        stop-color="currentColor"
+                        stop-opacity="0.8"
+                      ></stop>
+                      <stop
+                        class="text-primary dark:text-primary-fixed"
+                        offset="100%"
+                        stop-color="currentColor"
+                        stop-opacity="0"
+                      ></stop>
+                    </lineargradient>
+                  </defs>
+                </svg>
+              </div>
 
-                    <div>
-                        <div class="flex justify-between font-label-md text-on-surface-variant mb-1">
-                            <span>MIA - ORL</span>
-                            <span class="font-semibold text-on-surface">45%</span>
-                        </div>
-                        <div class="w-full bg-surface-container rounded-full h-2">
-                            <div class="bg-outline h-2 rounded-full" style="width: 45%"></div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="flex justify-between font-label-md text-on-surface-variant mb-1">
-                            <span>TEX - HOU</span>
-                            <span class="font-semibold text-on-surface">30%</span>
-                        </div>
-                        <div class="w-full bg-surface-container rounded-full h-2">
-                            <div class="bg-outline h-2 rounded-full opacity-50" style="width: 30%"></div>
-                        </div>
-                    </div>
-                </div>
+              <div
+                class="absolute bottom-0 left-4 w-full flex justify-between text-label-sm text-outline pt-2 translate-y-full"
+              >
+                <span>Week 1</span>
+                <span>Week 2</span>
+                <span>Week 3</span>
+                <span>Week 4</span>
+              </div>
             </div>
+          </div>
+
+          <div
+            class="bg-surface-container-lowest dark:bg-surface-container-low rounded-xl p-lg border border-outline-variant/30 card-shadow"
+          >
+            <div class="flex justify-between items-center mb-lg">
+              <h3
+                class="font-title-lg text-on-surface dark:text-surface-bright"
+              >
+                Route Performance
+              </h3>
+              <button
+                class="text-primary dark:text-primary-fixed p-1 rounded hover:bg-surface-variant/50 transition-colors"
+              >
+                <span class="material-symbols-outlined" data-icon="more_vert"
+                  >more_vert</span
+                >
+              </button>
+            </div>
+            <div class="flex flex-col gap-md h-64 overflow-y-auto pr-2">
+              <div>
+                <div
+                  class="flex justify-between font-label-md text-on-surface-variant mb-1"
+                >
+                  <span>NY - BOS</span>
+                  <span class="font-semibold text-on-surface">92%</span>
+                </div>
+                <div class="w-full bg-surface-container rounded-full h-2">
+                  <div
+                    class="bg-primary h-2 rounded-full"
+                    style="width: 92%"
+                  ></div>
+                </div>
+              </div>
+
+              <div>
+                <div
+                  class="flex justify-between font-label-md text-on-surface-variant mb-1"
+                >
+                  <span>CHI - DET</span>
+                  <span class="font-semibold text-on-surface">78%</span>
+                </div>
+                <div class="w-full bg-surface-container rounded-full h-2">
+                  <div
+                    class="bg-primary h-2 rounded-full opacity-80"
+                    style="width: 78%"
+                  ></div>
+                </div>
+              </div>
+
+              <div>
+                <div
+                  class="flex justify-between font-label-md text-on-surface-variant mb-1"
+                >
+                  <span>LA - SF</span>
+                  <span class="font-semibold text-on-surface">65%</span>
+                </div>
+                <div class="w-full bg-surface-container rounded-full h-2">
+                  <div
+                    class="bg-primary h-2 rounded-full opacity-60"
+                    style="width: 65%"
+                  ></div>
+                </div>
+              </div>
+
+              <div>
+                <div
+                  class="flex justify-between font-label-md text-on-surface-variant mb-1"
+                >
+                  <span>MIA - ORL</span>
+                  <span class="font-semibold text-on-surface">45%</span>
+                </div>
+                <div class="w-full bg-surface-container rounded-full h-2">
+                  <div
+                    class="bg-outline h-2 rounded-full"
+                    style="width: 45%"
+                  ></div>
+                </div>
+              </div>
+
+              <div>
+                <div
+                  class="flex justify-between font-label-md text-on-surface-variant mb-1"
+                >
+                  <span>TEX - HOU</span>
+                  <span class="font-semibold text-on-surface">30%</span>
+                </div>
+                <div class="w-full bg-surface-container rounded-full h-2">
+                  <div
+                    class="bg-outline h-2 rounded-full opacity-50"
+                    style="width: 30%"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="bg-surface-container-lowest dark:bg-surface-container-low rounded-xl p-lg border border-outline-variant/30 card-shadow">
-            <h3 class="font-title-lg text-on-surface dark:text-surface-bright mb-lg">Recent Activity</h3>
-            <div class="relative pl-6 border-l-2 border-outline-variant/20 dark:border-outline/20 space-y-lg">
-
-                <div class="relative">
-                    <div class="absolute -left-[31px] w-4 h-4 rounded-full bg-surface-container-lowest border-2 border-[#059669] flex items-center justify-center">
-                        <div class="w-1.5 h-1.5 bg-[#059669] rounded-full"></div>
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:items-baseline gap-xs sm:gap-md">
-                        <span class="font-label-sm text-outline min-w-[80px]">10:42 AM</span>
-                        <div>
-                            <p class="font-body-md text-on-surface dark:text-surface-bright"><span class="font-semibold">Route 4A</span> arrived on time at Central Station.</p>
-                            <span class="font-label-md text-[#059669] bg-[#059669]/10 px-2 py-0.5 rounded-full inline-block mt-1">On Time</span>
-                        </div>
-                    </div>
+        <div
+          class="bg-surface-container-lowest dark:bg-surface-container-low rounded-xl p-lg border border-outline-variant/30 card-shadow"
+        >
+          <h3
+            class="font-title-lg text-on-surface dark:text-surface-bright mb-lg"
+          >
+            Recent Activity
+          </h3>
+          <div
+            class="relative pl-6 border-l-2 border-outline-variant/20 dark:border-outline/20 space-y-lg"
+          >
+            <div class="relative">
+              <div
+                class="absolute -left-[31px] w-4 h-4 rounded-full bg-surface-container-lowest border-2 border-[#059669] flex items-center justify-center"
+              >
+                <div class="w-1.5 h-1.5 bg-[#059669] rounded-full"></div>
+              </div>
+              <div
+                class="flex flex-col sm:flex-row sm:items-baseline gap-xs sm:gap-md"
+              >
+                <span class="font-label-sm text-outline min-w-[80px]"
+                  >10:42 AM</span
+                >
+                <div>
+                  <p
+                    class="font-body-md text-on-surface dark:text-surface-bright"
+                  >
+                    <span class="font-semibold">Route 4A</span> arrived on time
+                    at Central Station.
+                  </p>
+                  <span
+                    class="font-label-md text-[#059669] bg-[#059669]/10 px-2 py-0.5 rounded-full inline-block mt-1"
+                    >On Time</span
+                  >
                 </div>
-
-                <div class="relative">
-                    <div class="absolute -left-[31px] w-4 h-4 rounded-full bg-surface-container-lowest border-2 border-error flex items-center justify-center">
-                        <div class="w-1.5 h-1.5 bg-error rounded-full"></div>
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:items-baseline gap-xs sm:gap-md">
-                        <span class="font-label-sm text-outline min-w-[80px]">09:15 AM</span>
-                        <div>
-                            <p class="font-body-md text-on-surface dark:text-surface-bright"><span class="font-semibold">Booking #8921</span> cancelled by user.</p>
-                            <p class="font-label-md text-on-surface-variant mt-1">Reason: Change of plans. Refund initiated.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="relative">
-                    <div class="absolute -left-[31px] w-4 h-4 rounded-full bg-surface-container-lowest border-2 border-primary flex items-center justify-center">
-                        <div class="w-1.5 h-1.5 bg-primary rounded-full"></div>
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:items-baseline gap-xs sm:gap-md">
-                        <span class="font-label-sm text-outline min-w-[80px]">Yesterday</span>
-                        <div>
-                            <p class="font-body-md text-on-surface dark:text-surface-bright">New bus <span class="font-semibold">Fleet-24</span> added to inventory.</p>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
-        </div>
-    </main>
 
-    <!-- Footer -->
-    <footer class="w-full py-xl mt-auto border-t border-outline-variant/50 bg-surface-container-lowest dark:bg-on-primary-fixed">
-        <div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop max-w-7xl mx-auto gap-md">
-            <span class="font-manrope text-title-lg font-black text-primary">TransRoute</span>
-            <span class="font-inter text-label-sm text-on-surface-variant dark:text-outline-variant text-center">© 2024 TransRoute Logistics SaaS. All rights reserved.</span>
-            <div class="flex gap-md">
-                <a class="font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer" href="#">Privacy Policy</a>
-                <a class="font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer" href="#">Terms of Service</a>
-                <a class="font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer" href="#">API Docs</a>
-                <a class="font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer" href="#">Status</a>
+            <div class="relative">
+              <div
+                class="absolute -left-[31px] w-4 h-4 rounded-full bg-surface-container-lowest border-2 border-error flex items-center justify-center"
+              >
+                <div class="w-1.5 h-1.5 bg-error rounded-full"></div>
+              </div>
+              <div
+                class="flex flex-col sm:flex-row sm:items-baseline gap-xs sm:gap-md"
+              >
+                <span class="font-label-sm text-outline min-w-[80px]"
+                  >09:15 AM</span
+                >
+                <div>
+                  <p
+                    class="font-body-md text-on-surface dark:text-surface-bright"
+                  >
+                    <span class="font-semibold">Booking #8921</span> cancelled
+                    by user.
+                  </p>
+                  <p class="font-label-md text-on-surface-variant mt-1">
+                    Reason: Change of plans. Refund initiated.
+                  </p>
+                </div>
+              </div>
             </div>
+
+            <div class="relative">
+              <div
+                class="absolute -left-[31px] w-4 h-4 rounded-full bg-surface-container-lowest border-2 border-primary flex items-center justify-center"
+              >
+                <div class="w-1.5 h-1.5 bg-primary rounded-full"></div>
+              </div>
+              <div
+                class="flex flex-col sm:flex-row sm:items-baseline gap-xs sm:gap-md"
+              >
+                <span class="font-label-sm text-outline min-w-[80px]"
+                  >Yesterday</span
+                >
+                <div>
+                  <p
+                    class="font-body-md text-on-surface dark:text-surface-bright"
+                  >
+                    New bus <span class="font-semibold">Fleet-24</span> added to
+                    inventory.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </footer>
-</div>
-</body></html>
+      </main>
+
+      <footer
+        th:replace="~{fragments/component/footer :: footer(null, null, null, null, null, null)}"
+      ></footer>
+    </div>
+  </body>
+</html>

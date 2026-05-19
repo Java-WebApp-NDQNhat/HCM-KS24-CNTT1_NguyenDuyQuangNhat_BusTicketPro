@@ -1,0 +1,11 @@
+.glass-panel {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #e2e8f0;
+}
+
+.umbra-shadow {
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+

@@ -1,0 +1,128 @@
+<header
+  class="flex justify-between items-center px-lg h-16 w-full bg-surface/80 dark:bg-surface-container/80 backdrop-blur-xl sticky top-0 z-40 border-b border-outline-variant/30 dark:border-outline/20 shadow-sm"
+  th:fragment="adminHeader"
+>
+      <button class="md:hidden text-on-surface dark:text-surface-bright mr-md">
+        <span class="material-symbols-outlined" data-icon="menu">menu</span>
+      </button>
+
+      <div class="flex-1 max-w-md relative hidden sm:block">
+        <span
+          class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline"
+          data-icon="search"
+          >search</span
+        >
+        <input
+          class="w-full bg-surface-container-low dark:bg-surface-container-highest border border-outline-variant/50 text-on-surface dark:text-surface-bright text-label-md rounded-full py-2 pl-xl pr-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+          placeholder="Search routes, buses..."
+          type="text"
+        />
+      </div>
+
+      <div class="flex items-center gap-md ml-auto">
+        <button
+          class="text-on-surface-variant dark:text-outline hover:bg-surface-variant/50 dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95 duration-200 p-2 rounded-full flex items-center justify-center"
+        >
+          <span class="material-symbols-outlined" data-icon="dark_mode"
+            >dark_mode</span
+          >
+        </button>
+        <button
+          class="text-on-surface-variant dark:text-outline hover:bg-surface-variant/50 dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95 duration-200 p-2 rounded-full flex items-center justify-center relative"
+        >
+          <span class="material-symbols-outlined" data-icon="notifications"
+            >notifications</span
+          >
+          <span class="absolute top-1 right-2 w-2 h-2 bg-error rounded-full"></span>
+        </button>
+        <button
+          class="text-on-surface-variant dark:text-outline hover:bg-surface-variant/50 dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95 duration-200 p-2 rounded-full flex items-center justify-center"
+        >
+          <span class="material-symbols-outlined" data-icon="settings"
+            >settings</span
+          >
+        </button>
+        <div class="hidden sm:block h-6 w-px bg-outline-variant/50 mx-sm"></div>
+        <button
+          class="hidden sm:flex text-label-md text-primary dark:text-primary-fixed hover:bg-surface-variant/50 dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95 duration-200 px-sm py-1 rounded"
+        >
+          Support
+        </button>
+        <div
+          class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/50 cursor-pointer"
+        >
+          <img
+            alt="User profile avatar"
+            class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwAGBjtStKQ-ohE0-3byff3JH4_XQvri6_PM19i1KZaGuPK6AsXO_1z9yegyknfTxIZkRSCeZA0JOSmolMBL7jKIOO3mu5Ey93PxxDJbUusEYJ-rxWN8-fxukpTQSvs9QYmMlT_Xle5_CXYPFCuM29qdeBRAZl6cgo4-uBh4I9HB4ruDXIKBmmqwJkOTunqwSdL8cY5ZyB6nwitcvJ43m4tGQ7e3CmtiShVxqsbz9OjGylDbcoKeBKRHWxHNY6ArOIvxsgnhizz1A"
+          />
+        </div>
+      </div>
+    </header>
+
+<header
+  class="sticky top-0 w-full z-40 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm"
+  th:fragment="passengerHeader"
+>
+      <div
+        class="flex justify-between items-center px-lg h-16 w-full max-w-7xl mx-auto"
+      >
+        <div
+          class="flex-1 max-w-md hidden sm:flex items-center bg-surface-container-lowest border border-outline-variant/50 rounded-full px-md py-sm shadow-sm focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all"
+        >
+          <span
+            class="material-symbols-outlined text-outline mr-sm text-[20px]"
+            >search</span
+          >
+          <input
+            class="bg-transparent border-none outline-none text-body-md text-on-surface w-full p-0 placeholder:text-outline-variant focus:ring-0"
+            placeholder="Search routes, tickets, or passengers..."
+            type="text"
+          />
+        </div>
+
+        <button class="md:hidden text-on-surface p-sm rounded-lg hover:bg-surface-variant/50">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+
+        <div class="flex items-center gap-md ml-auto">
+          <button
+            class="text-on-surface-variant hover:bg-surface-variant/50 p-sm rounded-full transition-colors relative cursor-pointer active:scale-95 duration-200"
+          >
+            <span
+              class="material-symbols-outlined text-[22px]"
+              data-icon="notifications"
+              >notifications</span
+            >
+            <span
+              class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full border-2 border-surface"
+            ></span>
+          </button>
+          <button
+            class="text-on-surface-variant hover:bg-surface-variant/50 p-sm rounded-full transition-colors cursor-pointer active:scale-95 duration-200"
+          >
+            <span
+              class="material-symbols-outlined text-[22px]"
+              data-icon="settings"
+              >settings</span
+            >
+          </button>
+          <button
+            class="hidden lg:flex items-center text-primary font-inter text-label-md font-semibold px-md py-sm rounded-lg hover:bg-surface-variant/50 transition-colors cursor-pointer active:scale-95 duration-200"
+          >
+            Support
+          </button>
+          <div class="h-8 w-px bg-outline-variant/30 mx-xs hidden sm:block"></div>
+          <button
+            class="w-9 h-9 rounded-full overflow-hidden border-2 border-surface-container shadow-sm cursor-pointer active:scale-95 duration-200 ml-sm"
+          >
+            <img
+              alt="User profile avatar"
+              class="w-full h-full object-cover"
+              data-alt="A professional headshot of a young man with short brown hair, wearing a dark blue crewneck sweater. The lighting is soft and natural, suggesting a modern corporate or tech environment. The background is slightly blurred and neutral in tone, creating a clean, bright, and polished light-mode aesthetic suitable for a SaaS application user avatar."
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFU6_sZPMmUlNwt1L_b6t_YwAg6M4G_F723KotpBGkyFn_9a9bVoSl_z0ZflfAZSyPS8lhZwIV7yo2Gr9b-k_WhpcJpccamlICHvl-5m1e9peMqL8QKNhfEdhUFIgJXtk3SNuEwZ3d4e2e_j7EnA05Ck1aF4xWhW7XEej1xxR3dcJyG8-ZsoFAGQNIF5cIhgFxelixUtkICEiTjXpbtHjcwr0MvoAdoekHml8GVWc3XVqXLcvEZc5vnK9Naqo0i4JwfHaxaewYTn8"
+            />
+          </button>
+        </div>
+      </div>
+    </header>

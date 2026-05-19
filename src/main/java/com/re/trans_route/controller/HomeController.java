@@ -15,4 +15,9 @@ public class HomeController {
         }
         return "redirect:/auth/login";
     }
+
+    @GetMapping("/error")
+    public String error() {
+        return "page/access-denied";
+    }
 }

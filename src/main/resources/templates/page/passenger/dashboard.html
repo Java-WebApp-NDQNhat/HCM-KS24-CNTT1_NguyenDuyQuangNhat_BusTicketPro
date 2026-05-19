@@ -1,295 +1,497 @@
-<!DOCTYPE html>
+<!doctype html>
 <html class="light" lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head
+    th:replace="~{fragments/head :: commonHead('TransRoute Dashboard', null, 'passenger')}"
+  ></head>
 
-<head th:replace="fragments/passenger/head :: passengerHead('TransRoute Dashboard')"></head>
+  <body
+    class="bg-background text-on-background antialiased font-body-md text-body-md selection:bg-surface-variant selection:text-on-surface"
+  >
+    <div class="flex min-h-screen w-full">
+      <aside
+        th:replace="~{fragments/passenger/sidebar :: passengerSidebar(null, null, null, null, null, null)}"
+      ></aside>
 
-<body class="bg-background text-on-background antialiased font-body-md text-body-md selection:bg-surface-variant selection:text-on-surface">
-<div class="flex min-h-screen w-full">
+      <div class="flex-1 flex flex-col min-w-0 md:ml-[280px]">
+        <header th:replace="~{fragments/component/header :: passengerHeader}"></header>
 
-    <div th:replace="fragments/passenger/sidebar :: passengerSidebar"></div>
+        <main
+          class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-surface-container-low max-w-7xl mx-auto w-full"
+        >
+          <div class="mb-lg">
+            <h2
+              class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface"
+            >
+              Welcome back, Alex
+            </h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mt-xs">
+              Here is what's happening with your travel plans today.
+            </p>
+          </div>
 
-    <div class="flex-1 flex flex-col min-w-0 md:ml-[280px]">
-
-        <header class="sticky top-0 w-full z-40 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm">
-            <div class="flex justify-between items-center px-lg h-16 w-full max-w-7xl mx-auto">
-
-                <div class="flex-1 max-w-md hidden sm:flex items-center bg-surface-container-lowest border border-outline-variant/50 rounded-full px-md py-sm shadow-sm focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
-                    <span class="material-symbols-outlined text-outline mr-sm text-[20px]">search</span>
-                    <input class="bg-transparent border-none outline-none text-body-md text-on-surface w-full p-0 placeholder:text-outline-variant focus:ring-0" placeholder="Search routes, tickets, or passengers..." type="text"/>
+          <section
+            class="mb-xl bg-surface-container-lowest/90 backdrop-blur-md rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline-variant/30 p-lg relative overflow-hidden"
+          >
+            <div
+              class="absolute top-0 right-0 w-64 h-64 bg-surface-variant rounded-full mix-blend-multiply filter blur-3xl opacity-50 translate-x-1/2 -translate-y-1/2"
+            ></div>
+            <div class="relative z-10">
+              <h3 class="font-title-lg text-title-lg text-on-surface mb-md">
+                Where are you going today?
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-md items-end">
+                <div class="flex flex-col gap-xs">
+                  <label
+                    class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider"
+                    >From</label
+                  >
+                  <div class="relative">
+                    <span
+                      class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]"
+                      >location_on</span
+                    >
+                    <input
+                      class="w-full pl-10 pr-md py-sm bg-surface rounded-lg border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 text-body-md font-body-md transition-all h-11"
+                      type="text"
+                      value="New York (NY)"
+                    />
+                  </div>
                 </div>
-
-                <button class="md:hidden text-on-surface p-sm rounded-lg hover:bg-surface-variant/50">
-                    <span class="material-symbols-outlined">menu</span>
+                <div class="flex flex-col gap-xs">
+                  <label
+                    class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider"
+                    >To</label
+                  >
+                  <div class="relative">
+                    <span
+                      class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]"
+                      >pin_drop</span
+                    >
+                    <input
+                      class="w-full pl-10 pr-md py-sm bg-surface rounded-lg border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 text-body-md font-body-md transition-all h-11"
+                      placeholder="Destination city"
+                      type="text"
+                    />
+                  </div>
+                </div>
+                <div class="flex flex-col gap-xs">
+                  <label
+                    class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider"
+                    >Date</label
+                  >
+                  <div class="relative">
+                    <span
+                      class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]"
+                      >calendar_today</span
+                    >
+                    <input
+                      class="w-full pl-10 pr-md py-sm bg-surface rounded-lg border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 text-body-md font-body-md transition-all h-11 text-on-surface"
+                      type="date"
+                    />
+                  </div>
+                </div>
+                <button
+                  class="h-11 bg-primary text-on-primary rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-tint shadow-sm transition-all flex items-center justify-center gap-sm active:scale-95"
+                >
+                  <span class="material-symbols-outlined text-[20px]"
+                    >search</span
+                  >
+                  Find Tickets
                 </button>
-
-                <div class="flex items-center gap-md ml-auto">
-                    <button class="text-on-surface-variant hover:bg-surface-variant/50 p-sm rounded-full transition-colors relative cursor-pointer active:scale-95 duration-200">
-                        <span class="material-symbols-outlined text-[22px]" data-icon="notifications">notifications</span>
-                        <span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
-                    </button>
-                    <button class="text-on-surface-variant hover:bg-surface-variant/50 p-sm rounded-full transition-colors cursor-pointer active:scale-95 duration-200">
-                        <span class="material-symbols-outlined text-[22px]" data-icon="settings">settings</span>
-                    </button>
-                    <button class="hidden lg:flex items-center text-primary font-inter text-label-md font-semibold px-md py-sm rounded-lg hover:bg-surface-variant/50 transition-colors cursor-pointer active:scale-95 duration-200">
-                        Support
-                    </button>
-                    <div class="h-8 w-px bg-outline-variant/30 mx-xs hidden sm:block"></div>
-                    <button class="w-9 h-9 rounded-full overflow-hidden border-2 border-surface-container shadow-sm cursor-pointer active:scale-95 duration-200 ml-sm">
-                        <img alt="User profile avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a young man with short brown hair, wearing a dark blue crewneck sweater. The lighting is soft and natural, suggesting a modern corporate or tech environment. The background is slightly blurred and neutral in tone, creating a clean, bright, and polished light-mode aesthetic suitable for a SaaS application user avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFU6_sZPMmUlNwt1L_b6t_YwAg6M4G_F723KotpBGkyFn_9a9bVoSl_z0ZflfAZSyPS8lhZwIV7yo2Gr9b-k_WhpcJpccamlICHvl-5m1e9peMqL8QKNhfEdhUFIgJXtk3SNuEwZ3d4e2e_j7EnA05Ck1aF4xWhW7XEej1xxR3dcJyG8-ZsoFAGQNIF5cIhgFxelixUtkICEiTjXpbtHjcwr0MvoAdoekHml8GVWc3XVqXLcvEZc5vnK9Naqo0i4JwfHaxaewYTn8"/>
-                    </button>
-                </div>
+              </div>
             </div>
-        </header>
+          </section>
 
-        <main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-surface-container-low max-w-7xl mx-auto w-full">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg mb-xl">
+            <div class="lg:col-span-2 flex flex-col gap-md">
+              <div class="flex justify-between items-center mb-xs">
+                <h3 class="font-title-lg text-title-lg text-on-surface">
+                  Upcoming Trips
+                </h3>
+                <a
+                  class="font-label-md text-label-md text-primary hover:underline flex items-center gap-xs"
+                  href="#"
+                >
+                  View All
+                  <span class="material-symbols-outlined text-[16px]"
+                    >arrow_forward</span
+                  >
+                </a>
+              </div>
 
-            <div class="mb-lg">
-                <h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Welcome back, Alex</h2>
-                <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Here is what's happening with your travel plans today.</p>
-            </div>
+              <div
+                class="bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline-variant/30 flex flex-col sm:flex-row overflow-hidden relative group hover:shadow-[0_10px_20px_-3px_rgba(0,0,0,0.1)] transition-shadow"
+              >
+                <div class="w-full sm:w-1.5 h-1.5 sm:h-auto bg-primary"></div>
 
-            <section class="mb-xl bg-surface-container-lowest/90 backdrop-blur-md rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline-variant/30 p-lg relative overflow-hidden">
-
-                <div class="absolute top-0 right-0 w-64 h-64 bg-surface-variant rounded-full mix-blend-multiply filter blur-3xl opacity-50 translate-x-1/2 -translate-y-1/2"></div>
-                <div class="relative z-10">
-                    <h3 class="font-title-lg text-title-lg text-on-surface mb-md">Where are you going today?</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-md items-end">
-                        <div class="flex flex-col gap-xs">
-                            <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">From</label>
-                            <div class="relative">
-                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">location_on</span>
-                                <input class="w-full pl-10 pr-md py-sm bg-surface rounded-lg border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 text-body-md font-body-md transition-all h-11" type="text" value="New York (NY)"/>
-                            </div>
-                        </div>
-                        <div class="flex flex-col gap-xs">
-                            <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">To</label>
-                            <div class="relative">
-                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">pin_drop</span>
-                                <input class="w-full pl-10 pr-md py-sm bg-surface rounded-lg border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 text-body-md font-body-md transition-all h-11" placeholder="Destination city" type="text"/>
-                            </div>
-                        </div>
-                        <div class="flex flex-col gap-xs">
-                            <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Date</label>
-                            <div class="relative">
-                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">calendar_today</span>
-                                <input class="w-full pl-10 pr-md py-sm bg-surface rounded-lg border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 text-body-md font-body-md transition-all h-11 text-on-surface" type="date"/>
-                            </div>
-                        </div>
-                        <button class="h-11 bg-primary text-on-primary rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-tint shadow-sm transition-all flex items-center justify-center gap-sm active:scale-95">
-                            <span class="material-symbols-outlined text-[20px]">search</span>
-                            Find Tickets
-                        </button>
+                <div
+                  class="p-lg flex-1 border-b sm:border-b-0 sm:border-r border-dashed border-outline-variant/50 relative bg-surface-container-lowest"
+                >
+                  <div class="flex justify-between items-start mb-lg">
+                    <div
+                      class="inline-flex items-center gap-xs px-sm py-1 bg-surface-container rounded-full text-primary font-label-sm text-label-sm uppercase tracking-wider"
+                    >
+                      <span class="material-symbols-outlined text-[14px] fill"
+                        >check_circle</span
+                      >
+                      On Time
                     </div>
+                    <span
+                      class="font-label-md text-label-md text-on-surface-variant font-medium"
+                      >Ticket #TR-8492A</span
+                    >
+                  </div>
+                  <div class="flex items-center justify-between relative">
+                    <div class="flex flex-col z-10">
+                      <span
+                        class="font-headline-md text-headline-md text-on-surface"
+                        >08:30</span
+                      >
+                      <span
+                        class="font-body-md text-body-md text-on-surface-variant"
+                        >New York</span
+                      >
+                      <span
+                        class="font-label-sm text-label-sm text-outline mt-1"
+                        >Port Authority</span
+                      >
+                    </div>
+
+                    <div
+                      class="flex-1 flex items-center justify-center px-md relative"
+                    >
+                      <div
+                        class="w-full h-px bg-outline-variant absolute top-1/2 -translate-y-1/2"
+                      ></div>
+                      <div
+                        class="w-8 h-8 rounded-full bg-surface-container-lowest border border-outline-variant flex items-center justify-center z-10 text-on-surface-variant"
+                      >
+                        <span class="material-symbols-outlined text-[18px]"
+                          >directions_bus</span
+                        >
+                      </div>
+                      <span
+                        class="absolute top-1/2 translate-y-3 font-label-sm text-label-sm text-outline-variant bg-surface-container-lowest px-1"
+                        >4h 15m</span
+                      >
+                    </div>
+
+                    <div class="flex flex-col items-end z-10">
+                      <span
+                        class="font-headline-md text-headline-md text-on-surface"
+                        >12:45</span
+                      >
+                      <span
+                        class="font-body-md text-body-md text-on-surface-variant"
+                        >Boston</span
+                      >
+                      <span
+                        class="font-label-sm text-label-sm text-outline mt-1"
+                        >South Station</span
+                      >
+                    </div>
+                  </div>
+
+                  <div
+                    class="mt-lg pt-md border-t border-outline-variant/20 grid grid-cols-3 gap-sm"
+                  >
+                    <div>
+                      <span
+                        class="block font-label-sm text-label-sm text-outline uppercase"
+                        >Date</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-on-surface font-semibold"
+                        >Oct 24, 2024</span
+                      >
+                    </div>
+                    <div>
+                      <span
+                        class="block font-label-sm text-label-sm text-outline uppercase"
+                        >Seat</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-on-surface font-semibold"
+                        >14B
+                        <span class="text-outline-variant font-normal"
+                          >(Window)</span
+                        ></span
+                      >
+                    </div>
+                    <div>
+                      <span
+                        class="block font-label-sm text-label-sm text-outline uppercase"
+                        >Bus</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-on-surface font-semibold"
+                        >Express-5</span
+                      >
+                    </div>
+                  </div>
                 </div>
-            </section>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg mb-xl">
-
-                <div class="lg:col-span-2 flex flex-col gap-md">
-                    <div class="flex justify-between items-center mb-xs">
-                        <h3 class="font-title-lg text-title-lg text-on-surface">Upcoming Trips</h3>
-                        <a class="font-label-md text-label-md text-primary hover:underline flex items-center gap-xs" href="#">
-                            View All <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                        </a>
-                    </div>
-
-                    <div class="bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline-variant/30 flex flex-col sm:flex-row overflow-hidden relative group hover:shadow-[0_10px_20px_-3px_rgba(0,0,0,0.1)] transition-shadow">
-
-                        <div class="w-full sm:w-1.5 h-1.5 sm:h-auto bg-primary"></div>
-
-                        <div class="p-lg flex-1 border-b sm:border-b-0 sm:border-r border-dashed border-outline-variant/50 relative bg-surface-container-lowest">
-                            <div class="flex justify-between items-start mb-lg">
-                                <div class="inline-flex items-center gap-xs px-sm py-1 bg-surface-container rounded-full text-primary font-label-sm text-label-sm uppercase tracking-wider">
-                                    <span class="material-symbols-outlined text-[14px] fill">check_circle</span> On Time
-                                </div>
-                                <span class="font-label-md text-label-md text-on-surface-variant font-medium">Ticket #TR-8492A</span>
-                            </div>
-                            <div class="flex items-center justify-between relative">
-
-                                <div class="flex flex-col z-10">
-                                    <span class="font-headline-md text-headline-md text-on-surface">08:30</span>
-                                    <span class="font-body-md text-body-md text-on-surface-variant">New York</span>
-                                    <span class="font-label-sm text-label-sm text-outline mt-1">Port Authority</span>
-                                </div>
-
-                                <div class="flex-1 flex items-center justify-center px-md relative">
-                                    <div class="w-full h-px bg-outline-variant absolute top-1/2 -translate-y-1/2"></div>
-                                    <div class="w-8 h-8 rounded-full bg-surface-container-lowest border border-outline-variant flex items-center justify-center z-10 text-on-surface-variant">
-                                        <span class="material-symbols-outlined text-[18px]">directions_bus</span>
-                                    </div>
-                                    <span class="absolute top-1/2 translate-y-3 font-label-sm text-label-sm text-outline-variant bg-surface-container-lowest px-1">4h 15m</span>
-                                </div>
-
-                                <div class="flex flex-col items-end z-10">
-                                    <span class="font-headline-md text-headline-md text-on-surface">12:45</span>
-                                    <span class="font-body-md text-body-md text-on-surface-variant">Boston</span>
-                                    <span class="font-label-sm text-label-sm text-outline mt-1">South Station</span>
-                                </div>
-                            </div>
-
-                            <div class="mt-lg pt-md border-t border-outline-variant/20 grid grid-cols-3 gap-sm">
-                                <div>
-                                    <span class="block font-label-sm text-label-sm text-outline uppercase">Date</span>
-                                    <span class="font-label-md text-label-md text-on-surface font-semibold">Oct 24, 2024</span>
-                                </div>
-                                <div>
-                                    <span class="block font-label-sm text-label-sm text-outline uppercase">Seat</span>
-                                    <span class="font-label-md text-label-md text-on-surface font-semibold">14B <span class="text-outline-variant font-normal">(Window)</span></span>
-                                </div>
-                                <div>
-                                    <span class="block font-label-sm text-label-sm text-outline uppercase">Bus</span>
-                                    <span class="font-label-md text-label-md text-on-surface font-semibold">Express-5</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="w-full sm:w-48 p-lg flex flex-col items-center justify-center bg-surface-bright bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px]">
-                            <div class="w-24 h-24 bg-surface-container-lowest rounded-lg p-2 shadow-sm border border-outline-variant/30 mb-md relative">
-                                <div class="absolute inset-2 border-2 border-primary rounded-sm opacity-20"></div>
-<!--                                <div class="w-full h-full bg-on-surface [mask-image:url('data:image/svg+xml;utf8,&lt;svg viewBox=\" xmlns="http://www.w3.org/2000/svg"><path d='\"M10,10' h-20="" h-50="" h20="" h50="" m10,40="" m40,10="" m40,30="" m40,60="" m70,30="" v10="" v20="" v30="" v50="" v60="" z="" z"=""></path>')] [mask-size:cover]"&gt;</div>-->
-                        </div>
-                        <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Boarding Pass</span>
-                        <button class="mt-md w-full border border-primary text-primary font-label-md text-label-md py-1.5 rounded-lg hover:bg-primary/5 transition-colors">Download</button>
-                    </div>
+                <div
+                  class="w-full sm:w-48 p-lg flex flex-col items-center justify-center bg-surface-bright bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px]"
+                >
+                  <div
+                    class="w-24 h-24 bg-surface-container-lowest rounded-lg p-2 shadow-sm border border-outline-variant/30 mb-md relative"
+                  >
+                    <div
+                      class="absolute inset-2 border-2 border-primary rounded-sm opacity-20"
+                    ></div>
+                    <!--                                <div class="w-full h-full bg-on-surface [mask-image:url('data:image/svg+xml;utf8,&lt;svg viewBox=\" xmlns="http://www.w3.org/2000/svg"><path d='\"M10,10' h-20="" h-50="" h20="" h50="" m10,40="" m40,10="" m40,30="" m40,60="" m70,30="" v10="" v20="" v30="" v50="" v60="" z="" z"=""></path>')] [mask-size:cover]"&gt;</div>-->
+                  </div>
+                  <span
+                    class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest"
+                    >Boarding Pass</span
+                  >
+                  <button
+                    class="mt-md w-full border border-primary text-primary font-label-md text-label-md py-1.5 rounded-lg hover:bg-primary/5 transition-colors"
+                  >
+                    Download
+                  </button>
                 </div>
+              </div>
             </div>
 
             <div class="flex flex-col gap-lg">
-
-                <div class="bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline-variant/30 p-lg">
-                    <div class="flex items-center gap-md mb-md">
-                        <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-surface-container">
-                            <img alt="User profile" class="w-full h-full object-cover" data-alt="A professional headshot of a young man with short brown hair, wearing a dark blue crewneck sweater. The lighting is soft and natural, suggesting a modern corporate or tech environment. The background is slightly blurred and neutral in tone, creating a clean, bright, and polished light-mode aesthetic suitable for a SaaS application user avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHUKFmfal03rJYC4akF3vEo1uqUSpO59up6wzPtwh70Ejbrmg4G-ZQqDKJ-OcVITEZ_LxIqXr0rKrAa6PxJl22ccqjAE7SDfepwafh_dgNo80g3f88AI3obfpKdCpN3NPVRGtVzuQ2HQSrY9EEjabnqkWagcTILwps4Q_e_xqbHqSlLmvdNB6h8ItzSsViScsNHwspiGv0hR5btr58fLBIV_c2az8_1Ckiu6jr93GHOlq_I059EGJJpg43jLnwQmt4chqi-PC2QQI"/>
-                        </div>
-                        <div>
-                            <h4 class="font-title-lg text-title-lg text-on-surface">Alex Mercer</h4>
-                            <span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1">
-<span class="material-symbols-outlined text-[14px] fill">stars</span> Frequent Traveler
-                                </span>
-                        </div>
-                    </div>
-                    <div class="space-y-sm">
-                        <div class="flex justify-between items-center py-sm border-b border-outline-variant/20">
-                            <span class="font-body-md text-body-md text-on-surface-variant">Reward Points</span>
-                            <span class="font-label-md text-label-md text-on-surface font-bold">1,240 pts</span>
-                        </div>
-                        <div class="flex justify-between items-center py-sm border-b border-outline-variant/20">
-                            <span class="font-body-md text-body-md text-on-surface-variant">Saved Cards</span>
-                            <span class="font-label-md text-label-md text-on-surface flex items-center gap-xs">
-<span class="material-symbols-outlined text-[16px]">credit_card</span> Visa ending in 4242
-                                </span>
-                        </div>
-                        <button class="w-full mt-md text-primary font-label-md text-label-md py-sm hover:bg-surface-variant/50 rounded-lg transition-colors text-center">
-                            Edit Profile
-                        </button>
-                    </div>
+              <div
+                class="bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline-variant/30 p-lg"
+              >
+                <div class="flex items-center gap-md mb-md">
+                  <div
+                    class="w-14 h-14 rounded-full overflow-hidden border-2 border-surface-container"
+                  >
+                    <img
+                      alt="User profile"
+                      class="w-full h-full object-cover"
+                      data-alt="A professional headshot of a young man with short brown hair, wearing a dark blue crewneck sweater. The lighting is soft and natural, suggesting a modern corporate or tech environment. The background is slightly blurred and neutral in tone, creating a clean, bright, and polished light-mode aesthetic suitable for a SaaS application user avatar."
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHUKFmfal03rJYC4akF3vEo1uqUSpO59up6wzPtwh70Ejbrmg4G-ZQqDKJ-OcVITEZ_LxIqXr0rKrAa6PxJl22ccqjAE7SDfepwafh_dgNo80g3f88AI3obfpKdCpN3NPVRGtVzuQ2HQSrY9EEjabnqkWagcTILwps4Q_e_xqbHqSlLmvdNB6h8ItzSsViScsNHwspiGv0hR5btr58fLBIV_c2az8_1Ckiu6jr93GHOlq_I059EGJJpg43jLnwQmt4chqi-PC2QQI"
+                    />
+                  </div>
+                  <div>
+                    <h4 class="font-title-lg text-title-lg text-on-surface">
+                      Alex Mercer
+                    </h4>
+                    <span
+                      class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1"
+                    >
+                      <span class="material-symbols-outlined text-[14px] fill"
+                        >stars</span
+                      >
+                      Frequent Traveler
+                    </span>
+                  </div>
                 </div>
-
-                <div class="bg-surface-container rounded-xl border border-primary/20 p-lg relative overflow-hidden flex flex-col justify-center min-h-[140px]">
-                    <div class="absolute right-0 bottom-0 opacity-10 translate-x-4 translate-y-4">
-                        <span class="material-symbols-outlined text-[100px] text-primary">local_offer</span>
-                    </div>
-                    <h4 class="font-title-lg text-title-lg text-on-surface relative z-10 mb-xs">Get 15% Off</h4>
-                    <p class="font-body-md text-body-md text-on-surface-variant relative z-10 mb-md max-w-[80%]">Book your return trip within 24 hours to claim your discount.</p>
-                    <button class="self-start bg-primary text-on-primary font-label-md text-label-md px-md py-sm rounded-lg shadow-sm hover:bg-surface-tint transition-colors relative z-10">
-                        Claim Offer
-                    </button>
+                <div class="space-y-sm">
+                  <div
+                    class="flex justify-between items-center py-sm border-b border-outline-variant/20"
+                  >
+                    <span
+                      class="font-body-md text-body-md text-on-surface-variant"
+                      >Reward Points</span
+                    >
+                    <span
+                      class="font-label-md text-label-md text-on-surface font-bold"
+                      >1,240 pts</span
+                    >
+                  </div>
+                  <div
+                    class="flex justify-between items-center py-sm border-b border-outline-variant/20"
+                  >
+                    <span
+                      class="font-body-md text-body-md text-on-surface-variant"
+                      >Saved Cards</span
+                    >
+                    <span
+                      class="font-label-md text-label-md text-on-surface flex items-center gap-xs"
+                    >
+                      <span class="material-symbols-outlined text-[16px]"
+                        >credit_card</span
+                      >
+                      Visa ending in 4242
+                    </span>
+                  </div>
+                  <button
+                    class="w-full mt-md text-primary font-label-md text-label-md py-sm hover:bg-surface-variant/50 rounded-lg transition-colors text-center"
+                  >
+                    Edit Profile
+                  </button>
                 </div>
+              </div>
 
-    </div>
-
-    <section class="bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline-variant/30 overflow-hidden mb-xl">
-        <div class="p-lg border-b border-outline-variant/30 flex justify-between items-center bg-surface-bright">
-            <h3 class="font-title-lg text-title-lg text-on-surface">Recent Bookings</h3>
-            <button class="p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors">
-                <span class="material-symbols-outlined">filter_list</span>
-            </button>
-        </div>
-        <div class="overflow-x-auto w-full">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                <tr class="border-b border-outline-variant/30 bg-surface text-outline font-label-sm text-label-sm uppercase tracking-wider">
-                    <th class="p-md font-medium">Trip Reference</th>
-                    <th class="p-md font-medium">Route</th>
-                    <th class="p-md font-medium">Date</th>
-                    <th class="p-md font-medium">Amount</th>
-                    <th class="p-md font-medium">Status</th>
-                    <th class="p-md font-medium text-right">Action</th>
-                </tr>
-                </thead>
-                <tbody class="font-body-md text-body-md text-on-surface divide-y divide-outline-variant/20">
-                <tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
-                    <td class="p-md font-label-md text-label-md">TR-8492A</td>
-                    <td class="p-md">
-                        <div class="flex items-center gap-sm">
-                            <span>NYC</span> <span class="material-symbols-outlined text-[16px] text-outline-variant">arrow_right_alt</span> <span>BOS</span>
-                        </div>
-                    </td>
-                    <td class="p-md text-on-surface-variant">Oct 24, 2024</td>
-                    <td class="p-md font-medium">$45.00</td>
-                    <td class="p-md">
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-surface-container text-primary">Upcoming</span>
-                    </td>
-                    <td class="p-md text-right">
-                        <button class="text-primary hover:underline font-label-md text-label-md">View</button>
-                    </td>
-                </tr>
-                <tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
-                    <td class="p-md font-label-md text-label-md">TR-7104C</td>
-                    <td class="p-md">
-                        <div class="flex items-center gap-sm">
-                            <span>BOS</span> <span class="material-symbols-outlined text-[16px] text-outline-variant">arrow_right_alt</span> <span>NYC</span>
-                        </div>
-                    </td>
-                    <td class="p-md text-on-surface-variant">Sep 12, 2024</td>
-                    <td class="p-md font-medium">$42.50</td>
-                    <td class="p-md">
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-[#e8f5e9] text-[#2e7d32]">Completed</span>
-                    </td>
-                    <td class="p-md text-right">
-                        <button class="text-primary hover:underline font-label-md text-label-md">Receipt</button>
-                    </td>
-                </tr>
-                <tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
-                    <td class="p-md font-label-md text-label-md">TR-6588B</td>
-                    <td class="p-md">
-                        <div class="flex items-center gap-sm">
-                            <span>NYC</span> <span class="material-symbols-outlined text-[16px] text-outline-variant">arrow_right_alt</span> <span>PHI</span>
-                        </div>
-                    </td>
-                    <td class="p-md text-on-surface-variant">Aug 05, 2024</td>
-                    <td class="p-md font-medium">$28.00</td>
-                    <td class="p-md">
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-[#e8f5e9] text-[#2e7d32]">Completed</span>
-                    </td>
-                    <td class="p-md text-right">
-                        <button class="text-primary hover:underline font-label-md text-label-md">Receipt</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="p-md border-t border-outline-variant/20 bg-surface-bright text-center">
-            <button class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors">Load More History</button>
-        </div>
-    </section>
+              <div
+                class="bg-surface-container rounded-xl border border-primary/20 p-lg relative overflow-hidden flex flex-col justify-center min-h-[140px]"
+              >
+                <div
+                  class="absolute right-0 bottom-0 opacity-10 translate-x-4 translate-y-4"
+                >
+                  <span
+                    class="material-symbols-outlined text-[100px] text-primary"
+                    >local_offer</span
+                  >
+                </div>
+                <h4
+                  class="font-title-lg text-title-lg text-on-surface relative z-10 mb-xs"
+                >
+                  Get 15% Off
+                </h4>
+                <p
+                  class="font-body-md text-body-md text-on-surface-variant relative z-10 mb-md max-w-[80%]"
+                >
+                  Book your return trip within 24 hours to claim your discount.
+                </p>
+                <button
+                  class="self-start bg-primary text-on-primary font-label-md text-label-md px-md py-sm rounded-lg shadow-sm hover:bg-surface-tint transition-colors relative z-10"
+                >
+                  Claim Offer
+                </button>
+              </div>
             </div>
+
+            <section
+              class="bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline-variant/30 overflow-hidden mb-xl"
+            >
+              <div
+                class="p-lg border-b border-outline-variant/30 flex justify-between items-center bg-surface-bright"
+              >
+                <h3 class="font-title-lg text-title-lg text-on-surface">
+                  Recent Bookings
+                </h3>
+                <button
+                  class="p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors"
+                >
+                  <span class="material-symbols-outlined">filter_list</span>
+                </button>
+              </div>
+              <div class="overflow-x-auto w-full">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr
+                      class="border-b border-outline-variant/30 bg-surface text-outline font-label-sm text-label-sm uppercase tracking-wider"
+                    >
+                      <th class="p-md font-medium">Trip Reference</th>
+                      <th class="p-md font-medium">Route</th>
+                      <th class="p-md font-medium">Date</th>
+                      <th class="p-md font-medium">Amount</th>
+                      <th class="p-md font-medium">Status</th>
+                      <th class="p-md font-medium text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    class="font-body-md text-body-md text-on-surface divide-y divide-outline-variant/20"
+                  >
+                    <tr
+                      class="hover:bg-surface-container-low transition-colors group cursor-pointer"
+                    >
+                      <td class="p-md font-label-md text-label-md">TR-8492A</td>
+                      <td class="p-md">
+                        <div class="flex items-center gap-sm">
+                          <span>NYC</span>
+                          <span
+                            class="material-symbols-outlined text-[16px] text-outline-variant"
+                            >arrow_right_alt</span
+                          >
+                          <span>BOS</span>
+                        </div>
+                      </td>
+                      <td class="p-md text-on-surface-variant">Oct 24, 2024</td>
+                      <td class="p-md font-medium">$45.00</td>
+                      <td class="p-md">
+                        <span
+                          class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-surface-container text-primary"
+                          >Upcoming</span
+                        >
+                      </td>
+                      <td class="p-md text-right">
+                        <button
+                          class="text-primary hover:underline font-label-md text-label-md"
+                        >
+                          View
+                        </button>
+                      </td>
+                    </tr>
+                    <tr
+                      class="hover:bg-surface-container-low transition-colors group cursor-pointer"
+                    >
+                      <td class="p-md font-label-md text-label-md">TR-7104C</td>
+                      <td class="p-md">
+                        <div class="flex items-center gap-sm">
+                          <span>BOS</span>
+                          <span
+                            class="material-symbols-outlined text-[16px] text-outline-variant"
+                            >arrow_right_alt</span
+                          >
+                          <span>NYC</span>
+                        </div>
+                      </td>
+                      <td class="p-md text-on-surface-variant">Sep 12, 2024</td>
+                      <td class="p-md font-medium">$42.50</td>
+                      <td class="p-md">
+                        <span
+                          class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-[#e8f5e9] text-[#2e7d32]"
+                          >Completed</span
+                        >
+                      </td>
+                      <td class="p-md text-right">
+                        <button
+                          class="text-primary hover:underline font-label-md text-label-md"
+                        >
+                          Receipt
+                        </button>
+                      </td>
+                    </tr>
+                    <tr
+                      class="hover:bg-surface-container-low transition-colors group cursor-pointer"
+                    >
+                      <td class="p-md font-label-md text-label-md">TR-6588B</td>
+                      <td class="p-md">
+                        <div class="flex items-center gap-sm">
+                          <span>NYC</span>
+                          <span
+                            class="material-symbols-outlined text-[16px] text-outline-variant"
+                            >arrow_right_alt</span
+                          >
+                          <span>PHI</span>
+                        </div>
+                      </td>
+                      <td class="p-md text-on-surface-variant">Aug 05, 2024</td>
+                      <td class="p-md font-medium">$28.00</td>
+                      <td class="p-md">
+                        <span
+                          class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-[#e8f5e9] text-[#2e7d32]"
+                          >Completed</span
+                        >
+                      </td>
+                      <td class="p-md text-right">
+                        <button
+                          class="text-primary hover:underline font-label-md text-label-md"
+                        >
+                          Receipt
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="p-md border-t border-outline-variant/20 bg-surface-bright text-center"
+              >
+                <button
+                  class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors"
+                >
+                  Load More History
+                </button>
+              </div>
+            </section>
+          </div>
         </main>
 
-    <footer class="bg-surface-container-lowest border-t border-outline-variant/50 w-full py-xl mt-auto">
-        <div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop max-w-7xl mx-auto gap-md">
-            <div class="font-manrope text-title-lg font-black text-primary">TransRoute</div>
-            <div class="text-on-surface-variant font-inter text-label-sm">© 2024 TransRoute Logistics SaaS. All rights reserved.</div>
-            <nav class="flex gap-lg">
-                <a class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer font-inter text-label-sm" href="#">Privacy Policy</a>
-                <a class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer font-inter text-label-sm" href="#">Terms of Service</a>
-                <a class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer font-inter text-label-sm" href="#">API Docs</a>
-                <a class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer font-inter text-label-sm" href="#">Status</a>
-            </nav>
-        </div>
-    </footer>
-</div>
-</div>
-</body>
-
+        <footer
+          th:replace="~{fragments/component/footer :: footer(null, null, null, null, null, null)}"
+        ></footer>
+      </div>
+    </div>
+  </body>
 </html>

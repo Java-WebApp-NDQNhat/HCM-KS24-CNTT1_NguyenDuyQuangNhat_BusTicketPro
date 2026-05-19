@@ -1,0 +1,46 @@
+<nav
+  class="bg-surface/80 dark:bg-surface-container/80 backdrop-blur-xl sticky top-0 w-full z-40 border-b border-outline-variant/30 dark:border-outline/20 shadow-sm"
+  th:fragment="accessDeniedTopbar"
+>
+  <div
+    class="flex justify-between items-center px-lg h-16 w-full max-w-[1440px] mx-auto"
+  >
+    <div class="flex items-center gap-md">
+      <span
+        class="font-manrope text-headline-md font-bold text-on-surface dark:text-surface-bright"
+        >TransRoute SaaS</span
+      >
+    </div>
+    <div class="flex items-center gap-lg">
+      <div class="hidden md:flex items-center gap-md">
+        <button
+          class="text-on-surface-variant dark:text-outline font-inter text-body-md hover:bg-surface-variant/50 dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95 duration-200 px-3 py-1.5 rounded-lg"
+        >
+          Support
+        </button>
+      </div>
+      <div class="flex items-center gap-sm">
+        <button
+          class="p-2 text-on-surface-variant rounded-full hover:bg-surface-variant/50 transition-colors"
+        >
+          <span class="material-symbols-outlined">notifications</span>
+        </button>
+        <button
+          class="p-2 text-on-surface-variant rounded-full hover:bg-surface-variant/50 transition-colors"
+        >
+          <span class="material-symbols-outlined">settings</span>
+        </button>
+        <div
+          class="h-8 w-8 rounded-full bg-surface-container-high overflow-hidden ml-2 border border-outline-variant/30"
+        >
+          <img
+            alt="User profile avatar"
+            class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOh3uTKk4QgjwofKeyWy-uFE94CTl9PvPlzoU7MOmFmAu7uK0epKZZwC3xYYv18vcUfCESRVfQuOduUMeTpuHw82iRewbbJUlvyOyxP--GcqY48zvfOexxCs7gKBYXmNEPzECsbI4vR3TviBK-s5TncNSuvJQfsg6YNGzO1YlI8YL8E1mm2e8RXTYDj8ok1CtAwnS85gYJqJWptcsA9td6x4kO2LpywKvCCAPxQg4K3h_xAI1fhR6KGsuSZ8TsyLffhtL1Xb2YghM"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+

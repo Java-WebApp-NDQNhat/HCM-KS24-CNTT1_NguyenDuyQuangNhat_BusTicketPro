@@ -1,0 +1,39 @@
+<footer
+  th:fragment="footer(wrapperClass, containerClass, logoClass, textClass, linkClass, linkContainerClass)"
+  th:class="${wrapperClass} ?: 'w-full py-xl mt-auto border-t border-outline-variant/50 bg-surface-container-lowest dark:bg-on-primary-fixed'"
+>
+  <div
+    th:class="${containerClass} ?: 'flex flex-col md:flex-row justify-between items-center px-margin-desktop max-w-7xl mx-auto gap-md'"
+  >
+    <span
+      th:class="${logoClass} ?: 'font-manrope text-title-lg font-black text-primary'"
+      >TransRoute</span
+    >
+    <span
+      th:class="${textClass} ?: 'font-inter text-label-sm text-on-surface-variant dark:text-outline-variant text-center'"
+      >© 2024 TransRoute Logistics SaaS. All rights reserved.</span
+    >
+    <div th:class="${linkContainerClass} ?: 'flex gap-md'">
+      <a
+        th:class="${linkClass} ?: 'font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer'"
+        href="#"
+        >Privacy Policy</a
+      >
+      <a
+        th:class="${linkClass} ?: 'font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer'"
+        href="#"
+        >Terms of Service</a
+      >
+      <a
+        th:class="${linkClass} ?: 'font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer'"
+        href="#"
+        >API Docs</a
+      >
+      <a
+        th:class="${linkClass} ?: 'font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer'"
+        href="#"
+        >Status</a
+      >
+    </div>
+  </div>
+</footer>
