@@ -28,6 +28,7 @@ public class User {
     private String address;
 
     @Column(name = "password_hash", nullable = false)
+    @ToString.Exclude
     private String passwordHash;
 
     @ManyToOne(fetch = FetchType.EAGER)
