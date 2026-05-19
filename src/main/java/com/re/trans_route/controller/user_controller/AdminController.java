@@ -11,4 +11,24 @@ public class AdminController {
     public String adminDashboard() {
         return "page/admin/dashboard";
     }
+
+    @GetMapping("/fleet")
+    public String fleetManagement() {
+        return "fragments/admin/bus-management";
+    }
+
+    @GetMapping("/fleet/add")
+    public String addBusForm() {
+        return "fragments/admin/bus-add-form";
+    }
+
+    @GetMapping("/routes")
+    public String routePlanning() {
+        return "fragments/admin/route-planning";
+    }
+
+    @GetMapping("/staff")
+    public String staffDirectory() {
+        return "fragments/admin/staff-directory";
+    }
 }

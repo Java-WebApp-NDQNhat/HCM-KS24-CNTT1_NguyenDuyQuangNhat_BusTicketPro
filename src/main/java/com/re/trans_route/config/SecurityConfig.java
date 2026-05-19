@@ -14,15 +14,15 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 
 @Configuration
 public class SecurityConfig {
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     private final RoleBasedLoginSuccessHandler roleBasedLoginSuccessHandler;
 
     public SecurityConfig(RoleBasedLoginSuccessHandler roleBasedLoginSuccessHandler) {
         this.roleBasedLoginSuccessHandler = roleBasedLoginSuccessHandler;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -38,36 +38,27 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 1. Tắt cơ chế chống Cross-Site Request Forgery (Cần thiết khi làm việc với API)
                 .csrf(csrf -> csrf.disable())
-
-                // 2. Cấu hình phân quyền đường dẫn
                 .authorizeHttpRequests(auth -> auth
-                        // Cho phép TẤT CẢ mọi người truy cập vào các API auth (đăng ký, đăng nhập) mà không cần chặn
                         .requestMatchers("/auth/**").permitAll()
-                        // Tất cả các request khác thì vẫn bắt buộc phải xác thực (tùy bạn cấu hình sau)
                         .requestMatchers("/login", "/register", "/").permitAll()
                         .requestMatchers("/css/**", "/assets/**").permitAll()
                         .requestMatchers("/error", "/favicon.ico").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/passenger/**").hasRole("PASSENGER")
                         .requestMatchers("/access-denied").permitAll()
-//                        .requestMatchers("/staff/**").hasRole("STAFF")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/staff/**").hasRole("STAFF")
+                        .requestMatchers("/passenger/**").hasRole("PASSENGER")
                         .anyRequest().authenticated()
                 )
-
-                // 3. Controller xu? li' form dang nhap., tat' form default
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(logout -> logout
                         .logoutUrl("/auth/logout")
-                        .logoutSuccessUrl("/auth/login") // logout xong se~ qua day
-                        .invalidateHttpSession(true)    // xoa' session treen server
-                        .clearAuthentication(true)  // xoa' thong tin dang nhap. tren SecurityContextHolder
-                        .deleteCookies("JSESSIONID") // xoa' cookie session tren client
+                        .logoutSuccessUrl("/auth/login")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
                 )
                 .httpBasic(AbstractHttpConfigurer::disable)
-
-                // cau' hinh` khi reload server mat' session ma` client con` khi do' tu. load ve` dang nhap.
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.sendRedirect("/auth/login");

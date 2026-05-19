@@ -18,6 +18,6 @@ public class HomeController {
 
     @GetMapping("/error")
     public String error() {
-        return "page/access-denied";
+        return "page/error/access-denied";
     }
 }

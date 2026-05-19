@@ -6,9 +6,7 @@
   ></head>
   <body class="h-full bg-background text-on-background flex flex-col antialiased">
 
-<nav
-  th:replace="~{fragments/component/topbar-access-denied :: accessDeniedTopbar}"
-></nav>
+<header th:replace="~{fragments/component/header :: sharedTopbar}"></header>
 
 <main class="flex-grow flex items-center justify-center p-md md:p-lg relative overflow-hidden">
 

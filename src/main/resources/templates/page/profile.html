@@ -1,262 +1,204 @@
 <!DOCTYPE html>
-
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head
-    th:replace="~{fragments/head :: commonHead('TransRoute - User Profile &amp; Security', @{/css/profile.css}, 'passenger')}"
-  ></head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments/head :: commonHead('TransRoute - User Profile & Security', @{/css/profile.css}, 'passenger')}"></head>
   <body class="bg-background text-on-background font-body-md min-h-screen flex antialiased">
-<!-- SideNavBar -->
-<aside class="hidden md:flex flex-col bg-surface-container-lowest text-on-primary-container font-label-md h-screen w-[280px] fixed left-0 top-0 overflow-y-auto border-r border-outline-variant/30 shadow-md p-md gap-base z-50">
-    <div class="mb-lg px-md pt-sm">
-        <h1 class="font-display-lg text-title-lg font-bold text-on-surface">TransRoute</h1>
-        <p class="text-on-surface-variant mt-xs">Fleet Management</p>
-    </div>
-    <button class="bg-primary text-on-primary hover:bg-surface-tint transition-all duration-150 ease-in-out rounded-lg py-sm px-md mb-lg font-semibold flex justify-center items-center gap-sm">
-        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
-        New Booking
-    </button>
-    <nav class="flex-1 flex flex-col gap-sm">
-        <a class="flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg" href="#">
-            <span class="material-symbols-outlined">dashboard</span>
-            Dashboard
-        </a>
-        <a class="flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg" href="#">
-            <span class="material-symbols-outlined">directions_bus</span>
-            Fleet Management
-        </a>
-        <a class="flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg" href="#">
-            <span class="material-symbols-outlined">confirmation_number</span>
-            Ticket Sales
-        </a>
-        <a class="flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg" href="#">
-            <span class="material-symbols-outlined">map</span>
-            Route Planning
-        </a>
-        <a class="flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg" href="#">
-            <span class="material-symbols-outlined">badge</span>
-            Staff Directory
-        </a>
-        <a class="flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg" href="#">
-            <span class="material-symbols-outlined">terminal</span>
-            System Logs
-        </a>
-    </nav>
-    <div class="mt-auto flex flex-col gap-sm border-t border-outline-variant/30 pt-md">
-        <a class="flex items-center gap-md bg-surface-container-high text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary transition-all duration-150 ease-in-out" href="#">
-            <span class="material-symbols-outlined">settings</span>
-            Settings
-        </a>
-        <a class="flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg" href="#">
-            <span class="material-symbols-outlined">logout</span>
-            Logout
-        </a>
-    </div>
-</aside>
-<!-- Main Content Area -->
-<main class="flex-1 md:ml-[280px] flex flex-col min-h-screen">
-    <!-- TopNavBar (Mobile only for Nav, Search/Profile for Desktop) -->
-    <header th:replace="~{fragments/component/topbar-profile :: profileTopbar}"></header>
-    <!-- Content Canvas -->
-    <div class="p-margin-mobile md:p-margin-desktop max-w-7xl mx-auto w-full flex-1 flex flex-col gap-lg">
+    <div th:replace="~{fragments/sidebar :: sidebar('settings')}"></div>
+
+    <main class="flex-1 md:ml-[280px] flex flex-col min-h-screen">
+      <header th:replace="~{fragments/component/header :: sharedTopbar}"></header>
+
+      <div class="p-margin-mobile md:p-margin-desktop max-w-7xl mx-auto w-full flex-1 flex flex-col gap-lg">
         <div class="mb-sm">
-            <h2 class="font-headline-lg text-headline-lg md:text-display-lg font-bold text-on-surface tracking-tight">Profile &amp; Security</h2>
-            <p class="font-body-lg text-body-lg text-on-surface-variant mt-xs">Manage your personal information and account security settings.</p>
+          <h2 class="font-headline-lg text-headline-lg md:text-display-lg font-bold text-on-surface tracking-tight">Profile & Security</h2>
+          <p class="font-body-lg text-body-lg text-on-surface-variant mt-xs">Manage your personal information and account security settings.</p>
         </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
-            <!-- Left Column: Profile Avatar & Personal Info -->
-            <div class="lg:col-span-1 flex flex-col gap-lg">
-                <!-- Avatar Card -->
-                <div class="glass-card rounded-xl p-lg flex flex-col items-center text-center relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-surface-container-high to-surface-variant opacity-50"></div>
-                    <div class="relative mt-md group">
-                        <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-surface-container-lowest shadow-sm">
-                            <img alt="User avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a person with a warm, confident expression, styled for a corporate SaaS platform profile picture. The lighting is bright and even, set against a clean, abstract minimalist background in cool tones to match a modern interface. The overall mood is approachable yet highly competent and reliable." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVImBvNgjsJ2InGe97mzJt55osCx_m1bUMz4yEY15l3fPvwuCU6jeTGJhwpAAGKZbn_jLz2RU-WoyysUNvikulR4ga9Y3XeaK1jpLBvjPCY5sCuAZp6djcX9mRTnxvKi0Bu4Kn7ItgUkFZMQ-jRnJUI5Przw8sMrvwEAOmmkd_IWMwJF3d4wT8qdueRQ7fjgymw8iMy1ZOpX2ROgyyoknf5aaDhB-d0iqyOi9CymnUvj2NRG4gCSLo7lP6yO8CNDIKwKo9Dd9HNWg"/>
-                        </div>
-                        <button class="absolute bottom-0 right-0 bg-primary text-on-primary p-2 rounded-full shadow-md hover:bg-surface-tint transition-colors group-hover:scale-110 duration-200">
-                            <span class="material-symbols-outlined text-sm">edit</span>
-                        </button>
-                    </div>
-                    <h3 class="font-title-lg text-title-lg font-bold text-on-surface mt-md">Alex Mercer</h3>
-                    <p class="font-label-md text-label-md text-on-surface-variant">Fleet Operations Manager</p>
-                    <div class="mt-lg w-full flex justify-center gap-md">
-<span class="inline-flex items-center gap-xs px-2 py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm">
-<span class="material-symbols-outlined text-[14px]">verified_user</span> Verified
-                            </span>
-                    </div>
+          <div class="lg:col-span-1 flex flex-col gap-lg">
+            <div class="glass-card rounded-xl p-lg flex flex-col items-center text-center relative overflow-hidden">
+              <div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-surface-container-high to-surface-variant opacity-50"></div>
+              <div class="relative mt-md group">
+                <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-surface-container-lowest shadow-sm">
+                  <img alt="User avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVImBvNgjsJ2InGe97mzJt55osCx_m1bUMz4yEY15l3fPvwuCU6jeTGJhwpAAGKZbn_jLz2RU-WuyysUNvikulR4ga9Y3XeaK1jpLBvjPCY5sCuAZp6djcX9mRTnxvKi0Bu4Kn7ItgUkFZMQ-jRnJUI5Przw8sMrvwEAOmmkd_IWMwJF3d4wT8qdueRQ7fjgymw8iMy1ZOpX2ROgyyoknf5aaDhB-d0iqyOi9CymnUvj2NRG4gCSLo7lP6yO8CNDIKwKo9Dd9HNWg" />
                 </div>
+                <button class="absolute bottom-0 right-0 bg-primary text-on-primary p-2 rounded-full shadow-md hover:bg-surface-tint transition-colors group-hover:scale-110 duration-200">
+                  <span class="material-symbols-outlined text-sm">edit</span>
+                </button>
+              </div>
+              <h3 class="font-title-lg text-title-lg font-bold text-on-surface mt-md">Alex Mercer</h3>
+              <p class="font-label-md text-label-md text-on-surface-variant">Fleet Operations Manager</p>
+              <div class="mt-lg w-full flex justify-center gap-md">
+                <span class="inline-flex items-center gap-xs px-2 py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm">
+                  <span class="material-symbols-outlined text-[14px]">verified_user</span> Verified
+                </span>
+              </div>
             </div>
-            <!-- Right Column: Forms & Settings -->
-            <div class="lg:col-span-2 flex flex-col gap-lg">
-                <!-- Personal Information Form -->
-                <div class="glass-card rounded-xl p-lg">
-                    <div class="flex items-center gap-sm mb-lg">
-                        <span class="material-symbols-outlined text-primary">person</span>
-                        <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Personal Information</h3>
-                    </div>
-                    <form class="grid grid-cols-1 md:grid-cols-2 gap-md">
-                        <div class="flex flex-col gap-xs">
-                            <label class="font-label-md text-label-md text-on-surface-variant">First Name</label>
-                            <input class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="text" value="Alex"/>
-                        </div>
-                        <div class="flex flex-col gap-xs">
-                            <label class="font-label-md text-label-md text-on-surface-variant">Last Name</label>
-                            <input class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="text" value="Mercer"/>
-                        </div>
-                        <div class="flex flex-col gap-xs md:col-span-2">
-                            <label class="font-label-md text-label-md text-on-surface-variant">Email Address</label>
-                            <div class="relative">
-                                <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline-variant">mail</span>
-                                <input class="w-full pl-xl pr-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="email" value="alex.mercer@transroute.com"/>
-                            </div>
-                        </div>
-                        <div class="flex flex-col gap-xs md:col-span-2">
-                            <label class="font-label-md text-label-md text-on-surface-variant">Phone Number</label>
-                            <div class="relative">
-                                <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline-variant">phone</span>
-                                <input class="w-full pl-xl pr-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="tel" value="+1 (555) 123-4567"/>
-                            </div>
-                        </div>
-                        <div class="md:col-span-2 flex justify-end mt-sm">
-                            <button class="bg-primary text-on-primary hover:bg-surface-tint px-lg py-sm rounded-lg font-label-md text-label-md font-semibold transition-colors duration-200" type="button">
-                                Save Changes
-                            </button>
-                        </div>
-                    </form>
+          </div>
+
+          <div class="lg:col-span-2 flex flex-col gap-lg">
+            <div class="glass-card rounded-xl p-lg">
+              <div class="flex items-center gap-sm mb-lg">
+                <span class="material-symbols-outlined text-primary">person</span>
+                <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Personal Information</h3>
+              </div>
+              <form class="grid grid-cols-1 md:grid-cols-2 gap-md">
+                <div class="flex flex-col gap-xs">
+                  <label class="font-label-md text-label-md text-on-surface-variant">First Name</label>
+                  <input class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="text" value="Alex" />
                 </div>
-                <!-- Security & Password -->
-                <div class="glass-card rounded-xl p-lg">
-                    <div class="flex items-center gap-sm mb-lg">
-                        <span class="material-symbols-outlined text-primary">lock</span>
-                        <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Security</h3>
-                    </div>
-                    <form class="flex flex-col gap-md">
-                        <div class="flex flex-col gap-xs">
-                            <label class="font-label-md text-label-md text-on-surface-variant">Current Password</label>
-                            <input class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" placeholder="••••••••" type="password"/>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
-                            <div class="flex flex-col gap-xs">
-                                <label class="font-label-md text-label-md text-on-surface-variant">New Password</label>
-                                <input class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="password"/>
-                            </div>
-                            <div class="flex flex-col gap-xs">
-                                <label class="font-label-md text-label-md text-on-surface-variant">Confirm New Password</label>
-                                <input class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="password"/>
-                            </div>
-                        </div>
-                        <div class="flex justify-end mt-sm">
-                            <button class="bg-surface-container-high text-primary hover:bg-surface-variant px-lg py-sm rounded-lg font-label-md text-label-md font-semibold transition-colors duration-200 border border-outline-variant/30" type="button">
-                                Update Password
-                            </button>
-                        </div>
-                    </form>
+                <div class="flex flex-col gap-xs">
+                  <label class="font-label-md text-label-md text-on-surface-variant">Last Name</label>
+                  <input class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="text" value="Mercer" />
                 </div>
+                <div class="flex flex-col gap-xs md:col-span-2">
+                  <label class="font-label-md text-label-md text-on-surface-variant">Email Address</label>
+                  <div class="relative">
+                    <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline-variant">mail</span>
+                    <input class="w-full pl-xl pr-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="email" value="alex.mercer@transroute.com" />
+                  </div>
+                </div>
+                <div class="flex flex-col gap-xs md:col-span-2">
+                  <label class="font-label-md text-label-md text-on-surface-variant">Phone Number</label>
+                  <div class="relative">
+                    <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline-variant">phone</span>
+                    <input class="w-full pl-xl pr-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="tel" value="+1 (555) 123-4567" />
+                  </div>
+                </div>
+                <div class="md:col-span-2 flex justify-end mt-sm">
+                  <button class="bg-primary text-on-primary hover:bg-surface-tint px-lg py-sm rounded-lg font-label-md text-label-md font-semibold transition-colors duration-200" type="button">Save Changes</button>
+                </div>
+              </form>
             </div>
+
+            <div class="glass-card rounded-xl p-lg">
+              <div class="flex items-center gap-sm mb-lg">
+                <span class="material-symbols-outlined text-primary">lock</span>
+                <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Security</h3>
+              </div>
+              <form class="flex flex-col gap-md">
+                <div class="flex flex-col gap-xs">
+                  <label class="font-label-md text-label-md text-on-surface-variant">Current Password</label>
+                  <input class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" placeholder="••••••••" type="password" />
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+                  <div class="flex flex-col gap-xs">
+                    <label class="font-label-md text-label-md text-on-surface-variant">New Password</label>
+                    <input class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="password" />
+                  </div>
+                  <div class="flex flex-col gap-xs">
+                    <label class="font-label-md text-label-md text-on-surface-variant">Confirm New Password</label>
+                    <input class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="password" />
+                  </div>
+                </div>
+                <div class="flex justify-end mt-sm">
+                  <button class="bg-surface-container-high text-primary hover:bg-surface-variant px-lg py-sm rounded-lg font-label-md text-label-md font-semibold transition-colors duration-200 border border-outline-variant/30" type="button">Update Password</button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-        <!-- Bottom Row: Recent Activity & Policies -->
+
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-lg mb-xl">
-            <!-- Recent Activity List -->
-            <div class="glass-card rounded-xl p-lg flex flex-col h-full">
-                <div class="flex items-center justify-between mb-lg">
-                    <div class="flex items-center gap-sm">
-                        <span class="material-symbols-outlined text-primary">history</span>
-                        <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Recent Activity</h3>
-                    </div>
-                    <button class="font-label-sm text-label-sm text-primary hover:underline">View All</button>
-                </div>
-                <div class="flex-1 flex flex-col gap-0 divide-y divide-outline-variant/20">
-                    <div class="py-sm flex items-center justify-between group hover:bg-surface-container-lowest/50 transition-colors px-xs rounded-sm">
-                        <div class="flex items-center gap-md">
-                            <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary">
-                                <span class="material-symbols-outlined text-[18px]">login</span>
-                            </div>
-                            <div>
-                                <p class="font-body-md text-body-md text-on-surface font-medium">Successful Login</p>
-                                <p class="font-label-sm text-label-sm text-on-surface-variant">Mac OS • Chrome</p>
-                            </div>
-                        </div>
-                        <span class="font-label-sm text-label-sm text-on-surface-variant">2 mins ago</span>
-                    </div>
-                    <div class="py-sm flex items-center justify-between group hover:bg-surface-container-lowest/50 transition-colors px-xs rounded-sm">
-                        <div class="flex items-center gap-md">
-                            <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary">
-                                <span class="material-symbols-outlined text-[18px]">settings_backup_restore</span>
-                            </div>
-                            <div>
-                                <p class="font-body-md text-body-md text-on-surface font-medium">Password Changed</p>
-                                <p class="font-label-sm text-label-sm text-on-surface-variant">IP: 192.168.1.1</p>
-                            </div>
-                        </div>
-                        <span class="font-label-sm text-label-sm text-on-surface-variant">Oct 12, 2023</span>
-                    </div>
-                    <div class="py-sm flex items-center justify-between group hover:bg-surface-container-lowest/50 transition-colors px-xs rounded-sm">
-                        <div class="flex items-center gap-md">
-                            <div class="w-8 h-8 rounded-full bg-error-container flex items-center justify-center text-on-error-container">
-                                <span class="material-symbols-outlined text-[18px]">error</span>
-                            </div>
-                            <div>
-                                <p class="font-body-md text-body-md text-on-surface font-medium">Failed Login Attempt</p>
-                                <p class="font-label-sm text-label-sm text-on-surface-variant">Unknown Device</p>
-                            </div>
-                        </div>
-                        <span class="font-label-sm text-label-sm text-on-surface-variant">Oct 10, 2023</span>
-                    </div>
-                </div>
+          <div class="glass-card rounded-xl p-lg flex flex-col h-full">
+            <div class="flex items-center justify-between mb-lg">
+              <div class="flex items-center gap-sm">
+                <span class="material-symbols-outlined text-primary">history</span>
+                <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Recent Activity</h3>
+              </div>
+              <button class="font-label-sm text-label-sm text-primary hover:underline">View All</button>
             </div>
-            <!-- Refund Policy & History -->
-            <div class="glass-card rounded-xl p-lg flex flex-col h-full">
-                <div class="flex items-center gap-sm mb-lg">
-                    <span class="material-symbols-outlined text-primary">receipt_long</span>
-                    <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Policies &amp; History</h3>
+            <div class="flex-1 flex flex-col gap-0 divide-y divide-outline-variant/20">
+              <div class="py-sm flex items-center justify-between group hover:bg-surface-container-lowest/50 transition-colors px-xs rounded-sm">
+                <div class="flex items-center gap-md">
+                  <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-[18px]">login</span>
+                  </div>
+                  <div>
+                    <p class="font-body-md text-body-md text-on-surface font-medium">Successful Login</p>
+                    <p class="font-label-sm text-label-sm text-on-surface-variant">Mac OS • Chrome</p>
+                  </div>
                 </div>
-                <div class="flex-1 flex flex-col gap-md">
-                    <div class="bg-surface-container-low p-md rounded-lg border border-outline-variant/30 flex items-start gap-md">
-                        <span class="material-symbols-outlined text-primary mt-1">policy</span>
-                        <div>
-                            <h4 class="font-label-md text-label-md text-on-surface font-bold">Standard Refund Policy</h4>
-                            <p class="font-body-md text-body-md text-on-surface-variant mt-xs text-sm">Cancellations made 24 hours prior to departure are eligible for a 90% refund. Cancellations within 24 hours are non-refundable.</p>
-                            <button class="mt-sm font-label-sm text-label-sm text-primary hover:underline flex items-center gap-xs">
-                                Read Full Policy <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="mt-sm">
-                        <h4 class="font-label-md text-label-md text-on-surface-variant mb-sm uppercase tracking-wider">Recent Refunds</h4>
-                        <div class="border border-outline-variant/20 rounded-lg overflow-hidden">
-                            <table class="w-full text-left">
-                                <thead class="bg-surface-container-lowest border-b border-outline-variant/20">
-                                <tr>
-                                    <th class="px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-semibold">Booking ID</th>
-                                    <th class="px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-semibold">Amount</th>
-                                    <th class="px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-semibold">Status</th>
-                                </tr>
-                                </thead>
-                                <tbody class="divide-y divide-outline-variant/10 font-body-md text-body-md text-on-surface">
-                                <tr class="hover:bg-surface-container-lowest/50 transition-colors">
-                                    <td class="px-sm py-xs font-mono text-xs">TR-9824</td>
-                                    <td class="px-sm py-xs font-medium">$45.00</td>
-                                    <td class="px-sm py-xs">
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-[10px] font-semibold">Completed</span>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-surface-container-lowest/50 transition-colors">
-                                    <td class="px-sm py-xs font-mono text-xs">TR-7731</td>
-                                    <td class="px-sm py-xs font-medium">$120.50</td>
-                                    <td class="px-sm py-xs">
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-variant text-primary text-[10px] font-semibold">Processing</span>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">2 mins ago</span>
+              </div>
+              <div class="py-sm flex items-center justify-between group hover:bg-surface-container-lowest/50 transition-colors px-xs rounded-sm">
+                <div class="flex items-center gap-md">
+                  <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-[18px]">settings_backup_restore</span>
+                  </div>
+                  <div>
+                    <p class="font-body-md text-body-md text-on-surface font-medium">Password Changed</p>
+                    <p class="font-label-sm text-label-sm text-on-surface-variant">IP: 192.168.1.1</p>
+                  </div>
                 </div>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">Oct 12, 2023</span>
+              </div>
+              <div class="py-sm flex items-center justify-between group hover:bg-surface-container-lowest/50 transition-colors px-xs rounded-sm">
+                <div class="flex items-center gap-md">
+                  <div class="w-8 h-8 rounded-full bg-error-container flex items-center justify-center text-on-error-container">
+                    <span class="material-symbols-outlined text-[18px]">error</span>
+                  </div>
+                  <div>
+                    <p class="font-body-md text-body-md text-on-surface font-medium">Failed Login Attempt</p>
+                    <p class="font-label-sm text-label-sm text-on-surface-variant">Unknown Device</p>
+                  </div>
+                </div>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">Oct 10, 2023</span>
+              </div>
             </div>
+          </div>
+
+          <div class="glass-card rounded-xl p-lg flex flex-col h-full">
+            <div class="flex items-center gap-sm mb-lg">
+              <span class="material-symbols-outlined text-primary">receipt_long</span>
+              <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Policies & History</h3>
+            </div>
+            <div class="flex-1 flex flex-col gap-md">
+              <div class="bg-surface-container-low p-md rounded-lg border border-outline-variant/30 flex items-start gap-md">
+                <span class="material-symbols-outlined text-primary mt-1">policy</span>
+                <div>
+                  <h4 class="font-label-md text-label-md text-on-surface font-bold">Standard Refund Policy</h4>
+                  <p class="font-body-md text-body-md text-on-surface-variant mt-xs text-sm">Cancellations made 24 hours prior to departure are eligible for a 90% refund. Cancellations within 24 hours are non-refundable.</p>
+                  <button class="mt-sm font-label-sm text-label-sm text-primary hover:underline flex items-center gap-xs">
+                    Read Full Policy <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </button>
+                </div>
+              </div>
+              <div class="mt-sm">
+                <h4 class="font-label-md text-label-md text-on-surface-variant mb-sm uppercase tracking-wider">Recent Refunds</h4>
+                <div class="border border-outline-variant/20 rounded-lg overflow-hidden">
+                  <table class="w-full text-left">
+                    <thead class="bg-surface-container-lowest border-b border-outline-variant/20">
+                      <tr>
+                        <th class="px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-semibold">Booking ID</th>
+                        <th class="px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-semibold">Amount</th>
+                        <th class="px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-semibold">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline-variant/10 font-body-md text-body-md text-on-surface">
+                      <tr class="hover:bg-surface-container-lowest/50 transition-colors">
+                        <td class="px-sm py-xs font-mono text-xs">TR-9824</td>
+                        <td class="px-sm py-xs font-medium">$45.00</td>
+                        <td class="px-sm py-xs">
+                          <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-[10px] font-semibold">Completed</span>
+                        </td>
+                      </tr>
+                      <tr class="hover:bg-surface-container-lowest/50 transition-colors">
+                        <td class="px-sm py-xs font-mono text-xs">TR-7731</td>
+                        <td class="px-sm py-xs font-medium">$120.50</td>
+                        <td class="px-sm py-xs">
+                          <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-variant text-primary text-[10px] font-semibold">Processing</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-    <!-- Footer -->
-    <footer
-      th:replace="~{fragments/component/footer :: footer('w-full py-xl mt-auto', 'border-t border-outline-variant/50 bg-surface-container-lowest flex flex-col md:flex-row justify-between items-center px-margin-desktop max-w-7xl mx-auto font-label-sm text-label-sm text-on-surface-variant gap-lg', 'font-display-lg text-title-lg font-black text-primary mb-md md:mb-0', 'text-on-surface-variant', 'hover:text-primary transition-colors cursor-pointer', 'flex gap-lg mb-md md:mb-0')}"
-    ></footer>
-</main>
-</body></html>
+      </div>
+
+      <footer th:replace="~{fragments/component/footer :: footer('w-full py-xl mt-auto', 'border-t border-outline-variant/50 bg-surface-container-lowest flex flex-col md:flex-row justify-between items-center px-margin-desktop max-w-7xl mx-auto font-label-sm text-label-sm text-on-surface-variant gap-lg', 'font-display-lg text-title-lg font-black text-primary mb-md md:mb-0', 'text-on-surface-variant', 'hover:text-primary transition-colors cursor-pointer', 'flex gap-lg mb-md md:mb-0')}"></footer>
+    </main>
+  </body>
+</html>

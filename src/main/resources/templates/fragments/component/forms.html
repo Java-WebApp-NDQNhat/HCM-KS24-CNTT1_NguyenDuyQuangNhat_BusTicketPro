@@ -1,0 +1,57 @@
+<div
+  th:fragment="formGroup(label, type, name, placeholder, value, required, icon)"
+  class="flex flex-col gap-xs"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <label class="font-label-md text-label-md text-on-surface-variant">
+    <span th:text="${label}">Label</span>
+    <span th:if="${required}" class="text-error">*</span>
+  </label>
+  <div th:if="${icon}" class="relative">
+    <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline-variant" th:text="${icon}">icon</span>
+    <input
+      th:type="${type} ?: 'text'"
+      th:name="${name}"
+      th:placeholder="${placeholder}"
+      th:value="${value}"
+      th:required="${required}"
+      class="w-full pl-xl pr-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+    />
+  </div>
+  <input
+    th:if="${!icon}"
+    th:type="${type} ?: 'text'"
+    th:name="${name}"
+    th:placeholder="${placeholder}"
+    th:value="${value}"
+    th:required="${required}"
+    class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+  />
+</div>
+
+<div
+  th:fragment="selectGroup(label, name, options, required)"
+  class="flex flex-col gap-xs"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <label class="font-label-md text-label-md text-on-surface-variant">
+    <span th:text="${label}">Label</span>
+    <span th:if="${required}" class="text-error">*</span>
+  </label>
+  <select
+    th:name="${name}"
+    th:required="${required}"
+    class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+  >
+    <option th:each="opt : ${options}" th:value="${opt.value}" th:text="${opt.label}">Option</option>
+  </select>
+</div>
+
+<div
+  th:fragment="formActions(cancelUrl, submitLabel, submitClass)"
+  class="flex justify-end gap-md mt-sm"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <a th:if="${cancelUrl}" th:href="${cancelUrl}" class="font-label-md text-on-surface-variant px-md py-sm rounded-lg hover:bg-surface-variant transition-colors">Cancel</a>
+  <button th:type="${submitType} ?: 'submit'" th:class="${submitClass} ?: 'bg-primary text-on-primary hover:bg-surface-tint px-lg py-sm rounded-lg font-label-md font-semibold transition-colors'" th:text="${submitLabel} ?: 'Save'">Save</button>
+</div>

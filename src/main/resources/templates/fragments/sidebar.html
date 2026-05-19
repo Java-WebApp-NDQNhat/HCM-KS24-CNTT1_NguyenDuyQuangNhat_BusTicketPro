@@ -1,0 +1,153 @@
+<aside
+  th:fragment="sidebar(currentPage)"
+  class="hidden md:flex flex-col bg-surface-container-lowest dark:bg-surface-container-low text-on-primary-container font-label-md h-screen w-[280px] fixed left-0 top-0 overflow-y-auto border-r border-outline-variant/30 dark:border-outline/20 shadow-md p-md gap-base z-50"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+  <div class="mb-lg px-md pt-sm">
+    <h1 class="font-display-lg text-title-lg font-bold text-on-surface">TransRoute</h1>
+    <p class="text-on-surface-variant mt-xs" sec:authorize="hasRole('ROLE_ADMIN')">Fleet Management</p>
+    <p class="text-on-surface-variant mt-xs" sec:authorize="hasRole('ROLE_STAFF')">Ticket Operations</p>
+    <p class="text-on-surface-variant mt-xs" sec:authorize="hasRole('ROLE_PASSENGER')">Travel Portal</p>
+  </div>
+
+  <button
+    sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_PASSENGER')"
+    class="bg-primary text-on-primary hover:bg-surface-tint transition-all duration-150 ease-in-out rounded-lg py-sm px-md mb-lg font-semibold flex justify-center items-center gap-sm"
+    onclick="window.location.href='/passenger/booking'"
+  >
+    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+    New Booking
+  </button>
+
+  <nav class="flex-1 flex flex-col gap-sm">
+    <a
+      th:href="@{/admin/dashboard}"
+      th:class="${currentPage == 'dashboard' and #authorization.expression('hasRole(''ROLE_ADMIN'')')}
+        ? 'flex items-center gap-md bg-surface-container-high text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary'
+        : 'flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg'"
+      sec:authorize="hasRole('ROLE_ADMIN')"
+    >
+      <span class="material-symbols-outlined">dashboard</span>
+      Dashboard
+    </a>
+
+    <a
+      th:href="@{/passenger/dashboard}"
+      th:class="${currentPage == 'dashboard'}
+        ? 'flex items-center gap-md bg-surface-container-high text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary'
+        : 'flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg'"
+      sec:authorize="hasRole('ROLE_PASSENGER')"
+    >
+      <span class="material-symbols-outlined">dashboard</span>
+      Dashboard
+    </a>
+
+    <a
+      th:href="@{/staff/dashboard}"
+      th:class="${currentPage == 'dashboard'}
+        ? 'flex items-center gap-md bg-surface-container-high text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary'
+        : 'flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg'"
+      sec:authorize="hasRole('ROLE_STAFF')"
+    >
+      <span class="material-symbols-outlined">dashboard</span>
+      Dashboard
+    </a>
+
+    <a
+      th:href="@{/admin/fleet}"
+      th:class="${currentPage == 'fleet-management'}
+        ? 'flex items-center gap-md bg-surface-container-high text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary'
+        : 'flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg'"
+      sec:authorize="hasRole('ROLE_ADMIN')"
+    >
+      <span class="material-symbols-outlined">directions_bus</span>
+      Fleet Management
+    </a>
+
+    <a
+      th:href="@{/passenger/booking}"
+      th:class="${currentPage == 'ticket-sales'}
+        ? 'flex items-center gap-md bg-surface-container-high text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary'
+        : 'flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg'"
+      sec:authorize="hasRole('ROLE_PASSENGER')"
+    >
+      <span class="material-symbols-outlined">confirmation_number</span>
+      Ticket Sale
+    </a>
+
+    <a
+      th:href="@{/staff/tickets}"
+      th:class="${currentPage == 'ticket-sales'}
+        ? 'flex items-center gap-md bg-surface-container-high text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary'
+        : 'flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg'"
+      sec:authorize="hasRole('ROLE_STAFF')"
+    >
+      <span class="material-symbols-outlined">confirmation_number</span>
+      Ticket Sale
+    </a>
+
+    <a
+      th:href="@{/passenger/routes}"
+      th:class="${currentPage == 'route-planning'}
+        ? 'flex items-center gap-md bg-surface-container-high text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary'
+        : 'flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg'"
+      sec:authorize="hasRole('ROLE_PASSENGER')"
+    >
+      <span class="material-symbols-outlined">map</span>
+      Route Planning
+    </a>
+
+    <a
+      th:href="@{/admin/routes}"
+      th:class="${currentPage == 'route-planning'}
+        ? 'flex items-center gap-md bg-surface-container-high text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary'
+        : 'flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg'"
+      sec:authorize="hasRole('ROLE_ADMIN')"
+    >
+      <span class="material-symbols-outlined">map</span>
+      Route Planning
+    </a>
+
+    <a
+      th:href="@{/admin/staff}"
+      th:class="${currentPage == 'staff-directory'}
+        ? 'flex items-center gap-md bg-surface-container-high text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary'
+        : 'flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg'"
+      sec:authorize="hasRole('ROLE_ADMIN')"
+    >
+      <span class="material-symbols-outlined">badge</span>
+      Staff Directory
+    </a>
+
+    <a
+      th:href="@{/admin/logs}"
+      th:class="${currentPage == 'system-logs'}
+        ? 'flex items-center gap-md bg-surface-container-high text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary'
+        : 'flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg'"
+      sec:authorize="hasRole('ROLE_ADMIN')"
+    >
+      <span class="material-symbols-outlined">terminal</span>
+      System Logs
+    </a>
+  </nav>
+
+  <div class="mt-auto flex flex-col gap-sm border-t border-outline-variant/30 pt-md">
+    <a
+      th:href="@{/profile}"
+      th:class="${currentPage == 'settings'}
+        ? 'flex items-center gap-md bg-surface-container-high text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary transition-all duration-150 ease-in-out'
+        : 'flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg'"
+    >
+      <span class="material-symbols-outlined">settings</span>
+      Settings
+    </a>
+    <a
+      th:href="@{/auth/logout}"
+      class="flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg"
+    >
+      <span class="material-symbols-outlined">logout</span>
+      Logout
+    </a>
+  </div>
+</aside>

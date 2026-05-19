@@ -38,7 +38,7 @@ public class AuthController {
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("registerDTO", new RegisterDTO());
-        return "/auth/register";
+        return "auth/register";
     }
 
     @PostMapping("/register")
@@ -46,7 +46,7 @@ public class AuthController {
                            BindingResult result,
                            Model model) {
         if (result.hasErrors()) {
-            return "/auth/register";
+            return "auth/register";
         }
 
         try {
@@ -54,14 +54,14 @@ public class AuthController {
             return "redirect:/auth/login";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
-            return "/auth/register";
+            return "auth/register";
         }
     }
 
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("loginDTO", new LoginDTO());
-        return "/auth/login";
+        return "auth/login";
     }
 
     @PostMapping("/login")
@@ -71,7 +71,7 @@ public class AuthController {
                         HttpServletRequest request,
                         HttpServletResponse response) {
         if (result.hasErrors()) {
-            return "/auth/login";
+            return "auth/login";
         }
 
         try {
@@ -90,7 +90,7 @@ public class AuthController {
             return isAdmin ? "redirect:/admin/dashboard" : "redirect:/passenger/dashboard";
         } catch (AuthenticationException ex) {
             model.addAttribute("error", "Email hoặc mật khẩu không đúng");
-            return "/auth/login";
+            return "auth/login";
         }
     }
 }

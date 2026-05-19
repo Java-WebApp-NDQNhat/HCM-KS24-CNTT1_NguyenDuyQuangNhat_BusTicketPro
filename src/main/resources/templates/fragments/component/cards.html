@@ -1,0 +1,45 @@
+<div
+  th:fragment="statCard(title, value, icon, trend, trendUp, colorClass)"
+  th:class="${cardClass} ?: 'bg-surface-container-lowest dark:bg-surface-container-low rounded-xl p-md border border-outline-variant/30 card-shadow flex flex-col justify-between'"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <div class="flex justify-between items-start">
+    <span class="font-label-md text-on-surface-variant dark:text-outline" th:text="${title}">Title</span>
+    <div th:if="${icon}" class="w-8 h-8 rounded-full bg-primary-fixed/20 flex items-center justify-center">
+      <span class="material-symbols-outlined text-primary text-[18px]" th:text="${icon}">icon</span>
+    </div>
+  </div>
+  <div class="mt-lg">
+    <h3 class="font-headline-md text-on-surface dark:text-surface-bright" th:text="${value}">0</h3>
+    <p th:if="${trend}" th:class="${trendUp != false}
+      ? 'font-label-sm text-on-surface-variant dark:text-outline mt-1 flex items-center gap-xs text-[#059669]'
+      : 'font-label-sm text-on-surface-variant dark:text-outline mt-1 flex items-center gap-xs text-error'"
+    >
+      <span class="material-symbols-outlined text-[14px]" th:text="${trendUp != false} ? 'trending_up' : 'trending_down'">trending_up</span>
+      <span th:text="${trend}">0%</span>
+    </p>
+  </div>
+</div>
+
+<div
+  th:fragment="contentCard(title, subtitle, actions)"
+  th:class="${cardClass} ?: 'bg-surface-container-lowest dark:bg-surface-container-low rounded-xl p-lg border border-outline-variant/30 card-shadow'"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <div th:if="${title}" class="flex justify-between items-center mb-lg">
+    <div>
+      <h3 class="font-title-lg text-on-surface dark:text-surface-bright" th:text="${title}">Title</h3>
+      <p th:if="${subtitle}" class="font-body-md text-on-surface-variant mt-xs" th:text="${subtitle}"></p>
+    </div>
+    <div th:if="${actions}" th:replace="${actions}"></div>
+  </div>
+  <div th:replace="${content}"></div>
+</div>
+
+<div
+  th:fragment="glassCard"
+  th:class="${cardClass} ?: 'glass-card rounded-xl p-lg flex flex-col relative overflow-hidden'"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <div th:replace="${content}"></div>
+</div>

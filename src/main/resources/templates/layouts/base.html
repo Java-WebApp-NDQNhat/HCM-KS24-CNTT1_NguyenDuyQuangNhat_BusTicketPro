@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments/head :: commonHead(${pageTitle}, ${pageCss}, ${pageKind})}"></head>
+  <body th:class="${bodyClass} ?: 'bg-background dark:bg-on-background text-on-surface dark:text-surface-bright font-body-md min-h-screen flex antialiased'">
+
+    <div class="flex min-h-screen w-full">
+      <div th:replace="${showSidebar != false} ? ~{fragments/sidebar :: sidebar(${currentPage})} : ~{}"></div>
+
+      <div th:class="${mainWrapperClass} ?: 'flex-1 flex flex-col min-w-0 md:ml-[280px]'">
+        <header th:if="${showHeader != false}" th:replace="${headerFragment} ?: ~{fragments/component/header :: sharedTopbar}"></header>
+
+        <main th:class="${mainClass} ?: 'flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-surface-container-low max-w-7xl mx-auto w-full'">
+          <div th:replace="${content}"></div>
+        </main>
+
+        <footer th:if="${showFooter != false}" th:replace="~{fragments/component/footer :: footer(null, null, null, null, null, null)}"></footer>
+      </div>
+    </div>
+
+  </body>
+</html>

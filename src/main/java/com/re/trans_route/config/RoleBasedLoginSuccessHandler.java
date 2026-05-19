@@ -14,15 +14,22 @@ import java.io.IOException;
 public class RoleBasedLoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        boolean isAdmin = authentication.getAuthorities().stream()
+        String role = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .anyMatch(role -> role.equals("ROLE_ADMIN"));
+                .filter(auth -> auth.startsWith("ROLE_"))
+                .findFirst()
+                .orElse("ROLE_PASSENGER");
 
-        if (isAdmin) {
-            response.sendRedirect("/admin/dashboard");
-            return;
+        switch (role) {
+            case "ROLE_ADMIN":
+                response.sendRedirect("/admin/dashboard");
+                break;
+            case "ROLE_STAFF":
+                response.sendRedirect("/staff/dashboard");
+                break;
+            default:
+                response.sendRedirect("/passenger/dashboard");
+                break;
         }
-        response.sendRedirect("/passenger/dashboard");
     }
 }
-

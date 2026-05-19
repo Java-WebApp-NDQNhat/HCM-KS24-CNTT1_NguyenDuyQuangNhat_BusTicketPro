@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html class="light" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments/head :: commonHead('TransRoute - Route Planning', null, 'admin')}"></head>
+  <body class="antialiased min-h-screen flex flex-col md:flex-row bg-background">
+    <div th:replace="~{fragments/sidebar :: sidebar('route-planning')}"></div>
+
+    <main class="flex-1 flex flex-col w-full md:ml-[280px] min-h-screen">
+      <header th:replace="~{fragments/component/header :: sharedTopbar}"></header>
+
+      <div class="flex-1 p-margin-mobile md:p-margin-desktop overflow-x-hidden">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-lg gap-md">
+          <div>
+            <h2 class="font-headline-lg-mobile md:font-headline-lg text-on-surface">Route Planning</h2>
+            <p class="font-inter text-body-md text-on-surface-variant mt-xs">Manage your active routes, analyze performance, and schedule new paths.</p>
+          </div>
+          <button class="flex items-center gap-xs bg-on-tertiary-container text-on-primary px-lg py-sm rounded-lg font-inter text-label-md hover:shadow-lg transition-all">
+            <span class="material-symbols-outlined text-[18px]">add</span>
+            Thêm tuyến mới
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-xl">
+          <div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant umbra-shadow flex flex-col justify-between h-32 relative overflow-hidden group">
+            <div class="flex justify-between items-start z-10 relative">
+              <span class="font-inter text-label-md text-on-surface-variant uppercase tracking-wider">Total Active Routes</span>
+              <span class="material-symbols-outlined text-on-tertiary-container opacity-50 text-[24px]">map</span>
+            </div>
+            <div class="z-10 relative">
+              <h3 class="font-display-lg text-headline-lg text-on-surface mb-xs">42</h3>
+              <p class="font-inter text-label-sm text-[#006874] flex items-center gap-xs">
+                <span class="material-symbols-outlined text-[14px]">trending_up</span> +3 this month
+              </p>
+            </div>
+          </div>
+          <div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant umbra-shadow flex flex-col justify-between h-32 relative overflow-hidden group">
+            <div class="flex justify-between items-start z-10 relative">
+              <span class="font-inter text-label-md text-on-surface-variant uppercase tracking-wider">Avg. Load Factor</span>
+              <span class="material-symbols-outlined text-[#006874] opacity-50 text-[24px]">groups</span>
+            </div>
+            <div class="z-10 relative">
+              <h3 class="font-display-lg text-headline-lg text-on-surface mb-xs">78.5%</h3>
+              <p class="font-inter text-label-sm text-[#006874] flex items-center gap-xs">
+                <span class="material-symbols-outlined text-[14px]">trending_up</span> +2.1% vs last week
+              </p>
+            </div>
+            <div class="absolute bottom-0 left-0 w-full h-2 bg-surface-container-high">
+              <div class="h-full bg-[#006874] w-[78.5%]"></div>
+            </div>
+          </div>
+          <div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant umbra-shadow flex flex-col justify-between h-32 relative overflow-hidden group">
+            <div class="flex justify-between items-start z-10 relative">
+              <span class="font-inter text-label-md text-on-surface-variant uppercase tracking-wider">On-Time Performance</span>
+              <span class="material-symbols-outlined text-primary opacity-50 text-[24px]">timer</span>
+            </div>
+            <div class="z-10 relative">
+              <h3 class="font-display-lg text-headline-lg text-on-surface mb-xs">94.2%</h3>
+              <p class="font-inter text-label-sm text-error flex items-center gap-xs">
+                <span class="material-symbols-outlined text-[14px]">trending_down</span> -0.5% vs last week
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-gutter">
+          <div class="lg:w-2/3 bg-surface-container-lowest rounded-xl border border-outline-variant umbra-shadow overflow-hidden flex flex-col">
+            <div class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest">
+              <h3 class="font-title-lg text-title-lg text-on-surface">Danh sách tuyến đường</h3>
+              <div class="flex gap-sm">
+                <button class="p-xs border border-outline-variant rounded text-on-surface-variant hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[18px]">filter_list</span></button>
+                <button class="p-xs border border-outline-variant rounded text-on-surface-variant hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="border-b border-outline-variant bg-surface-bright">
+                    <th class="p-sm font-inter text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold pl-md">Mã Tuyến</th>
+                    <th class="p-sm font-inter text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Lộ trình</th>
+                    <th class="p-sm font-inter text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold hidden md:table-cell">K.Cách / T.Gian</th>
+                    <th class="p-sm font-inter text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Giá vé</th>
+                    <th class="p-sm font-inter text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold pr-md">Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody class="font-inter text-body-md text-on-surface">
+                  <tr class="border-b border-outline-variant/50 hover:bg-surface-container-low cursor-pointer transition-colors">
+                    <td class="p-sm pl-md font-medium">HN-SG-01</td>
+                    <td class="p-sm"><div class="flex items-center gap-xs"><span>Hà Nội</span><span class="material-symbols-outlined text-[14px] text-outline">arrow_forward</span><span>TP. Hồ Chí Minh</span></div></td>
+                    <td class="p-sm hidden md:table-cell text-on-surface-variant text-sm">1700km <br/><span class="text-xs">~32h 00m</span></td>
+                    <td class="p-sm">950,000đ</td>
+                    <td class="p-sm pr-md"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[#e6f4ea] text-[#137333]">Hoạt động</span></td>
+                  </tr>
+                  <tr class="border-b border-outline-variant/50 hover:bg-surface-container-low cursor-pointer transition-colors">
+                    <td class="p-sm pl-md font-medium">HN-HP-02</td>
+                    <td class="p-sm"><div class="flex items-center gap-xs"><span>Hà Nội</span><span class="material-symbols-outlined text-[14px] text-outline">arrow_forward</span><span>Hải Phòng</span></div></td>
+                    <td class="p-sm hidden md:table-cell text-on-surface-variant text-sm">120km <br/><span class="text-xs">~2h 15m</span></td>
+                    <td class="p-sm">120,000đ</td>
+                    <td class="p-sm pr-md"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[#e6f4ea] text-[#137333]">Hoạt động</span></td>
+                  </tr>
+                  <tr class="border-b border-outline-variant/50 hover:bg-surface-container-low cursor-pointer transition-colors">
+                    <td class="p-sm pl-md font-medium">SG-CT-01</td>
+                    <td class="p-sm"><div class="flex items-center gap-xs"><span>TP. Hồ Chí Minh</span><span class="material-symbols-outlined text-[14px] text-outline">arrow_forward</span><span>Cần Thơ</span></div></td>
+                    <td class="p-sm hidden md:table-cell text-on-surface-variant text-sm">170km <br/><span class="text-xs">~3h 30m</span></td>
+                    <td class="p-sm">160,000đ</td>
+                    <td class="p-sm pr-md"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[#fef7e0] text-[#b06000]">Bảo trì</span></td>
+                  </tr>
+                  <tr class="border-b border-outline-variant/50 hover:bg-surface-container-low cursor-pointer transition-colors">
+                    <td class="p-sm pl-md font-medium">DN-HUI-01</td>
+                    <td class="p-sm"><div class="flex items-center gap-xs"><span>Đà Nẵng</span><span class="material-symbols-outlined text-[14px] text-outline">arrow_forward</span><span>Huế</span></div></td>
+                    <td class="p-sm hidden md:table-cell text-on-surface-variant text-sm">100km <br/><span class="text-xs">~2h 00m</span></td>
+                    <td class="p-sm">90,000đ</td>
+                    <td class="p-sm pr-md"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[#e6f4ea] text-[#137333]">Hoạt động</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="p-sm border-t border-outline-variant flex justify-between items-center bg-surface-container-lowest mt-auto">
+              <span class="font-inter text-label-md text-on-surface-variant pl-md">Showing 1-4 of 42 routes</span>
+              <div class="flex gap-xs pr-md">
+                <button class="p-xs rounded hover:bg-surface-container text-on-surface-variant disabled:opacity-50" disabled><span class="material-symbols-outlined">chevron_left</span></button>
+                <button class="p-xs rounded hover:bg-surface-container text-on-surface-variant"><span class="material-symbols-outlined">chevron_right</span></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:w-1/3 flex flex-col gap-md">
+            <div class="glass-card rounded-xl overflow-hidden relative h-[300px] flex flex-col border border-outline-variant umbra-shadow">
+              <div class="absolute inset-0 bg-surface-dim z-0 overflow-hidden" style="background-image: radial-gradient(#c6c6cd 1px, transparent 1px); background-size: 20px 20px;">
+                <svg class="absolute inset-0 w-full h-full pointer-events-none" preserveaspectratio="none" viewbox="0 0 100 100">
+                  <path d="M 20 80 Q 50 60 80 20" fill="none" stroke="#001a42" stroke-dasharray="5,5" stroke-width="3"></path>
+                  <circle cx="20" cy="80" fill="#000000" r="4"></circle>
+                  <circle cx="80" cy="20" fill="#001a42" r="4"></circle>
+                </svg>
+              </div>
+              <div class="z-10 p-sm flex justify-end gap-xs">
+                <button class="bg-surface-container-lowest/90 backdrop-blur rounded p-xs shadow-sm hover:bg-surface-container text-on-surface"><span class="material-symbols-outlined text-[18px]">zoom_in</span></button>
+                <button class="bg-surface-container-lowest/90 backdrop-blur rounded p-xs shadow-sm hover:bg-surface-container text-on-surface"><span class="material-symbols-outlined text-[18px]">zoom_out</span></button>
+              </div>
+              <div class="mt-auto z-10 p-md bg-gradient-to-t from-surface-container-lowest to-transparent">
+                <div class="bg-surface-container-lowest/95 backdrop-blur-md p-sm rounded-lg border border-outline-variant shadow-sm">
+                  <h4 class="font-title-lg text-body-lg text-on-surface font-semibold">HN-HP-02</h4>
+                  <p class="font-inter text-label-md text-on-surface-variant mt-xs">Hà Nội → Hải Phòng</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-surface-container-lowest rounded-xl border border-outline-variant umbra-shadow p-md">
+              <h4 class="font-title-lg text-body-lg text-on-surface font-semibold mb-md">Chỉ số vận hành (HN-HP-02)</h4>
+              <div class="space-y-md">
+                <div>
+                  <div class="flex justify-between items-end mb-xs">
+                    <span class="font-inter text-label-sm text-on-surface-variant uppercase">Tỉ lệ lấp đầy</span>
+                    <span class="font-inter text-body-md font-semibold text-on-surface">85%</span>
+                  </div>
+                  <div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+                    <div class="h-full bg-on-tertiary-container w-[85%] rounded-full"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between items-end mb-xs">
+                    <span class="font-inter text-label-sm text-on-surface-variant uppercase">Đúng giờ</span>
+                    <span class="font-inter text-body-md font-semibold text-[#137333]">98%</span>
+                  </div>
+                  <div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+                    <div class="h-full bg-[#137333] w-[98%] rounded-full"></div>
+                  </div>
+                </div>
+                <div class="pt-md border-t border-outline-variant mt-md">
+                  <div class="flex justify-between py-xs font-inter text-body-md text-on-surface">
+                    <span class="text-on-surface-variant">Số chuyến/ngày:</span><span class="font-medium">12 chuyến</span>
+                  </div>
+                  <div class="flex justify-between py-xs font-inter text-body-md text-on-surface">
+                    <span class="text-on-surface-variant">Doanh thu TB/chuyến:</span><span class="font-medium">4,200,000đ</span>
+                  </div>
+                </div>
+                <button class="w-full mt-sm py-sm border border-outline-variant rounded-lg font-inter text-label-md text-on-surface hover:bg-surface-container-low transition-colors">Xem chi tiết tuyến</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

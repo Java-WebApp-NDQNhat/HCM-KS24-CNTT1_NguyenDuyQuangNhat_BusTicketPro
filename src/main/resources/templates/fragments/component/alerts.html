@@ -1,0 +1,50 @@
+<div
+  th:fragment="alert(type, message, dismissible)"
+  th:class="${type == 'success'} ? 'bg-[#dcfce7] border-l-4 border-[#166534] text-[#166534] p-md rounded-r-lg flex items-start gap-md'
+            : ${type == 'error'} ? 'bg-error-container border-l-4 border-error text-on-error-container p-md rounded-r-lg flex items-start gap-md'
+            : ${type == 'warning'} ? 'bg-[#fef9c3] border-l-4 border-[#854d0e] text-[#854d0e] p-md rounded-r-lg flex items-start gap-md'
+            : 'bg-surface-container border-l-4 border-primary text-on-surface p-md rounded-r-lg flex items-start gap-md'"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <span class="material-symbols-outlined mt-[2px]"
+        th:text="${type == 'success'} ? 'check_circle'
+                : ${type == 'error'} ? 'error'
+                : ${type == 'warning'} ? 'warning'
+                : 'info'">info</span>
+  <div class="flex-1">
+    <p class="font-title-lg text-title-lg" th:text="${title} ?: ${type}">Alert</p>
+    <p class="font-body-md text-body-md mt-xs" th:text="${message}">Message</p>
+  </div>
+  <button th:if="${dismissible != false}" class="text-on-surface-variant hover:text-on-surface" onclick="this.parentElement.remove()">
+    <span class="material-symbols-outlined text-[18px]">close</span>
+  </button>
+</div>
+
+<div
+  th:fragment="toast(id, type, title, message)"
+  th:id="${id}"
+  class="fixed top-24 right-lg z-50 flex flex-col gap-sm max-w-sm w-full pointer-events-none"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <div th:class="${type == 'success'} ? 'glass-card border border-outline-variant/30 rounded-xl p-md flex items-start gap-md umbra-shadow pointer-events-auto relative overflow-hidden'
+                : 'glass-card border border-outline-variant/30 rounded-xl p-md flex items-start gap-md umbra-shadow pointer-events-auto relative overflow-hidden'">
+    <div th:class="${type == 'success'} ? 'absolute left-0 top-0 bottom-0 w-1 bg-[#166534]'
+                  : ${type == 'error'} ? 'absolute left-0 top-0 bottom-0 w-1 bg-error'
+                  : 'absolute left-0 top-0 bottom-0 w-1 bg-primary'"></div>
+    <div th:class="${type == 'success'} ? 'bg-[#dcfce7] text-[#166534] p-sm rounded-full flex-shrink-0'
+                  : ${type == 'error'} ? 'bg-error-container text-error p-sm rounded-full flex-shrink-0'
+                  : 'bg-surface-container text-primary p-sm rounded-full flex-shrink-0'">
+      <span class="material-symbols-outlined text-[20px]"
+            th:text="${type == 'success'} ? 'check_circle'
+                    : ${type == 'error'} ? 'error'
+                    : 'info'">info</span>
+    </div>
+    <div class="flex-1">
+      <h4 class="font-label-md text-on-surface font-semibold" th:text="${title}">Toast Title</h4>
+      <p class="font-body-md text-on-surface-variant text-sm mt-xs" th:text="${message}">Toast message</p>
+    </div>
+    <button class="text-on-surface-variant hover:text-on-surface" onclick="this.parentElement.parentElement.remove()">
+      <span class="material-symbols-outlined text-[18px]">close</span>
+    </button>
+  </div>
+</div>

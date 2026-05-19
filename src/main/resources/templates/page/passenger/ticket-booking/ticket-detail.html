@@ -5,8 +5,7 @@
     th:replace="~{fragments/head :: commonHead('TransRoute - Ticket Lookup', @{/css/ticket-detail.css}, 'passenger')}"
   ></head>
   <body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased">
-<!-- TopNavBar -->
-<nav th:replace="~{fragments/component/topbar-ticket-detail :: ticketDetailTopbar}"></nav>
+<header th:replace="~{fragments/component/header :: sharedTopbar}"></header>
 <!-- Main Content Canvas -->
 <main class="flex-grow flex flex-col items-center justify-start pt-xl pb-margin-desktop px-margin-mobile md:px-margin-desktop gap-xl max-w-7xl mx-auto w-full">
     <!-- Header & Search -->

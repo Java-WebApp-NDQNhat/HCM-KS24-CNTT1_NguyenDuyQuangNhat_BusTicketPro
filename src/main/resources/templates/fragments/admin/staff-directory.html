@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments/head :: commonHead('TransRoute - Staff Directory', null, 'admin')}"></head>
+  <body class="bg-background text-on-background font-body-md min-h-screen flex antialiased">
+    <div th:replace="~{fragments/sidebar :: sidebar('staff-directory')}"></div>
+
+    <main class="flex-1 md:ml-[280px] w-full min-h-screen flex flex-col relative">
+      <header th:replace="~{fragments/component/header :: sharedTopbar}"></header>
+
+      <div class="p-margin-mobile md:p-margin-desktop max-w-7xl mx-auto w-full flex-1 flex flex-col gap-lg">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-md">
+          <div>
+            <h2 class="font-headline-lg-mobile md:font-headline-lg text-on-surface">Staff Directory</h2>
+            <p class="font-body-md text-on-surface-variant mt-xs">Manage employees, roles, and access permissions.</p>
+          </div>
+          <button class="bg-primary text-on-primary font-label-md px-md py-sm rounded-lg flex items-center justify-center gap-sm hover:shadow-lg transition-all">
+            <span class="material-symbols-outlined">add</span>
+            Add Staff
+          </button>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-md">
+          <div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/30 umbra-shadow">
+            <p class="font-label-md text-on-surface-variant">Total Staff</p>
+            <h3 class="font-headline-md text-on-surface mt-sm">48</h3>
+          </div>
+          <div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/30 umbra-shadow">
+            <p class="font-label-md text-on-surface-variant">Active Today</p>
+            <h3 class="font-headline-md text-on-surface mt-sm">36</h3>
+          </div>
+          <div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/30 umbra-shadow">
+            <p class="font-label-md text-on-surface-variant">Drivers</p>
+            <h3 class="font-headline-md text-on-surface mt-sm">28</h3>
+          </div>
+          <div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/30 umbra-shadow">
+            <p class="font-label-md text-on-surface-variant">Admins</p>
+            <h3 class="font-headline-md text-on-surface mt-sm">6</h3>
+          </div>
+        </div>
+
+        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 umbra-shadow overflow-hidden flex flex-col">
+          <div class="p-md border-b border-outline-variant/30 bg-surface-bright flex flex-col md:flex-row justify-between items-center gap-md">
+            <div class="relative w-full md:w-96">
+              <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline">search</span>
+              <input class="w-full pl-xl pr-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search staff..." type="text" />
+            </div>
+            <div class="flex items-center gap-sm">
+              <select class="bg-surface-container-lowest border border-outline-variant rounded-lg px-md py-sm font-label-md text-on-surface">
+                <option>All Roles</option><option>Admin</option><option>Staff</option><option>Driver</option>
+              </select>
+              <button class="bg-surface-container border border-outline-variant rounded-lg px-sm py-sm text-on-surface hover:bg-surface-variant transition-colors">
+                <span class="material-symbols-outlined">filter_list</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto w-full">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-outline-variant/30 bg-surface-bright">
+                  <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Name</th>
+                  <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Role</th>
+                  <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider hidden md:table-cell">Email</th>
+                  <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Status</th>
+                  <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="font-body-md divide-y divide-outline-variant/20">
+                <tr class="hover:bg-surface-container-low transition-colors group">
+                  <td class="px-md py-sm">
+                    <div class="flex items-center gap-sm">
+                      <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold text-xs">JD</div>
+                      <span class="font-medium">John Doe</span>
+                    </div>
+                  </td>
+                  <td class="px-md py-sm text-on-surface-variant">Admin</td>
+                  <td class="px-md py-sm text-on-surface-variant hidden md:table-cell">john@transroute.com</td>
+                  <td class="px-md py-sm"><span class="inline-flex items-center px-2 py-1 rounded-full text-label-sm bg-[#dcfce7] text-[#166534]"><span class="w-1.5 h-1.5 rounded-full bg-[#166534] mr-1.5"></span>Active</span></td>
+                  <td class="px-md py-sm text-right">
+                    <button class="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-md hover:bg-surface-variant/50"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-surface-container-low transition-colors group">
+                  <td class="px-md py-sm">
+                    <div class="flex items-center gap-sm">
+                      <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold text-xs">AS</div>
+                      <span class="font-medium">Alice Smith</span>
+                    </div>
+                  </td>
+                  <td class="px-md py-sm text-on-surface-variant">Staff</td>
+                  <td class="px-md py-sm text-on-surface-variant hidden md:table-cell">alice@transroute.com</td>
+                  <td class="px-md py-sm"><span class="inline-flex items-center px-2 py-1 rounded-full text-label-sm bg-[#dcfce7] text-[#166534]"><span class="w-1.5 h-1.5 rounded-full bg-[#166534] mr-1.5"></span>Active</span></td>
+                  <td class="px-md py-sm text-right">
+                    <button class="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-md hover:bg-surface-variant/50"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-surface-container-low transition-colors group">
+                  <td class="px-md py-sm">
+                    <div class="flex items-center gap-sm">
+                      <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold text-xs">BJ</div>
+                      <span class="font-medium">Bob Johnson</span>
+                    </div>
+                  </td>
+                  <td class="px-md py-sm text-on-surface-variant">Driver</td>
+                  <td class="px-md py-sm text-on-surface-variant hidden md:table-cell">bob@transroute.com</td>
+                  <td class="px-md py-sm"><span class="inline-flex items-center px-2 py-1 rounded-full text-label-sm bg-surface-variant text-on-surface-variant"><span class="w-1.5 h-1.5 rounded-full bg-outline mr-1.5"></span>Off Duty</span></td>
+                  <td class="px-md py-sm text-right">
+                    <button class="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-md hover:bg-surface-variant/50"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="p-md border-t border-outline-variant/30 flex items-center justify-between text-on-surface-variant bg-surface-bright">
+            <span class="font-label-sm">Showing 1-3 of 48 staff</span>
+            <div class="flex gap-xs">
+              <button class="w-8 h-8 flex items-center justify-center rounded-md border border-outline-variant hover:bg-surface-variant transition-colors disabled:opacity-50" disabled><span class="material-symbols-outlined text-[18px]">chevron_left</span></button>
+              <button class="w-8 h-8 flex items-center justify-center rounded-md bg-primary text-on-primary font-label-md">1</button>
+              <button class="w-8 h-8 flex items-center justify-center rounded-md border border-outline-variant hover:bg-surface-variant transition-colors font-label-md">2</button>
+              <button class="w-8 h-8 flex items-center justify-center rounded-md border border-outline-variant hover:bg-surface-variant transition-colors"><span class="material-symbols-outlined text-[18px]">chevron_right</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="w-full py-xl mt-auto bg-surface-container-lowest border-t border-outline-variant/50 flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop">
+        <div class="font-manrope text-title-lg font-black text-primary mb-sm md:mb-0">TransRoute</div>
+        <p class="font-inter text-label-sm text-on-surface-variant">© 2026 TransRoute Logistics SaaS. All rights reserved.</p>
+        <div class="flex gap-md mt-sm md:mt-0">
+          <a class="font-inter text-label-sm text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Privacy Policy</a>
+          <a class="font-inter text-label-sm text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Terms of Service</a>
+          <a class="font-inter text-label-sm text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">API Docs</a>
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>
