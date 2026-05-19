@@ -51,6 +51,7 @@ public class SecurityConfig {
                         .requestMatchers("/error", "/favicon.ico").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/passenger/**").hasRole("PASSENGER")
+                        .requestMatchers("/access-denied").permitAll()
 //                        .requestMatchers("/staff/**").hasRole("STAFF")
                         .anyRequest().authenticated()
                 )
@@ -70,6 +71,9 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.sendRedirect("/auth/login");
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.sendRedirect("/access-denied");
                         })
                 );
 

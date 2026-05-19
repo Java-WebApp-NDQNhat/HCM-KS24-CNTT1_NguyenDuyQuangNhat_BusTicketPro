@@ -5,19 +5,19 @@
     th:replace="~{fragments/head :: commonHead('403 - Access Denied | TransRoute', @{/css/access-denied.css}, null)}"
   ></head>
   <body class="h-full bg-background text-on-background flex flex-col antialiased">
-<!-- TopNavBar -->
+
 <nav
   th:replace="~{fragments/component/topbar-access-denied :: accessDeniedTopbar}"
 ></nav>
-<!-- Main Content Canvas -->
+
 <main class="flex-grow flex items-center justify-center p-md md:p-lg relative overflow-hidden">
-    <!-- Decorative Background Elements for Depth -->
+
     <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-fixed rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
     <div class="absolute top-1/3 right-1/4 w-72 h-72 bg-tertiary-fixed rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
     <div class="relative w-full max-w-lg mx-auto z-10">
-        <!-- Glassmorphic Error Card -->
+
         <div class="glass-panel rounded-xl p-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] flex flex-col items-center text-center">
-            <!-- Icon/Illustration Area -->
+
             <div class="w-24 h-24 mb-lg relative flex items-center justify-center">
                 <div class="absolute inset-0 bg-error-container rounded-full opacity-50"></div>
                 <div class="absolute inset-2 bg-error-container rounded-full opacity-80"></div>
@@ -25,14 +25,14 @@
                         gpp_bad
                     </span>
             </div>
-            <!-- Typography -->
+
             <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-sm">
                 403 - Access Denied
             </h1>
             <p class="font-body-lg text-body-lg text-on-surface-variant mb-xl max-w-sm mx-auto">
                 You don't have permission to access this page. Please check your credentials or contact an administrator.
             </p>
-            <!-- Actions -->
+
             <div class="flex flex-col sm:flex-row gap-md w-full justify-center">
                 <button class="px-lg py-3 rounded-lg border border-outline-variant text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors duration-200 flex items-center justify-center gap-2" onclick="window.history.back()">
                     <span class="material-symbols-outlined text-[18px]">arrow_back</span>
@@ -43,21 +43,11 @@
                     Back to Home
                 </button>
             </div>
-            <!-- Decorative technical detail -->
-            <div class="mt-lg pt-lg border-t border-outline-variant/30 w-full">
-                <p class="font-label-sm text-label-sm text-outline font-mono">
-                    ERR_CODE: TR_AUTH_403 | REF: <span id="ref-code"></span>
-                </p>
-            </div>
+
         </div>
     </div>
 </main>
-<!-- Footer -->
 <footer
   th:replace="~{fragments/component/footer :: footer(null, 'flex flex-col md:flex-row justify-between items-center px-margin-desktop max-w-[1440px] mx-auto gap-lg', null, 'font-inter text-label-sm text-on-surface-variant dark:text-outline-variant', null, 'flex flex-wrap justify-center gap-lg')}"
 ></footer>
-<script>
-    // Generate a random reference code for aesthetic detail
-    document.getElementById('ref-code').textContent = Math.random().toString(36).substring(2, 10).toUpperCase();
-</script>
 </body></html>

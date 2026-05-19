@@ -2,105 +2,99 @@
   class="hidden md:flex flex-col p-md gap-base bg-surface-container-lowest dark:bg-surface-container-low h-screen w-[280px] fixed left-0 top-0 overflow-y-auto border-r border-outline-variant/30 dark:border-outline/20 shadow-md z-50"
   th:fragment="adminSidebar"
 >
-      <div class="px-md py-lg flex flex-col gap-xs">
-        <div class="flex items-center gap-sm">
-          <span
-            class="material-symbols-outlined text-primary text-3xl"
-            data-icon="directions_bus"
-            data-weight="fill"
-            style="font-variation-settings: &quot;FILL&quot; 1"
-            >directions_bus</span
-          >
-          <span class="font-manrope text-title-lg font-bold text-on-surface"
-            >TransRoute</span
-          >
-        </div>
-        <span class="font-inter text-label-md text-on-surface-variant"
-          >Fleet Management</span
-        >
-      </div>
-      <button
-        class="mx-md mb-lg mt-sm flex items-center justify-center gap-sm bg-primary text-on-primary font-label-md py-sm rounded-lg hover:bg-surface-tint transition-colors duration-150 ease-in-out shadow-sm"
+  <div class="px-md py-lg flex flex-col gap-xs">
+    <div class="flex items-center gap-sm">
+      <span
+        class="material-symbols-outlined text-primary text-3xl"
+        data-icon="directions_bus"
+        data-weight="fill"
+        style="font-variation-settings: &quot;FILL&quot; 1"
+        >directions_bus</span
       >
-        <span class="material-symbols-outlined text-sm" data-icon="add"
-          >add</span
-        >
-        New Booking
-      </button>
-      <div class="flex flex-col gap-xs flex-1">
-        <a
-          class="flex items-center gap-md bg-surface-container-high dark:bg-surface-container-highest text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out"
-          href="#"
-        >
-          <span class="material-symbols-outlined" data-icon="dashboard"
-            >dashboard</span
-          >
-          <span class="font-inter text-label-md">Dashboard</span>
-        </a>
-        <a
-          class="flex items-center gap-md text-on-surface-variant dark:text-outline px-md py-sm hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out rounded-lg"
-          href="#"
-        >
-          <span class="material-symbols-outlined" data-icon="directions_bus"
-            >directions_bus</span
-          >
-          <span class="font-inter text-label-md">Fleet Management</span>
-        </a>
-        <a
-          class="flex items-center gap-md text-on-surface-variant dark:text-outline px-md py-sm hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out rounded-lg"
-          href="#"
-        >
-          <span
-            class="material-symbols-outlined"
-            data-icon="confirmation_number"
-            >confirmation_number</span
-          >
-          <span class="font-inter text-label-md">Ticket Sales</span>
-        </a>
-        <a
-          class="flex items-center gap-md text-on-surface-variant dark:text-outline px-md py-sm hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out rounded-lg"
-          href="#"
-        >
-          <span class="material-symbols-outlined" data-icon="map">map</span>
-          <span class="font-inter text-label-md">Route Planning</span>
-        </a>
-        <a
-          class="flex items-center gap-md text-on-surface-variant dark:text-outline px-md py-sm hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out rounded-lg"
-          href="#"
-        >
-          <span class="material-symbols-outlined" data-icon="badge">badge</span>
-          <span class="font-inter text-label-md">Staff Directory</span>
-        </a>
-        <a
-          class="flex items-center gap-md text-on-surface-variant dark:text-outline px-md py-sm hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out rounded-lg"
-          href="#"
-        >
-          <span class="material-symbols-outlined" data-icon="terminal"
-            >terminal</span
-          >
-          <span class="font-inter text-label-md">System Logs</span>
-        </a>
-      </div>
-      <div
-        class="mt-auto flex flex-col gap-xs pt-md border-t border-outline-variant/30 dark:border-outline/20"
+      <span class="font-manrope text-title-lg font-bold text-on-surface"
+        >TransRoute</span
       >
-        <a
-          class="flex items-center gap-md text-on-surface-variant dark:text-outline px-md py-sm hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out rounded-lg"
-          href="#"
-        >
-          <span class="material-symbols-outlined" data-icon="settings"
-            >settings</span
-          >
-          <span class="font-inter text-label-md">Settings</span>
-        </a>
-        <a
-          class="flex items-center gap-md text-on-surface-variant dark:text-outline px-md py-sm hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out rounded-lg"
-          th:href="@{/auth/logout}"
-        >
-          <span class="material-symbols-outlined" data-icon="logout"
-            >logout</span
-          >
-          <span class="font-inter text-label-md">Logout</span>
-        </a>
-      </div>
-    </nav>
+    </div>
+    <span class="font-inter text-label-md text-on-surface-variant"
+      >Fleet Management</span
+    >
+  </div>
+  <button
+    class="mx-md mb-lg mt-sm flex items-center justify-center gap-sm bg-primary text-on-primary font-label-md py-sm rounded-lg hover:bg-surface-tint transition-colors duration-150 ease-in-out shadow-sm"
+  >
+    <span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+    New Booking
+  </button>
+  <div class="flex flex-col gap-xs flex-1">
+    <a
+      class="flex items-center gap-md bg-surface-container-high dark:bg-surface-container-highest text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out"
+      href="#"
+    >
+      <span class="material-symbols-outlined" data-icon="dashboard"
+        >dashboard</span
+      >
+      <span class="font-inter text-label-md">Dashboard</span>
+    </a>
+    <a
+      class="flex items-center gap-md text-on-surface-variant dark:text-outline px-md py-sm hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out rounded-lg"
+      href="#"
+    >
+      <span class="material-symbols-outlined" data-icon="directions_bus"
+        >directions_bus</span
+      >
+      <span class="font-inter text-label-md">Fleet Management</span>
+    </a>
+    <a
+      class="flex items-center gap-md text-on-surface-variant dark:text-outline px-md py-sm hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out rounded-lg"
+      href="#"
+    >
+      <span class="material-symbols-outlined" data-icon="confirmation_number"
+        >confirmation_number</span
+      >
+      <span class="font-inter text-label-md">Ticket Sales</span>
+    </a>
+    <a
+      class="flex items-center gap-md text-on-surface-variant dark:text-outline px-md py-sm hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out rounded-lg"
+      href="#"
+    >
+      <span class="material-symbols-outlined" data-icon="map">map</span>
+      <span class="font-inter text-label-md">Route Planning</span>
+    </a>
+    <a
+      class="flex items-center gap-md text-on-surface-variant dark:text-outline px-md py-sm hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out rounded-lg"
+      href="#"
+    >
+      <span class="material-symbols-outlined" data-icon="badge">badge</span>
+      <span class="font-inter text-label-md">Staff Directory</span>
+    </a>
+    <a
+      class="flex items-center gap-md text-on-surface-variant dark:text-outline px-md py-sm hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out rounded-lg"
+      href="#"
+    >
+      <span class="material-symbols-outlined" data-icon="terminal"
+        >terminal</span
+      >
+      <span class="font-inter text-label-md">System Logs</span>
+    </a>
+  </div>
+  <div
+    class="mt-auto flex flex-col gap-xs pt-md border-t border-outline-variant/30 dark:border-outline/20"
+  >
+    <a
+      class="flex items-center gap-md text-on-surface-variant dark:text-outline px-md py-sm hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out rounded-lg"
+      href="#"
+    >
+      <span class="material-symbols-outlined" data-icon="settings"
+        >settings</span
+      >
+      <span class="font-inter text-label-md">Settings</span>
+    </a>
+    <a
+      class="flex items-center gap-md text-on-surface-variant dark:text-outline px-md py-sm hover:bg-surface-container dark:hover:bg-surface-variant/20 transition-all duration-150 ease-in-out rounded-lg"
+      th:href="@{/auth/logout}"
+    >
+      <span class="material-symbols-outlined" data-icon="logout">logout</span>
+      <span class="font-inter text-label-md">Logout</span>
+    </a>
+  </div>
+</nav>
