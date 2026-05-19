@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data @Builder @AllArgsConstructor @NoArgsConstructor
 @Table(name = "locations")
@@ -19,4 +21,10 @@ public class Location {
 
     @Column(nullable = false)
     private String slug;
+
+    @OneToMany(mappedBy = "fromLocation", cascade = CascadeType.ALL)
+    private List<Route> fromRoutes;
+
+    @OneToMany(mappedBy = "toLocation", cascade = CascadeType.ALL)
+    private List<Route> toRoutes;
 }
