@@ -219,7 +219,7 @@
             >
               <span
                 class="font-inter text-label-md text-on-surface-variant pl-md"
-              >Showing <span th:text="${currentPage+1}">1</span> - <span th:text="${currentPage+1 * 8}">8</span> of <span th:text="${totalPage}">42</span> routes</span
+              >Showing <span th:text="${currentPage+1}">1</span> - <span th:text="${currentPage+1 * 8}">8</span> of <span th:text="${totalItems}">42</span> routes</span
               >
               <div class="flex gap-xs pr-md items-center">
                 <button
@@ -387,6 +387,8 @@
           </div>
         </div>
       </div>
+
+      <footer th:replace="~{fragments/component/footer :: footer(null, null, null, null, null, null)}"></footer>
     </main>
   </body>
 </html>

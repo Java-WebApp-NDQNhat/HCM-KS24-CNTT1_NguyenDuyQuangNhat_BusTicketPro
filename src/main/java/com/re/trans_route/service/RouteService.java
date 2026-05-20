@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RouteService {
     private final RouteRepository routeRepository;
@@ -19,5 +21,9 @@ public class RouteService {
 
     public Page<Route> getAllRoutes(Pageable pageable) {
         return routeRepository.findAll(pageable);
+    }
+
+    public List<Route> getAllRoutesNoPagination() {
+        return routeRepository.findAll();
     }
 }

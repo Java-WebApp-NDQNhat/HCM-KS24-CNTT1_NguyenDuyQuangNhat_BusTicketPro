@@ -18,75 +18,112 @@
           </div>
         </div>
 
-        <form class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 umbra-shadow overflow-hidden flex flex-col">
+        <form th:action="@{/admin/fleet/save}" method="post" th:object="${bus}"
+              class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 umbra-shadow overflow-hidden flex flex-col">
+          <input type="hidden" th:field="*{id}" />
+
           <div class="p-lg border-b border-outline-variant/30 bg-surface-bright">
-            <h3 class="font-title-lg text-on-surface">Bus Information</h3>
+            <h3 class="font-title-lg text-on-surface"
+                th:text="${bus.id == null or bus.id == 0 ? 'Add Bus Information' : 'Edit Bus Information'}">Bus Information</h3>
           </div>
 
           <div class="p-lg flex flex-col gap-lg">
             <div class="flex flex-col gap-xs">
               <label class="font-label-md text-on-surface-variant uppercase tracking-wider">Plate Number <span class="text-error">*</span></label>
-              <input class="w-full p-sm border border-outline-variant rounded-lg font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none bg-surface-container-lowest" placeholder="e.g. AB-1234" required type="text" />
+              <input th:field="*{plateNumber}"
+                     th:classappend="${#fields.hasErrors('plateNumber') or plateNumErr != null} ? 'border-error focus:ring-error/20 focus:border-error' : 'border-outline-variant focus:border-primary focus:ring-primary/20'"
+                     class="w-full p-sm border rounded-lg font-body-md transition-all outline-none bg-surface-container-lowest" placeholder="e.g. AB-1234" required type="text" />
+
+              <div class="text-sm text-error mt-1" th:if="${#fields.hasErrors('plateNumber')}" th:errors="*{plateNumber}"></div>
+              <!-- Hiển thị lỗi Unique từ Database bắt qua khối catch -->
+              <div class="text-sm text-error mt-1" th:if="${plateNumErr}" th:text="${plateNumErr}"></div>
             </div>
 
             <div class="flex flex-col gap-xs">
               <label class="font-label-md text-on-surface-variant uppercase tracking-wider">Model Type <span class="text-error">*</span></label>
-              <select class="w-full p-sm border border-outline-variant rounded-lg font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none bg-surface-container-lowest" required>
+              <select th:field="*{model}"
+                      th:classappend="${#fields.hasErrors('model')} ? 'border-error focus:ring-error/20 focus:border-error' : 'border-outline-variant focus:border-primary focus:ring-primary/20'"
+                      class="w-full p-sm border rounded-lg font-body-md transition-all outline-none bg-surface-container-lowest" required>
                 <option value="">Select a model...</option>
-                <option>VIP Coach</option>
-                <option>Standard</option>
-                <option>Minibus</option>
+                <option value="vip">VIP</option>
+                <option value="standard">Standard</option>
+                <option value="mini">Mini</option>
               </select>
+              <div class="text-sm text-error mt-1" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
               <div class="flex flex-col gap-xs">
                 <label class="font-label-md text-on-surface-variant uppercase tracking-wider">Total Seats <span class="text-error">*</span></label>
-                <input class="w-full p-sm border border-outline-variant rounded-lg font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none bg-surface-container-lowest" placeholder="e.g. 42" required type="number" />
+                <input th:field="*{totalSeats}"
+                       th:classappend="${#fields.hasErrors('totalSeats')} ? 'border-error focus:ring-error/20 focus:border-error' : 'border-outline-variant focus:border-primary focus:ring-primary/20'"
+                       class="w-full p-sm border rounded-lg font-body-md transition-all outline-none bg-surface-container-lowest" placeholder="e.g. 42" required type="number" />
+                <div class="text-sm text-error mt-1" th:if="${#fields.hasErrors('totalSeats')}" th:errors="*{totalSeats}"></div>
               </div>
+
               <div class="flex flex-col gap-xs">
-                <label class="font-label-md text-on-surface-variant uppercase tracking-wider">Year Manufactured</label>
-                <input class="w-full p-sm border border-outline-variant rounded-lg font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none bg-surface-container-lowest" placeholder="e.g. 2024" type="number" />
+                <label class="font-label-md text-on-surface-variant uppercase tracking-wider">Select Route <span class="text-error">*</span></label>
+                <select th:field="*{assignedRoute}"
+                        th:classappend="${#fields.hasErrors('assignedRoute')} ? 'border-error focus:ring-error/20 focus:border-error' : 'border-outline-variant focus:border-primary focus:ring-primary/20'"
+                        class="w-full p-sm border rounded-lg font-body-md transition-all outline-none bg-surface-container-lowest" required>
+                  <option value="">Select a route...</option>
+                  <option th:each="r : ${allRoutes}"
+                          th:value="${r.id}"
+                          th:text="${r.fromLocation.name + ' - ' + r.toLocation.name}">
+                  </option>
+                </select>
+                <div class="text-sm text-error mt-1" th:if="${#fields.hasErrors('assignedRoute')}" th:errors="*{assignedRoute}"></div>
               </div>
             </div>
 
             <div class="flex flex-col gap-xs">
               <label class="font-label-md text-on-surface-variant uppercase tracking-wider">Initial Status</label>
               <div class="grid grid-cols-2 gap-sm mt-xs">
-                <label class="flex items-center gap-sm p-sm border border-primary bg-surface-variant rounded-lg cursor-pointer">
-                  <input checked class="text-primary focus:ring-primary" name="status" type="radio" value="active" />
+                <label class="flex items-center gap-sm p-sm border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors">
+                  <input th:field="*{status}" class="text-primary focus:ring-primary" type="radio" value="Active" />
                   <span class="font-label-md text-on-surface">Active</span>
                 </label>
+
                 <label class="flex items-center gap-sm p-sm border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors">
-                  <input class="text-primary focus:ring-primary" name="status" type="radio" value="standby" />
-                  <span class="font-label-md text-on-surface">Standby</span>
+                  <input th:field="*{status}" class="text-primary focus:ring-primary" type="radio" value="Maintenance" />
+                  <span class="font-label-md text-on-surface">Maintenance</span>
                 </label>
+              </div>
+              <div class="text-sm text-error mt-1" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+              <div class="flex flex-col gap-xs">
+                <label class="font-label-md text-on-surface-variant uppercase tracking-wider">Company <span class="text-error">*</span></label>
+                <input th:field="*{company}"
+                       th:classappend="${#fields.hasErrors('company')} ? 'border-error focus:ring-error/20 focus:border-error' : 'border-outline-variant focus:border-primary focus:ring-primary/20'"
+                       class="w-full p-sm border rounded-lg font-body-md transition-all outline-none bg-surface-container-lowest" placeholder="e.g. Phuong Trang" required type="text" />
+                <div class="text-sm text-error mt-1" th:if="${#fields.hasErrors('company')}" th:errors="*{company}"></div>
+              </div>
+
+              <div class="flex flex-col gap-xs">
+                <label class="font-label-md text-on-surface-variant uppercase tracking-wider">Driver Name <span class="text-error">*</span></label>
+                <input th:field="*{driver}"
+                       th:classappend="${#fields.hasErrors('driver')} ? 'border-error focus:ring-error/20 focus:border-error' : 'border-outline-variant focus:border-primary focus:ring-primary/20'"
+                       class="w-full p-sm border rounded-lg font-body-md transition-all outline-none bg-surface-container-lowest" placeholder="e.g. Nguyen A" required type="text" />
+                <div class="text-sm text-error mt-1" th:if="${#fields.hasErrors('driver')}" th:errors="*{driver}"></div>
               </div>
             </div>
 
-            <div class="flex flex-col gap-xs">
-              <label class="font-label-md text-on-surface-variant uppercase tracking-wider">Notes</label>
-              <textarea class="w-full p-sm border border-outline-variant rounded-lg font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none bg-surface-container-lowest resize-none" placeholder="Optional notes about this bus..." rows="3"></textarea>
-            </div>
           </div>
 
           <div class="p-lg border-t border-outline-variant/30 bg-surface-bright flex justify-end gap-md">
             <a th:href="@{/admin/fleet}" class="font-label-md text-on-surface-variant px-md py-sm rounded-lg hover:bg-surface-variant transition-colors border border-outline-variant">Back to Fleet</a>
-            <button class="bg-primary text-on-primary font-label-md px-lg py-sm rounded-lg hover:shadow-lg transition-all" type="submit">Save Bus</button>
+
+            <button class="bg-primary text-on-primary font-label-md px-lg py-sm rounded-lg hover:shadow-lg transition-all" type="submit"
+                    th:text="${bus.id == null or bus.id == 0 ? 'Add Bus' : 'Save Changes'}">
+              Save Bus
+            </button>
           </div>
         </form>
       </div>
 
-      <footer class="w-full py-xl mt-auto bg-surface-container-lowest dark:bg-on-primary-fixed border-t border-outline-variant/50 flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop">
-        <div class="font-manrope text-title-lg font-black text-primary mb-sm md:mb-0">TransRoute</div>
-        <p class="font-inter text-label-sm text-on-surface-variant dark:text-outline-variant">© 2026 TransRoute Logistics SaaS. All rights reserved.</p>
-        <div class="flex gap-md mt-sm md:mt-0">
-          <a class="font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer" href="#">Privacy Policy</a>
-          <a class="font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer" href="#">Terms of Service</a>
-          <a class="font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer" href="#">API Docs</a>
-          <a class="font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer" href="#">Status</a>
-        </div>
-      </footer>
+      <footer th:replace="~{fragments/component/footer :: footer(null, null, null, null, null, null)}"></footer>
     </main>
   </body>
 </html>

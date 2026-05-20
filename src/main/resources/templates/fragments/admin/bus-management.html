@@ -13,6 +13,7 @@
             <h2 class="font-headline-lg-mobile md:font-headline-lg text-on-surface">Fleet Management</h2>
             <p class="font-body-md text-on-surface-variant mt-xs">Manage your active buses, schedules, and maintenance records.</p>
           </div>
+
           <a th:href="@{/admin/fleet/add}" class="bg-primary text-on-primary font-label-md px-md py-sm rounded-lg flex items-center justify-center gap-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
             <span class="material-symbols-outlined">add</span>
             Add New Bus
@@ -23,7 +24,7 @@
           <div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/30 umbra-shadow flex flex-col justify-between">
             <p class="font-label-md text-on-surface-variant">Total Fleet</p>
             <div class="flex items-end justify-between mt-sm">
-              <h3 class="font-headline-md text-on-surface">124</h3>
+              <h3 class="font-headline-md text-on-surface" th:text="${totalItems}">123</h3>
               <div class="flex items-center text-[#16a34a] font-label-sm">
                 <span class="material-symbols-outlined text-[16px]">trending_up</span><span>+3</span>
               </div>
@@ -68,10 +69,13 @@
             </div>
             <div class="flex items-center gap-sm w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
               <select class="bg-surface-container-lowest border border-outline-variant rounded-lg px-md py-sm font-label-md text-on-surface focus:outline-none focus:border-primary">
-                <option>All Statuses</option><option>Active</option><option>Maintenance</option><option>Standby</option>
+                <option>All Statuses</option><option>Active</option><option>Maintenance</option>
               </select>
               <select class="bg-surface-container-lowest border border-outline-variant rounded-lg px-md py-sm font-label-md text-on-surface focus:outline-none focus:border-primary">
-                <option>All Models</option><option>VIP Coach</option><option>Standard</option><option>Minibus</option>
+                <option value="">All Models</option>
+                <option value="vip">VIP</option>
+                <option value="standard">Standard</option>
+                <option value="mini">Mini</option>
               </select>
               <button class="bg-surface-container border border-outline-variant rounded-lg px-sm py-sm text-on-surface hover:bg-surface-variant transition-colors flex-shrink-0">
                 <span class="material-symbols-outlined">filter_list</span>
@@ -87,49 +91,49 @@
                   <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Model</th>
                   <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider text-center">Seats</th>
                   <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Assigned Route</th>
+                  <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Company</th>
+                  <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Driver</th>
                   <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Status</th>
                   <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider text-right">Actions</th>
                 </tr>
               </thead>
+
               <tbody class="font-body-md divide-y divide-outline-variant/20">
-                <tr class="hover:bg-surface-container-low transition-colors group">
-                  <td class="px-md py-sm font-medium text-on-surface">AB-1234</td>
-                  <td class="px-md py-sm text-on-surface-variant">VIP Coach V8</td>
-                  <td class="px-md py-sm text-on-surface-variant text-center">42</td>
-                  <td class="px-md py-sm text-on-surface-variant">NYC <span class="material-symbols-outlined text-[12px] mx-1">arrow_forward</span> BOS</td>
-                  <td class="px-md py-sm"><span class="inline-flex items-center px-2 py-1 rounded-full text-label-sm bg-[#dcfce7] text-[#166534]"><span class="w-1.5 h-1.5 rounded-full bg-[#166534] mr-1.5"></span>Active</span></td>
-                  <td class="px-md py-sm text-right">
-                    <button class="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-md hover:bg-surface-variant/50"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+
+                <tr th:each="bus : ${busPage}" class="hover:bg-surface-container-low transition-colors group">
+                  <td th:text="${bus.plateNumber}" class="px-md py-sm font-medium text-on-surface">AB-1234</td>
+                  <td th:text="${bus.model}" class="px-md py-sm text-on-surface-variant">VIP Coach V8</td>
+                  <td th:text="${bus.totalSeats}" class="px-md py-sm text-on-surface-variant text-center">42</td>
+                  <td th:text="${bus.assignedRoute}" class="px-md py-sm text-on-surface-variant">NYC <span class="material-symbols-outlined text-[12px] mx-1">arrow_forward</span> BOS</td>
+                  <td th:text="${bus.company}" class="px-md py-sm text-on-surface-variant">NYC <span class="material-symbols-outlined text-[12px] mx-1">arrow_forward</span> BOS</td>
+                  <td th:text="${bus.driver}" class="px-md py-sm text-on-surface-variant">NYC <span class="material-symbols-outlined text-[12px] mx-1">arrow_forward</span> BOS</td>
+
+                  <td class="px-md py-sm" th:switch="${bus.status}">
+
+                    <span th:case="'Active'" class="inline-flex items-center px-2 py-1 rounded-full text-label-sm bg-[#dcfce7] text-[#166534]">
+                      <span class="w-1.5 h-1.5 rounded-full bg-[#166534] mr-1.5"></span>Active
+                    </span>
+
+                    <span th:case="'Maintenance'" class="inline-flex items-center px-2 py-1 rounded-full text-label-sm bg-[#fef3c7] text-[#92400e]">
+                      <span class="w-1.5 h-1.5 rounded-full bg-[#92400e] mr-1.5"></span>Maintenance
+                    </span>
+
+                    <span th:case="*" th:text="${bus.status}" class="inline-flex items-center px-2 py-1 rounded-full text-label-sm bg-gray-100 text-gray-800"></span>
                   </td>
-                </tr>
-                <tr class="hover:bg-surface-container-low transition-colors group">
-                  <td class="px-md py-sm font-medium text-on-surface">XY-9876</td>
-                  <td class="px-md py-sm text-on-surface-variant">Standard X1</td>
-                  <td class="px-md py-sm text-on-surface-variant text-center">55</td>
-                  <td class="px-md py-sm text-on-surface-variant">CHI <span class="material-symbols-outlined text-[12px] mx-1">arrow_forward</span> DET</td>
-                  <td class="px-md py-sm"><span class="inline-flex items-center px-2 py-1 rounded-full text-label-sm bg-[#fef9c3] text-[#854d0e]"><span class="w-1.5 h-1.5 rounded-full bg-[#854d0e] mr-1.5"></span>Standby</span></td>
-                  <td class="px-md py-sm text-right">
-                    <button class="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-md hover:bg-surface-variant/50"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
-                  </td>
-                </tr>
-                <tr class="hover:bg-surface-container-low transition-colors group">
-                  <td class="px-md py-sm font-medium text-on-surface">MN-4567</td>
-                  <td class="px-md py-sm text-on-surface-variant">VIP Coach V8</td>
-                  <td class="px-md py-sm text-on-surface-variant text-center">42</td>
-                  <td class="px-md py-sm text-on-surface-variant text-outline italic">Unassigned</td>
-                  <td class="px-md py-sm"><span class="inline-flex items-center px-2 py-1 rounded-full text-label-sm bg-error-container text-on-error-container"><span class="material-symbols-outlined text-[12px] mr-1">build</span>Maintenance</span></td>
-                  <td class="px-md py-sm text-right">
-                    <button class="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-md hover:bg-surface-variant/50"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
-                  </td>
-                </tr>
-                <tr class="hover:bg-surface-container-low transition-colors group">
-                  <td class="px-md py-sm font-medium text-on-surface">KL-2345</td>
-                  <td class="px-md py-sm text-on-surface-variant">Standard X2</td>
-                  <td class="px-md py-sm text-on-surface-variant text-center">50</td>
-                  <td class="px-md py-sm text-on-surface-variant">LAX <span class="material-symbols-outlined text-[12px] mx-1">arrow_forward</span> SFO</td>
-                  <td class="px-md py-sm"><span class="inline-flex items-center px-2 py-1 rounded-full text-label-sm bg-[#dcfce7] text-[#166534]"><span class="w-1.5 h-1.5 rounded-full bg-[#166534] mr-1.5"></span>Active</span></td>
-                  <td class="px-md py-sm text-right">
-                    <button class="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-md hover:bg-surface-variant/50"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+
+                  <td class="px-md py-sm text-right whitespace-nowrap space-x-2">
+                    <a th:href="@{/admin/fleet/edit/{id}(id=${bus.id})}"
+                       class="inline-flex items-center text-primary hover:text-primary-hover transition-colors p-1 rounded-md hover:bg-surface-variant/50"
+                       title="Sửa">
+                      <span class="material-symbols-outlined text-[20px]">edit</span>
+                    </a>
+
+                    <a th:href="@{/admin/fleet/delete/{id}(id=${bus.id})}"
+                       class="inline-flex items-center text-error hover:text-error-hover transition-colors p-1 rounded-md hover:bg-surface-variant/50"
+                       title="Xóa"
+                       onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                      <span class="material-symbols-outlined text-[20px]">delete</span>
+                    </a>
                   </td>
                 </tr>
               </tbody>
@@ -137,28 +141,36 @@
           </div>
 
           <div class="p-md border-t border-outline-variant/30 flex items-center justify-between text-on-surface-variant bg-surface-bright">
-            <span class="font-label-sm">Showing 1 to 4 of 124 entries</span>
-            <div class="flex gap-xs">
-              <button class="w-8 h-8 flex items-center justify-center rounded-md border border-outline-variant hover:bg-surface-variant transition-colors disabled:opacity-50"><span class="material-symbols-outlined text-[18px]">chevron_left</span></button>
-              <button class="w-8 h-8 flex items-center justify-center rounded-md bg-primary text-on-primary font-label-md">1</button>
-              <button class="w-8 h-8 flex items-center justify-center rounded-md border border-outline-variant hover:bg-surface-variant transition-colors font-label-md">2</button>
-              <button class="w-8 h-8 flex items-center justify-center rounded-md border border-outline-variant hover:bg-surface-variant transition-colors font-label-md">3</button>
-              <button class="w-8 h-8 flex items-center justify-center rounded-md border border-outline-variant hover:bg-surface-variant transition-colors"><span class="material-symbols-outlined text-[18px]">chevron_right</span></button>
+            <span class="font-label-sm">
+              Showing
+              <span th:text="${totalItems > 0 ? (currentPage * 4 + 1) : 0}">1</span>
+              to
+              <span th:text="${(currentPage * 4 + 4) > totalItems ? totalItems : (currentPage * 4 + 4)}">4</span>
+              of
+              <span th:text="${totalItems}">124</span>
+              entries
+            </span>
+
+            <div class="flex gap-xs" th:if="${totalPage > 0}">
+              <a th:href="@{/admin/fleet/(page=${currentPage - 1})}"
+                 th:classappend="${currentPage == 0} ? 'pointer-events-none opacity-50' : ''"
+                 class="w-8 h-8 flex items-center justify-center rounded-md border border-outline-variant hover:bg-surface-variant transition-colors"
+                 title="Trang trước">
+                <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+              </a>
+
+              <a th:href="@{/admin/fleet/(page=${currentPage + 1})}"
+                 th:classappend="${currentPage >= totalPage - 1} ? 'pointer-events-none opacity-50' : ''"
+                 class="w-8 h-8 flex items-center justify-center rounded-md border border-outline-variant hover:bg-surface-variant transition-colors"
+                 title="Trang sau">
+                <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+              </a>
             </div>
           </div>
         </div>
       </div>
 
-      <footer class="w-full py-xl mt-auto bg-surface-container-lowest dark:bg-on-primary-fixed border-t border-outline-variant/50 flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop">
-        <div class="font-manrope text-title-lg font-black text-primary mb-sm md:mb-0">TransRoute</div>
-        <p class="font-inter text-label-sm text-on-surface-variant dark:text-outline-variant">© 2026 TransRoute Logistics SaaS. All rights reserved.</p>
-        <div class="flex gap-md mt-sm md:mt-0">
-          <a class="font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer" href="#">Privacy Policy</a>
-          <a class="font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer" href="#">Terms of Service</a>
-          <a class="font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer" href="#">API Docs</a>
-          <a class="font-inter text-label-sm text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer" href="#">Status</a>
-        </div>
-      </footer>
+      <footer th:replace="~{fragments/component/footer :: footer(null, null, null, null, null, null)}"></footer>
     </main>
   </body>
 </html>

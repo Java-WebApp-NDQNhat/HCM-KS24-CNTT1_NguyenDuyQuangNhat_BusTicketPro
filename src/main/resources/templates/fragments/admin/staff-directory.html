@@ -124,15 +124,7 @@
         </div>
       </div>
 
-      <footer class="w-full py-xl mt-auto bg-surface-container-lowest border-t border-outline-variant/50 flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop">
-        <div class="font-manrope text-title-lg font-black text-primary mb-sm md:mb-0">TransRoute</div>
-        <p class="font-inter text-label-sm text-on-surface-variant">© 2026 TransRoute Logistics SaaS. All rights reserved.</p>
-        <div class="flex gap-md mt-sm md:mt-0">
-          <a class="font-inter text-label-sm text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Privacy Policy</a>
-          <a class="font-inter text-label-sm text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Terms of Service</a>
-          <a class="font-inter text-label-sm text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">API Docs</a>
-        </div>
-      </footer>
+      <footer th:replace="~{fragments/component/footer :: footer(null, null, null, null, null, null)}"></footer>
     </main>
   </body>
 </html>
