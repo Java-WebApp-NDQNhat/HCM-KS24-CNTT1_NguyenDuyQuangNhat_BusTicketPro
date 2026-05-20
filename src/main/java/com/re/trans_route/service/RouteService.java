@@ -26,4 +26,8 @@ public class RouteService {
     public List<Route> getAllRoutesNoPagination() {
         return routeRepository.findAll();
     }
+
+    public Route getRouteById(Long routeId) {
+        return routeRepository.findById(routeId).orElse(null);
+    }
 }

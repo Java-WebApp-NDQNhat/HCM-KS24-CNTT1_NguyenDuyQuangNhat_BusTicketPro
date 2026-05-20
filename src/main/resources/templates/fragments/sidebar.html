@@ -66,6 +66,17 @@
     </a>
 
     <a
+      th:href="@{/admin/trips}"
+      th:class="${currentPage == 'trip-management'}
+        ? 'flex items-center gap-md bg-surface-container-high text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary'
+        : 'flex items-center gap-md text-on-surface-variant px-md py-sm hover:bg-surface-container transition-all duration-150 ease-in-out rounded-lg'"
+      sec:authorize="hasRole('ROLE_ADMIN')"
+    >
+      <span class="material-symbols-outlined">departure_board</span>
+      Trip Management
+    </a>
+
+    <a
       th:href="@{/passenger/booking}"
       th:class="${currentPage == 'ticket-sales'}
         ? 'flex items-center gap-md bg-surface-container-high text-primary font-semibold rounded-lg px-md py-sm border-l-4 border-primary'

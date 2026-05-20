@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments/head :: commonHead('TransRoute - Add New Trip', @{/css/admin-bus-management.css}, 'admin')}"></head>
+  <body class="bg-background text-on-background font-body-md min-h-screen flex selection:bg-surface-variant selection:text-on-surface-variant">
+    <div th:replace="~{fragments/sidebar :: sidebar('trip-management')}"></div>
+
+    <main class="flex-1 md:ml-[280px] w-full min-h-screen flex flex-col relative">
+      <header th:replace="~{fragments/component/header :: sharedTopbar}"></header>
+
+      <div class="p-margin-mobile md:p-margin-desktop max-w-3xl mx-auto w-full flex-1 flex flex-col gap-lg">
+
+        <div class="flex items-center gap-md mb-md">
+          <a th:href="@{/admin/trips}" class="text-on-surface-variant hover:text-primary transition-colors p-sm rounded-lg hover:bg-surface-variant/50 flex items-center gap-xs">
+            <span class="material-symbols-outlined">arrow_back</span>
+          </a>
+          <div>
+            <h2 class="font-headline-lg-mobile md:font-headline-lg text-on-surface">Add New Trip</h2>
+            <p class="font-body-md text-on-surface-variant mt-xs">Schedule a new trip by choosing a route, assigning an active bus, and setting details.</p>
+          </div>
+        </div>
+
+        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 umbra-shadow overflow-hidden flex flex-col">
+          <form th:action="@{/admin/trips/save}" method="post" th:object="${trip}" class="flex flex-col">
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="p-lg border-b border-outline-variant/30 bg-surface-bright">
+              <h3 class="font-title-lg text-on-surface">Trip Information</h3>
+            </div>
+
+            <div class="p-lg flex flex-col gap-lg">
+              <div class="flex flex-col gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="flex flex-col gap-1 input-glow group">
+                    <label class="font-label-md text-on-surface-variant group-focus-within:text-on-tertiary-container transition-colors" for="route">Route <span class="text-error">*</span></label>
+                    <div class="relative">
+                      <select th:field="*{route.id}" class="w-full appearance-none bg-surface border border-outline-variant/50 rounded-lg px-3 py-2.5 font-body-md text-body-md text-on-surface focus:outline-none transition-all cursor-pointer" id="route" required>
+                        <option value="">Select a route</option>
+                        <option th:each="r : ${allRoutes}"
+                                th:value="${r.id}"
+                                th:text="${r.fromLocation.name + ' → ' + r.toLocation.name}">
+                        </option>
+                      </select>
+                      <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+                    </div>
+                    <div class="text-sm text-error mt-1" th:if="${#fields.hasErrors('route')}" th:errors="*{route}"></div>
+                  </div>
+
+                  <div class="flex flex-col gap-1 input-glow group">
+                    <label class="font-label-md text-on-surface-variant group-focus-within:text-on-tertiary-container transition-colors" for="bus">Bus Assignment <span class="text-error">*</span></label>
+                    <div class="relative">
+                      <select th:field="*{bus.id}" class="w-full appearance-none bg-surface border border-outline-variant/50 rounded-lg px-3 py-2.5 pl-9 font-body-md text-body-md text-on-surface focus:outline-none transition-all cursor-pointer" id="bus" required>
+                        <option value="">Select vehicle</option>
+                        <option th:each="b : ${allBuses}"
+                                th:value="${b.id}"
+                                th:text="${b.plateNumber + ' (' + #strings.toUpperCase(b.model) + ') - ' + b.company}">
+                        </option>
+                      </select>
+                      <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px] pointer-events-none">directions_bus</span>
+                      <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+                    </div>
+                    <div class="text-sm text-error mt-1" th:if="${#fields.hasErrors('bus')}" th:errors="*{bus}"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                  <div class="flex flex-col gap-1 input-glow group md:col-span-2">
+                    <label class="font-label-md text-on-surface-variant group-focus-within:text-on-tertiary-container transition-colors" for="departureTime">Departure Date &amp; Time <span class="text-error">*</span></label>
+                    <div class="relative">
+                      <input class="w-full bg-surface border border-outline-variant/50 rounded-lg px-3 py-2.5 font-body-md text-body-md text-on-surface focus:outline-none transition-all"
+                             th:field="*{departureTime}"
+                             id="departureTime"
+                             type="datetime-local"
+                             required />
+                    </div>
+                    <div class="text-sm text-error mt-1" th:if="${#fields.hasErrors('departureTime')}" th:errors="*{departureTime}"></div>
+                  </div>
+
+                  <div class="flex flex-col gap-1 input-glow group md:col-span-1">
+                    <label class="font-label-md text-on-surface-variant group-focus-within:text-on-tertiary-container transition-colors" for="price">Ticket Price <span class="text-error">*</span></label>
+                    <div class="relative flex items-center">
+                      <input class="w-full bg-surface border border-outline-variant/50 rounded-lg pl-3 pr-12 py-2.5 font-body-md text-body-md text-on-surface focus:outline-none transition-all text-right appearance-none m-0"
+                             th:field="*{price}"
+                             id="price"
+                             placeholder="0"
+                             min="0"
+                             required
+                             type="number"/>
+                      <span class="absolute right-3 text-on-surface-variant font-label-md text-label-md pointer-events-none">VNĐ</span>
+                    </div>
+                    <div class="text-sm text-error mt-1" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-surface-container-low/50 px-lg py-4 border-t border-outline-variant/20 flex items-center justify-end gap-3">
+              <a th:href="@{/admin/trips}" class="px-6 py-2 rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container transition-colors border border-outline-variant/30">
+                Cancel
+              </a>
+              <button class="px-6 py-2 rounded-lg font-label-md text-label-md font-bold bg-primary text-on-primary hover:opacity-90 shadow-sm transition-all flex items-center gap-2" type="submit">
+                <span class="material-symbols-outlined text-[18px]">check</span>
+                Save Trip
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <footer th:replace="~{fragments/component/footer :: footer(null, null, null, null, null, null)}"></footer>
+    </main>
+  </body>
+</html>

@@ -35,7 +35,7 @@
                      class="w-full p-sm border rounded-lg font-body-md transition-all outline-none bg-surface-container-lowest" placeholder="e.g. AB-1234" required type="text" />
 
               <div class="text-sm text-error mt-1" th:if="${#fields.hasErrors('plateNumber')}" th:errors="*{plateNumber}"></div>
-              <!-- Hiển thị lỗi Unique từ Database bắt qua khối catch -->
+              <!-- hien? thi. loi~ unique tu` database khi catch -->
               <div class="text-sm text-error mt-1" th:if="${plateNumErr}" th:text="${plateNumErr}"></div>
             </div>
 
@@ -68,7 +68,7 @@
                         class="w-full p-sm border rounded-lg font-body-md transition-all outline-none bg-surface-container-lowest" required>
                   <option value="">Select a route...</option>
                   <option th:each="r : ${allRoutes}"
-                          th:value="${r.id}"
+                          th:value="${r.fromLocation.name + ' - ' + r.toLocation.name}"
                           th:text="${r.fromLocation.name + ' - ' + r.toLocation.name}">
                   </option>
                 </select>

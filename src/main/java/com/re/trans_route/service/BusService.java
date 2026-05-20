@@ -20,6 +20,10 @@ public class BusService {
         return busRepository.findAll(pageable);
     }
 
+    public java.util.List<Bus> getAllBusesNoPagination() {
+        return busRepository.findAll();
+    }
+
     public void saveBus(Bus bus) {
         busRepository.save(bus);
     }

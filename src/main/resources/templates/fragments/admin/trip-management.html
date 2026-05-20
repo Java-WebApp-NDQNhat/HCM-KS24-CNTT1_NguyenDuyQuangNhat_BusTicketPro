@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments/head :: commonHead('TransRoute - Trip Management', @{/css/admin-bus-management.css}, 'admin')}"></head>
+  <body class="bg-background text-on-background font-body-md min-h-screen flex selection:bg-surface-variant selection:text-on-surface-variant">
+    <div th:replace="~{fragments/sidebar :: sidebar('trip-management')}"></div>
+
+    <main class="flex-1 md:ml-[280px] w-full min-h-screen flex flex-col relative">
+      <header th:replace="~{fragments/component/header :: sharedTopbar}"></header>
+
+      <div class="p-margin-mobile md:p-margin-desktop max-w-7xl mx-auto w-full flex-1 flex flex-col gap-lg">
+
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-md">
+          <div>
+            <h2 class="font-headline-lg-mobile md:font-headline-lg text-on-surface">Trip Management</h2>
+            <p class="font-body-md text-on-surface-variant mt-xs">Manage trip schedules, route assignments, and ticket pricing.</p>
+          </div>
+
+          <a th:href="@{/admin/trips/add}" class="bg-primary text-on-primary font-label-md px-md py-sm rounded-lg flex items-center justify-center gap-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
+            <span class="material-symbols-outlined">add</span>
+            Add New Trip
+          </a>
+        </div>
+
+        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 umbra-shadow overflow-hidden flex flex-col">
+          <div class="overflow-x-auto w-full">
+            <table class="w-full text-left border-collapse whitespace-nowrap">
+              <thead>
+                <tr class="border-b border-outline-variant/30 bg-surface-bright">
+                  <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Trip ID</th>
+                  <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Route</th>
+                  <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Bus</th>
+                  <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Seat Type</th>
+                  <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Departure DateTime</th>
+                  <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider text-right">Ticket Price</th>
+                </tr>
+              </thead>
+
+              <tbody class="font-body-md divide-y divide-outline-variant/20">
+                <tr th:if="${totalItems == 0}">
+                  <td colspan="6" class="px-md py-lg text-center text-on-surface-variant">
+                    No trips scheduled yet. Click "Add New Trip" to create one.
+                  </td>
+                </tr>
+
+                <tr th:each="trip : ${tripPage}" class="hover:bg-surface-container-low transition-colors group">
+                  <td th:text="${'TRP' + trip.id}" class="px-md py-sm font-medium text-primary">TRP001</td>
+                  <td class="px-md py-sm text-on-surface">
+                    <span th:text="${trip.route.fromLocation.name}">Hồ Chí Minh</span>
+                    <span class="material-symbols-outlined text-outline text-[16px] mx-1">arrow_right_alt</span>
+                    <span th:text="${trip.route.toLocation.name}">Đà Nẵng</span>
+                  </td>
+                  <td class="px-md py-sm text-on-surface-variant">
+                    <div class="flex items-center gap-sm">
+                      <span class="material-symbols-outlined text-outline-variant text-[18px]">directions_bus</span>
+                      <span th:text="${trip.bus.plateNumber}">51B-12345</span>
+                    </div>
+                  </td>
+                  <td class="px-md py-sm">
+                    <span th:text="${#strings.toUpperCase(trip.bus.model)}"
+                          th:classappend="${trip.bus.model == 'vip'} ? 'bg-tertiary-fixed text-on-tertiary-fixed' : (${trip.bus.model == 'standard'} ? 'bg-surface-container-high text-on-surface' : 'bg-surface-variant text-on-surface-variant')"
+                          class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold">VIP</span>
+                  </td>
+                  <td th:text="${#temporals.format(trip.departureTime, 'dd/MM/yyyy HH:mm')}" class="px-md py-sm text-on-surface-variant">20/05/2026 08:30</td>
+                  <td th:text="${#numbers.formatDecimal(trip.price, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}" class="px-md py-sm text-right font-label-md text-label-md">350,000 VNĐ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="p-md border-t border-outline-variant/30 flex items-center justify-between text-on-surface-variant bg-surface-bright" th:if="${totalItems > 0}">
+            <span class="font-label-sm">
+              Showing
+              <span th:text="${currentPage * 4 + 1}">1</span>
+              to
+              <span th:text="${(currentPage * 4 + 4) > totalItems ? totalItems : (currentPage * 4 + 4)}">4</span>
+              of
+              <span th:text="${totalItems}">124</span>
+              entries
+            </span>
+
+            <div class="flex gap-xs" th:if="${totalPage > 0}">
+              <a th:href="@{/admin/trips(page=${currentPage - 1})}"
+                 th:classappend="${currentPage == 0} ? 'pointer-events-none opacity-50' : ''"
+                 class="w-8 h-8 flex items-center justify-center rounded-md border border-outline-variant hover:bg-surface-variant transition-colors"
+                 title="Trang trước">
+                <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+              </a>
+
+              <a th:href="@{/admin/trips(page=${currentPage + 1})}"
+                 th:classappend="${currentPage >= totalPage - 1} ? 'pointer-events-none opacity-50' : ''"
+                 class="w-8 h-8 flex items-center justify-center rounded-md border border-outline-variant hover:bg-surface-variant transition-colors"
+                 title="Trang sau">
+                <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer th:replace="~{fragments/component/footer :: footer(null, null, null, null, null, null)}"></footer>
+    </main>
+  </body>
+</html>

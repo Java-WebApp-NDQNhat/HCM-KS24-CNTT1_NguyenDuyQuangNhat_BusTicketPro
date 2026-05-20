@@ -2,8 +2,10 @@ package com.re.trans_route.controller.user_controller;
 
 import com.re.trans_route.entity.Bus;
 import com.re.trans_route.entity.Route;
+import com.re.trans_route.entity.Trip;
 import com.re.trans_route.service.BusService;
 import com.re.trans_route.service.RouteService;
+import com.re.trans_route.service.TripService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,11 +24,13 @@ import java.sql.SQLException;
 public class AdminController {
     private final RouteService routeService;
     private final BusService busService;
+    private final TripService tripService;
 
     @Autowired
-    public AdminController(RouteService routeService, BusService busService) {
+    public AdminController(RouteService routeService, BusService busService, TripService tripService) {
         this.routeService = routeService;
         this.busService = busService;
+        this.tripService = tripService;
     }
 
     @GetMapping("/dashboard")
@@ -117,5 +121,48 @@ public class AdminController {
     @GetMapping("/staff")
     public String staffDirectory() {
         return "fragments/admin/staff-directory";
+    }
+
+    @GetMapping("/trips")
+    public String tripManagement(Model model,
+                                 @RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "4") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Trip> tripPage = tripService.getAllTrips(pageable);
+
+        model.addAttribute("tripPage", tripPage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPage", tripPage.getTotalPages());
+        model.addAttribute("totalItems", tripPage.getTotalElements());
+
+        return "fragments/admin/trip-management";
+    }
+
+    @GetMapping("/trips/add")
+    public String addTripForm(Model model) {
+        Trip trip = new Trip();
+        model.addAttribute("trip", trip);
+        model.addAttribute("allRoutes", routeService.getAllRoutesNoPagination());
+        model.addAttribute("allBuses", busService.getAllBusesNoPagination());
+        return "fragments/admin/trip-add-form";
+    }
+
+    @PostMapping("/trips/save")
+    public String addTrip(@Valid @ModelAttribute("trip") Trip trip,
+                          BindingResult result,
+                          Model model) {
+        if (result.hasErrors() || trip.getRoute() == null || trip.getRoute().getId() == null || trip.getBus() == null || trip.getBus().getId() == null) {
+            model.addAttribute("allRoutes", routeService.getAllRoutesNoPagination());
+            model.addAttribute("allBuses", busService.getAllBusesNoPagination());
+            return "fragments/admin/trip-add-form";
+        }
+
+        Route route = routeService.getRouteById(trip.getRoute().getId());
+        Bus bus = busService.getBusById(trip.getBus().getId());
+        trip.setRoute(route);
+        trip.setBus(bus);
+
+        tripService.saveTrip(trip);
+        return "redirect:/admin/trips";
     }
 }
