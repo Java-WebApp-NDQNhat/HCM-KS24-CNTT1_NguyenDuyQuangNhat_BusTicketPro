@@ -16,7 +16,8 @@
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.seat-selected {
+.seat-selected,
+.seat-radio:checked + .seat {
   background-color: #000000;
   color: #ffffff;
   border-color: #000000;

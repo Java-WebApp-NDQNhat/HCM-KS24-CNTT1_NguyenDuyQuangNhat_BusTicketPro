@@ -36,13 +36,4 @@ public class AuthService {
         userRepository.save(user);
     }
 
-//    public boolean login(String username, String rawPassword) {
-//        // Tìm user từ database
-//        User user = userRepository.findByUsername(username);
-//        if (user == null) return false;
-//
-//        // So sánh mật khẩu thô và mật khẩu đã mã hóa trong DB
-//        // Hàm matches sẽ tự tách muối (salt) ra để kiểm tra nên bạn không cần làm thủ công
-//        return passwordEncoder.matches(rawPassword, user.getPassword());
-//    }
 }

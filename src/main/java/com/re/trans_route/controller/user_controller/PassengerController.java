@@ -2,10 +2,16 @@ package com.re.trans_route.controller.user_controller;
 
 import com.re.trans_route.dto.TripDTO;
 import com.re.trans_route.entity.Route;
+import com.re.trans_route.entity.Seat;
 import com.re.trans_route.entity.Trip;
+import com.re.trans_route.entity.Ticket;
 import com.re.trans_route.service.LocationService;
 import com.re.trans_route.service.RouteService;
+import com.re.trans_route.service.SeatService;
+import com.re.trans_route.service.TicketService;
 import com.re.trans_route.service.TripService;
+import com.re.trans_route.type.BookingStatus;
+import com.re.trans_route.type.SeatStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,16 +19,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/passenger")
@@ -30,13 +35,19 @@ public class PassengerController {
     private final RouteService routeService;
     private final TripService tripService;
     private final LocationService locationService;
+    private final SeatService seatService;
+    private final TicketService ticketService;
 
     public PassengerController(RouteService routeService,
                                TripService tripService,
-                               LocationService locationService) {
+                               LocationService locationService,
+                               SeatService seatService,
+                               TicketService ticketService) {
         this.routeService = routeService;
         this.tripService = tripService;
         this.locationService = locationService;
+        this.seatService = seatService;
+        this.ticketService = ticketService;
     }
 
     @ModelAttribute("search")
@@ -73,6 +84,11 @@ public class PassengerController {
 
         if (fromPlace.trim().equalsIgnoreCase(toPlace.trim())) {
             result.rejectValue("toPlace", "samePlace", "Điểm đến phải khác điểm đi");
+            return "page/passenger/dashboard";
+        }
+
+        if (travelDate.isBefore(LocalDate.now())) {
+            result.rejectValue("travelDate", "pastDate", "Ngày đi phải là ngày hiện tại hoặc tương lai");
             return "page/passenger/dashboard";
         }
 
@@ -121,8 +137,82 @@ public class PassengerController {
         return "/page/passenger/route-planning";
     }
 
-    @GetMapping("/booking")
+    @GetMapping("/my-booking")
     public String booking(Model model) {
         return "page/passenger/my-booking";
+    }
+
+    @GetMapping("/booking/{id}")
+    public String bookTrip(Model model,
+                           @PathVariable("id") Long tripId) {
+        Trip trip = tripService.getTripById(tripId);
+        List<Seat> seats = seatService.getByTripId(tripId);
+
+        model.addAttribute("seats", seats);
+        model.addAttribute("trip_info", trip);
+        model.addAttribute("fromLocation", trip.getRoute().getFromLocation().getName());
+        model.addAttribute("toLocation", trip.getRoute().getToLocation().getName());
+
+        return "page/passenger/ticket-booking/seat-selection";
+    }
+
+    @PostMapping("/booking/payment-checkout")
+    @Transactional
+    public String paymentCheckout(Model model,
+                                  @RequestParam("tripId") Long tripId,
+                                  @RequestParam("seatId") Long seatId) {
+        Trip trip = tripService.getTripById(tripId);
+        Seat selectedSeat = seatService.getById(seatId);
+
+        // chuyen? trang. thai' sang pending trong 10ph
+        selectedSeat.setStatus(SeatStatus.PENDING);
+        seatService.save(selectedSeat);
+
+
+        model.addAttribute("trip_info", trip);
+        model.addAttribute("seat", selectedSeat);
+        model.addAttribute("fromLocation", trip.getRoute().getFromLocation().getName());
+        model.addAttribute("toLocation", trip.getRoute().getToLocation().getName());
+
+        return "page/passenger/ticket-booking/payment-checkout";
+    }
+
+    @PostMapping("/booking/payment-success")
+    @Transactional
+    public String paymentSuccess(Model model,
+                                 @RequestParam("tripId") Long tripId,
+                                 @RequestParam("seatId") Long seatId,
+                                 @RequestParam("passengerName") String passengerName,
+                                 @RequestParam("passengerEmail") String passengerEmail,
+                                 @RequestParam("passengerPhone") String passengerPhone) {
+        Trip trip = tripService.getTripById(tripId);
+        Seat selectedSeat = seatService.getById(seatId);
+
+        // Cập nhật trạng thái ghế thành BOOKED
+        selectedSeat.setStatus(SeatStatus.BOOKED);
+        seatService.save(selectedSeat);
+
+        // Tạo mã vé duy nhất
+        String ticketCode = "TR-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+
+        Ticket ticket = Ticket.builder()
+                .passengerName(passengerName)
+                .passengerEmail(passengerEmail)
+                .passengerPhone(passengerPhone)
+                .trip(trip)
+                .seat(selectedSeat)
+                .price(trip.getPrice())
+                .status(BookingStatus.PAID)
+                .ticketCode(ticketCode)
+                .build();
+
+        Ticket savedTicket = ticketService.save(ticket);
+
+        model.addAttribute("ticket", savedTicket);
+        model.addAttribute("trip_info", trip);
+        model.addAttribute("fromLocation", trip.getRoute().getFromLocation().getName());
+        model.addAttribute("toLocation", trip.getRoute().getToLocation().getName());
+
+        return "page/passenger/ticket-booking/payment-success";
     }
 }

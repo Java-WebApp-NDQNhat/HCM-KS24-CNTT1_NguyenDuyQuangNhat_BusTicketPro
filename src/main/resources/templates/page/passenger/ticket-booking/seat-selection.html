@@ -35,7 +35,9 @@
           </div>
         </div>
 
-        <div class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-lg mt-xl pb-xl">
+        <form th:action="@{/passenger/booking/payment-checkout}" method="post" class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-lg mt-xl pb-xl">
+          <input type="hidden" name="tripId" th:value="${trip_info.id}"/>
+
           <div class="flex-1 glass-panel rounded-xl shadow-sm p-md md:p-lg flex flex-col">
             <div class="flex flex-wrap items-center justify-center gap-md mb-lg border-b border-outline-variant/30 pb-md">
               <div class="flex items-center gap-sm">
@@ -70,31 +72,33 @@
 
               <div class="grid grid-cols-5 gap-y-md gap-x-sm w-full relative">
                 <div class="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-8 bg-surface-container-lowest/50 rounded-full z-0 border-x border-outline-variant/10 border-dashed"></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="1A">1A</div></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="1B">1B</div></div>
-                <div class="col-span-1"></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-booked w-11 h-12 rounded-lg bg-surface-variant border border-outline-variant/30 flex items-center justify-center font-label-md text-on-surface-variant/60 cursor-not-allowed" data-seat="1C"><span class="material-symbols-outlined text-[18px]">person</span></div></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-booked w-11 h-12 rounded-lg bg-surface-variant border border-outline-variant/30 flex items-center justify-center font-label-md text-on-surface-variant/60 cursor-not-allowed" data-seat="1D"><span class="material-symbols-outlined text-[18px]">person</span></div></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="2A">2A</div></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="2B">2B</div></div>
-                <div class="col-span-1"></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="2C">2C</div></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="2D">2D</div></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-pending w-11 h-12 rounded-lg bg-surface-container-high border-2 border-primary-fixed-dim flex items-center justify-center font-label-md text-on-surface cursor-wait" data-seat="3A">3A</div></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="3B">3B</div></div>
-                <div class="col-span-1"></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="3C">3C</div></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-booked w-11 h-12 rounded-lg bg-surface-variant border border-outline-variant/30 flex items-center justify-center font-label-md text-on-surface-variant/60 cursor-not-allowed" data-seat="3D"><span class="material-symbols-outlined text-[18px]">person</span></div></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="4A">4A</div></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="4B">4B</div></div>
-                <div class="col-span-1"></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="4C">4C</div></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="4D">4D</div></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="5A">5A</div></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="5B">5B</div></div>
-                <div class="col-span-1"></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="5C">5C</div></div>
-                <div class="col-span-1 flex justify-center z-10"><div class="seat seat-available w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface cursor-pointer" data-seat="5D">5D</div></div>
+
+                <th:block th:each="seat : ${seats}">
+                  <!-- Sibling Spacer for Walkway (Column 3) -->
+                  <div th:if="${(seat.seatNumber - 1) % 4 == 2}" class="col-span-1"></div>
+
+                  <!-- Available Seat -->
+                  <label th:if="${seat.status.name() == 'AVAILABLE'}" class="col-span-1 flex justify-center z-10 cursor-pointer">
+                    <input type="radio" name="seatId" th:value="${seat.id}" class="hidden seat-radio" required />
+                    <div class="seat w-11 h-12 rounded-lg border-2 border-outline-variant bg-surface flex items-center justify-center font-label-md text-on-surface seat-available">
+                      <span th:text="${seat.seatNumber}">1A</span>
+                    </div>
+                  </label>
+
+                  <!-- Booked Seat -->
+                  <div th:if="${seat.status.name() == 'BOOKED'}" class="col-span-1 flex justify-center z-10">
+                    <div class="seat seat-booked w-11 h-12 rounded-lg bg-surface-variant border border-outline-variant/30 flex items-center justify-center font-label-md text-on-surface-variant/60 cursor-not-allowed">
+                      <span class="material-symbols-outlined text-[18px]">person</span>
+                    </div>
+                  </div>
+
+                  <!-- Pending Seat -->
+                  <div th:if="${seat.status.name() == 'PENDING'}" class="col-span-1 flex justify-center z-10">
+                    <div class="seat seat-pending w-11 h-12 rounded-lg bg-surface-container-high border-2 border-primary-fixed-dim flex items-center justify-center font-label-md text-on-surface cursor-wait">
+                      <span th:text="${seat.seatNumber}">3A</span>
+                    </div>
+                  </div>
+                </th:block>
               </div>
 
               <div class="w-full mt-lg pt-md border-t border-outline-variant/30 flex justify-center">
@@ -112,126 +116,52 @@
               </div>
               <div class="flex justify-between items-center">
                 <div class="flex flex-col">
-                  <span class="font-title-lg font-bold text-on-surface">HAN</span>
-                  <span class="font-label-md text-on-surface-variant">Hanoi</span>
+                  <span class="font-title-lg font-bold text-on-surface" th:text="${trip_info.route.fromLocation.slug}">HAN</span>
+                  <span class="font-label-md text-on-surface-variant" th:text="${fromLocation}">Hanoi</span>
                 </div>
                 <div class="flex flex-col items-center flex-1 px-md relative">
                   <div class="w-full h-[2px] bg-primary-fixed-dim absolute top-1/2 -translate-y-1/2"></div>
                   <span class="material-symbols-outlined text-primary bg-surface-container-low px-xs relative z-10 text-[20px]">directions_bus</span>
                 </div>
                 <div class="flex flex-col items-end">
-                  <span class="font-title-lg font-bold text-on-surface">SGN</span>
-                  <span class="font-label-md text-on-surface-variant">HCM City</span>
+                  <span class="font-title-lg font-bold text-on-surface" th:text="${trip_info.route.toLocation.slug}">SGN</span>
+                  <span class="font-label-md text-on-surface-variant" th:text="${toLocation}">HCM City</span>
                 </div>
               </div>
               <div class="mt-md flex items-center gap-sm font-label-md text-on-surface border-t border-outline-variant/20 pt-sm">
                 <span class="material-symbols-outlined text-[16px] text-primary">calendar_today</span>
-                Oct 24, 2024 • 08:30 PM
+                <span th:text="${#temporals.format(trip_info.departureTime, 'MMM dd, yyyy • hh:mm a')}">Oct 24, 2024 • 08:30 PM</span>
               </div>
             </div>
             <div class="mb-lg flex-1">
               <div class="flex justify-between items-center mb-sm">
                 <h4 class="font-label-md font-bold text-on-surface">Selected Seats</h4>
-                <span class="font-label-sm text-on-surface-variant bg-surface-container px-sm py-xs rounded-full" id="seat-count">0 seats</span>
+                <span class="font-label-sm text-on-surface-variant bg-surface-container px-sm py-xs rounded-full">1 seat max</span>
               </div>
-              <div class="min-h-[60px] flex flex-wrap gap-sm content-start" id="selected-seats-container">
-                <p class="font-body-md text-on-surface-variant italic text-sm py-sm" id="empty-seat-msg">Please select a seat from the map.</p>
+              <div class="min-h-[60px] flex flex-wrap gap-sm content-start">
+                <p class="font-body-md text-on-surface-variant italic text-sm py-sm">Select exactly one available seat from the map.</p>
               </div>
             </div>
             <div class="border-t border-outline-variant/30 pt-md mb-lg">
               <div class="flex justify-between items-center mb-sm font-body-md text-on-surface-variant">
-                <span>Base Fare (per seat)</span><span>$45.00</span>
+                <span>Base Fare (per seat)</span><span th:text="${#numbers.formatDecimal(trip_info.price, 1, 2)  + 'VNĐ'}">$45.00</span>
               </div>
               <div class="flex justify-between items-center mb-sm font-body-md text-on-surface-variant">
-                <span>Taxes & Fees</span><span id="tax-amount">$0.00</span>
+                <span>Taxes & Fees (5%)</span><span th:text="${#numbers.formatDecimal(trip_info.price * 0.05, 1, 2) + 'VNĐ'}">$2.25</span>
               </div>
               <div class="flex justify-between items-center mt-md pt-md border-t border-outline-variant/20">
                 <span class="font-title-lg font-bold text-on-surface">Total</span>
-                <span class="font-headline-md font-bold text-primary" id="total-price">$0.00</span>
+                <span class="font-headline-md font-bold text-primary" th:text="${'$' + #numbers.formatDecimal(trip_info.price * 1.05, 1, 2)}">$47.25</span>
               </div>
             </div>
-            <button class="w-full bg-surface-container text-outline-variant cursor-not-allowed rounded-lg py-md font-label-md font-bold transition-all duration-200 flex items-center justify-center gap-sm shadow-sm" disabled id="btn-proceed">
+            <button type="submit" class="w-full bg-primary text-on-primary hover:bg-surface-tint hover:shadow-md rounded-lg py-md font-label-md font-bold transition-all duration-200 flex items-center justify-center gap-sm shadow-sm" id="btn-proceed">
               Proceed to Payment
               <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
             </button>
           </aside>
-        </div>
+        </form>
       </div>
     </main>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const seats = document.querySelectorAll('.seat-available');
-        const selectedSeatsContainer = document.getElementById('selected-seats-container');
-        const emptySeatMsg = document.getElementById('empty-seat-msg');
-        const seatCountEl = document.getElementById('seat-count');
-        const totalPriceEl = document.getElementById('total-price');
-        const taxAmountEl = document.getElementById('tax-amount');
-        const btnProceed = document.getElementById('btn-proceed');
-        let selectedSeats = [];
-        const seatPrice = 45.00;
-        const taxRate = 0.05;
-
-        function updateSummary() {
-          if (selectedSeats.length === 0) {
-            emptySeatMsg.style.display = 'block';
-            selectedSeatsContainer.innerHTML = '';
-            selectedSeatsContainer.appendChild(emptySeatMsg);
-          } else {
-            emptySeatMsg.style.display = 'none';
-            selectedSeatsContainer.innerHTML = '';
-            selectedSeats.forEach(seat => {
-              const badge = document.createElement('div');
-              badge.className = 'bg-primary text-on-primary px-md py-xs rounded-lg font-label-md font-bold flex items-center gap-xs shadow-sm animate-[pulse_0.3s_ease-out]';
-              badge.innerHTML = `${seat} <span class="material-symbols-outlined text-[14px] cursor-pointer" onclick="removeSeat('${seat}')">close</span>`;
-              selectedSeatsContainer.appendChild(badge);
-            });
-          }
-          const count = selectedSeats.length;
-          seatCountEl.textContent = `${count} seat${count !== 1 ? 's' : ''}`;
-          const subtotal = count * seatPrice;
-          const tax = subtotal * taxRate;
-          const total = subtotal + tax;
-          taxAmountEl.textContent = `$${tax.toFixed(2)}`;
-          totalPriceEl.textContent = `$${total.toFixed(2)}`;
-          if (count > 0) {
-            btnProceed.classList.remove('bg-surface-container', 'text-outline-variant', 'cursor-not-allowed');
-            btnProceed.classList.add('bg-primary', 'text-on-primary', 'hover:bg-surface-tint', 'hover:shadow-md');
-            btnProceed.disabled = false;
-          } else {
-            btnProceed.classList.add('bg-surface-container', 'text-outline-variant', 'cursor-not-allowed');
-            btnProceed.classList.remove('bg-primary', 'text-on-primary', 'hover:bg-surface-tint', 'hover:shadow-md');
-            btnProceed.disabled = true;
-          }
-        }
-
-        window.removeSeat = function(seatId) {
-          const seatEl = document.querySelector(`.seat[data-seat="${seatId}"]`);
-          if (seatEl) {
-            seatEl.classList.remove('seat-selected');
-            selectedSeats = selectedSeats.filter(s => s !== seatId);
-            updateSummary();
-          }
-        };
-
-        seats.forEach(seat => {
-          seat.addEventListener('click', () => {
-            const seatId = seat.getAttribute('data-seat');
-            if (seat.classList.contains('seat-selected')) {
-              seat.classList.remove('seat-selected');
-              selectedSeats = selectedSeats.filter(s => s !== seatId);
-            } else {
-              if (selectedSeats.length < 5) {
-                seat.classList.add('seat-selected');
-                selectedSeats.push(seatId);
-              } else {
-                alert("You can only select up to 5 seats.");
-              }
-            }
-            updateSummary();
-          });
-        });
-      });
-    </script>
   </body>
 </html>

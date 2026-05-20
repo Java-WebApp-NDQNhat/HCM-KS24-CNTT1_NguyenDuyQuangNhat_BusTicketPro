@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: commonHead('Thanh toán thành công | TransRoute', @{/css/payment-success.css}, 'passenger')}"></head>
+<body class="bg-background text-on-background min-h-screen flex flex-col items-center justify-center p-4">
+
+<!-- Confetti Canvas -->
+<canvas id="confetti-canvas"></canvas>
+
+<!-- Main Container -->
+<main class="w-full max-w-3xl mx-auto flex flex-col items-center gap-lg py-lg">
+    <!-- Success Header -->
+    <div class="text-center flex flex-col items-center gap-sm animate-fade-in-up">
+        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
+            <span class="material-symbols-outlined text-green-600 text-5xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+        </div>
+        <h1 class="font-headline-lg text-headline-lg text-on-surface font-extrabold text-[32px] tracking-tight">Thanh toán thành công!</h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">Vé của bạn đã được đặt và thanh toán thành công. Hệ thống đang đợi người xác nhận.</p>
+    </div>
+
+    <!-- Ticket Card (Glassmorphism & Bento style) -->
+    <div class="w-full bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline/20 overflow-hidden relative mt-md">
+        <!-- Top Half: Journey Details -->
+        <div class="p-lg relative bg-surface-container-lowest">
+            <div class="flex justify-between items-center mb-6">
+                <span class="font-label-sm text-label-sm px-3 py-1 bg-green-100 text-green-800 rounded-full uppercase tracking-wider font-bold">Đã thanh toán (PAID)</span>
+                <span class="font-label-md text-label-md text-on-surface-variant">Mã đặt vé: <strong class="text-on-surface" th:text="${ticket.ticketCode}">TR-C52B6A2B</strong></span>
+            </div>
+            
+            <div class="flex items-center justify-between relative mb-8">
+                <!-- Origin -->
+                <div class="text-center w-1/3 z-10 bg-surface-container-lowest">
+                    <p class="font-headline-md text-headline-md text-on-surface font-bold" th:text="${fromLocation}">Sài Gòn</p>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Điểm xuất phát</p>
+                    <p class="font-label-sm text-label-sm text-on-surface-variant mt-1 font-semibold" th:text="${#temporals.format(trip_info.departureTime, 'HH:mm')}">08:00 AM</p>
+                </div>
+                <!-- Route Graphic -->
+                <div class="w-1/3 flex flex-col items-center justify-center relative z-10">
+                    <span class="material-symbols-outlined text-on-tertiary-container mb-1 animate-pulse" style="font-variation-settings: 'FILL' 1;">directions_bus</span>
+                    <div class="w-full border-t-2 border-dashed border-outline-variant/50 relative">
+                        <div class="absolute -top-1.5 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-surface-container-lowest border-2 border-on-tertiary-container rounded-full"></div>
+                    </div>
+                    <p class="font-label-sm text-label-sm text-on-surface-variant mt-2 font-medium">Khoảng 5 tiếng</p>
+                </div>
+                <!-- Destination -->
+                <div class="text-center w-1/3 z-10 bg-surface-container-lowest">
+                    <p class="font-headline-md text-headline-md text-on-surface font-bold" th:text="${toLocation}">Đà Lạt</p>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Điểm đến</p>
+                    <!-- Dự tính điểm đến cộng 5 tiếng -->
+                    <p class="font-label-sm text-label-sm text-on-surface-variant mt-1 font-semibold" th:text="${#temporals.format(trip_info.departureTime.plusHours(5), 'HH:mm')}">13:00 PM</p>
+                </div>
+            </div>
+
+            <!-- Passenger Details Bento Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                <div class="bg-surface-bright p-3 rounded-lg border border-outline-variant/30">
+                    <p class="font-label-sm text-label-sm text-on-surface-variant uppercase font-medium">Hành khách</p>
+                    <p class="font-title-lg text-title-lg text-on-surface mt-1 font-bold text-[16px] leading-[22px]" th:text="${ticket.passengerName}">John Doe</p>
+                </div>
+                <div class="bg-surface-bright p-3 rounded-lg border border-outline-variant/30">
+                    <p class="font-label-sm text-label-sm text-on-surface-variant uppercase font-medium">Ngày đi</p>
+                    <p class="font-title-lg text-title-lg text-on-surface mt-1 font-bold text-[16px] leading-[22px]" th:text="${#temporals.format(trip_info.departureTime, 'dd/MM/yyyy')}">24/11/2026</p>
+                </div>
+                <div class="bg-surface-bright p-3 rounded-lg border border-outline-variant/30">
+                    <p class="font-label-sm text-label-sm text-on-surface-variant uppercase font-medium">Số ghế</p>
+                    <p class="font-title-lg text-title-lg text-on-surface mt-1 font-bold text-[16px] leading-[22px]" th:text="'Ghế ' + ${ticket.seat.seatNumber}">12A</p>
+                </div>
+                <div class="bg-surface-bright p-3 rounded-lg border border-outline-variant/30">
+                    <p class="font-label-sm text-label-sm text-on-surface-variant uppercase font-medium">Số hiệu xe</p>
+                    <p class="font-title-lg text-title-lg text-on-surface mt-1 font-bold text-[16px] leading-[22px]" th:text="${trip_info.bus.plateNumber}">BOP-402</p>
+                </div>
+            </div>
+
+            <!-- Contact Details Row -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                <div class="bg-surface-bright p-3 rounded-lg border border-outline-variant/30 flex items-center gap-sm">
+                    <span class="material-symbols-outlined text-on-surface-variant text-[20px]">mail</span>
+                    <div>
+                        <p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Email liên hệ</p>
+                        <p class="font-body-md text-body-md text-on-surface font-semibold" th:text="${ticket.passengerEmail}">example@gmail.com</p>
+                    </div>
+                </div>
+                <div class="bg-surface-bright p-3 rounded-lg border border-outline-variant/30 flex items-center gap-sm">
+                    <span class="material-symbols-outlined text-on-surface-variant text-[20px]">phone_iphone</span>
+                    <div>
+                        <p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Số điện thoại</p>
+                        <p class="font-body-md text-body-md text-on-surface font-semibold" th:text="${ticket.passengerPhone}">0912345678</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="relative h-6 bg-surface-container-lowest">
+            <div class="ticket-cutout left"></div>
+            <div class="dashed-line"></div>
+            <div class="ticket-cutout right"></div>
+        </div>
+
+        <!-- Bottom Half: QR Code / Secure Payment Receipt -->
+        <div class="p-lg bg-surface-container-low flex flex-col md:flex-row items-center justify-between gap-md">
+            <div class="text-center md:text-left">
+                <h3 class="font-title-lg text-title-lg text-on-surface mb-2 font-bold">Thông tin xác thực vé</h3>
+                <p class="font-body-md text-body-md text-on-surface-variant max-w-sm">Vui lòng xuất trình mã vé này cho nhân viên lái xe khi lên xe. Nên có mặt trước giờ xuất phát 15 phút.</p>
+                <div class="mt-4 flex items-center justify-center md:justify-start gap-xs text-[18px] text-on-tertiary-container font-extrabold">
+                    Tổng cộng: <span th:text="${#numbers.formatInteger(ticket.price + 15000, 1, 'POINT')} + ' ₫'">365.000 ₫</span>
+                </div>
+            </div>
+            <div class="bg-white p-2 rounded-lg shadow-sm border border-outline-variant/20 shrink-0">
+                <img alt="QR Code for Ticket Scanning" class="w-[100px] h-[100px]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5Ji0HXoDmSPvO1E0vP3Zhdw3TDN83ot7GgC4X1P2Z83mSCMI_ackyRWMbVHJce3GDzufCgDMO2OaZ-x4wTJq8n0d3nQqnoswm1upogHGST3QXGuC3ByZM6rWpzP2JMqEWk_0FxKZZ-ZctHxYmOESr_V4I7Js7KmDsyNK0BQMdwpuJdeG7wGWWgX1-07rqNLrKymxnBxfaGPdOTG4E_pClAe6_qtTbsZKsPm5zO3GLqeajMemlqryADZu8Bn6CGX7ak9sWlDOif6U"/>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Timeline -->
+    <div class="w-full max-w-xl mt-lg pt-lg border-t border-outline-variant/30">
+        <h4 class="font-label-md text-label-md text-on-surface-variant mb-6 text-center uppercase tracking-wider font-semibold">Trạng thái đặt vé</h4>
+        <div class="flex justify-between relative">
+            <!-- Connecting Line -->
+            <div class="absolute top-4 left-6 right-6 h-[2px] bg-outline-variant/40 -z-10"></div>
+            <div class="absolute top-4 left-6 w-1/2 h-[2px] bg-green-500 -z-10"></div>
+            <!-- Step 1: Booked -->
+            <div class="flex flex-col items-center gap-2 w-1/3">
+                <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center shadow-sm">
+                    <span class="material-symbols-outlined text-sm font-bold" style="font-variation-settings: 'FILL' 1;">check</span>
+                </div>
+                <span class="font-label-md text-label-md text-on-surface text-center font-medium">Đặt chỗ</span>
+            </div>
+            <!-- Step 2: Paid -->
+            <div class="flex flex-col items-center gap-2 w-1/3">
+                <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center shadow-sm">
+                    <span class="material-symbols-outlined text-sm font-bold" style="font-variation-settings: 'FILL' 1;">check</span>
+                </div>
+                <span class="font-label-md text-label-md text-on-surface text-center font-bold text-green-600">Đã thanh toán (PAID)</span>
+            </div>
+            <!-- Step 3: Confirmation Pending -->
+            <div class="flex flex-col items-center gap-2 w-1/3">
+                <div class="w-8 h-8 rounded-full bg-surface-container-lowest border-2 border-on-tertiary-container text-on-tertiary-container flex items-center justify-center shadow-sm">
+                    <span class="material-symbols-outlined text-sm font-semibold">hourglass_empty</span>
+                </div>
+                <span class="font-label-md text-label-md text-on-surface text-center font-medium">Đợi xác nhận</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action / CTA Buttons -->
+    <div class="flex flex-wrap items-center justify-center gap-md w-full mt-lg">
+        <button class="flex items-center gap-2 px-6 py-3 bg-on-tertiary-container text-on-tertiary rounded-lg font-label-md text-label-md hover:bg-on-tertiary-fixed-variant transition-colors shadow-sm font-semibold active:scale-95" onclick="window.print()">
+            <span class="material-symbols-outlined text-lg">print</span>
+            In thông tin vé
+        </button>
+        <a class="flex items-center gap-2 px-6 py-3 bg-surface-container-highest text-on-surface rounded-lg font-label-md text-label-md hover:bg-surface-variant border border-outline-variant/30 transition-colors font-semibold active:scale-95" th:href="@{/passenger/dashboard}">
+            <span class="material-symbols-outlined text-lg">home</span>
+            Quay lại trang chủ
+        </a>
+    </div>
+</main>
+
+<script th:src="@{/js/payment-success.js}"></script>
+</body>
+</html>

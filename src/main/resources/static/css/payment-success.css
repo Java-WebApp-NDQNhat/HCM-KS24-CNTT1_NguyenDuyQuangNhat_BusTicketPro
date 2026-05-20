@@ -1,0 +1,40 @@
+.glass-card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.ticket-cutout {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-color: #f8f9ff;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.ticket-cutout.left {
+    left: -12px;
+    box-shadow: inset -1px 0 0 #e2e8f0;
+}
+.ticket-cutout.right {
+    right: -12px;
+    box-shadow: inset 1px 0 0 #e2e8f0;
+}
+.dashed-line {
+    border-top: 2px dashed #cbd5e1;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    z-index: 0;
+}
+#confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}

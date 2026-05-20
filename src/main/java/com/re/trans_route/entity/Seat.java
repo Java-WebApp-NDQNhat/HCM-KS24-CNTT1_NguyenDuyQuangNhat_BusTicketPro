@@ -3,10 +3,7 @@ package com.re.trans_route.entity;
 import com.re.trans_route.type.SeatStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
