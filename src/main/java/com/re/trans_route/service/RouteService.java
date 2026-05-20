@@ -30,4 +30,10 @@ public class RouteService {
     public Route getRouteById(Long routeId) {
         return routeRepository.findById(routeId).orElse(null);
     }
+
+    public Long getRouteIdByPlaces(String fromPlace, String toPlace) {
+        Route route = routeRepository.findRouteByPlaceNames(fromPlace, toPlace)
+                .orElse(null);
+        return route != null ? route.getId() : null;
+    }
 }

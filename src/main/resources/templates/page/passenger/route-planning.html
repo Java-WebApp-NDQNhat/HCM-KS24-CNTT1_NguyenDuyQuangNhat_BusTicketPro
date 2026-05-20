@@ -1,0 +1,141 @@
+<!doctype html>
+<html
+    class="light"
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head
+        th:replace="~{fragments/head :: commonHead('TransRoute - Route Planning', null, 'admin')}"
+></head>
+<body
+        class="antialiased min-h-screen flex flex-col md:flex-row bg-background"
+>
+<div th:replace="~{fragments/sidebar :: sidebar('route-planning')}"></div>
+
+<main class="flex-1 flex flex-col w-full md:ml-[280px] min-h-screen">
+    <header
+            th:replace="~{fragments/component/header :: sharedTopbar}"
+    ></header>
+
+    <div class="flex-1 p-margin-mobile md:p-margin-desktop overflow-x-hidden">
+        <div
+            class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-lg gap-md"
+        >
+            <div>
+                <h2
+                    class="font-headline-lg-mobile md:font-headline-lg text-on-surface"
+                >
+                    Route Planning
+                </h2>
+                <p class="font-inter text-body-md text-on-surface-variant mt-xs">
+                    Manage your active routes, analyze performance, and schedule new
+                    paths.
+                </p>
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-gutter">
+            <div
+                    class="lg:w-2/3 bg-surface-container-lowest rounded-xl border border-outline-variant umbra-shadow overflow-hidden flex flex-col"
+            >
+                <div
+                        class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest"
+                >
+                    <h3 class="font-title-lg text-title-lg text-on-surface">
+                        Danh sách tuyến đường
+                    </h3>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                        <tr class="border-b border-outline-variant bg-surface-bright">
+                            <th
+                                    class="p-md font-inter text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold pl-md"
+                            >
+                                Mã tuyến
+                            </th>
+                            <th
+                                    class="p-md font-inter text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold"
+                            >
+                                Lộ trình
+                            </th>
+                            <th
+                                    class="p-md font-inter text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold hidden md:table-cell"
+                            >
+                                Khoảng cách
+                            </th>
+                        </tr>
+                        </thead>
+
+                        <tbody class="font-inter text-body-md text-on-surface">
+
+                        <tr
+                                th:each="route : ${routePage}"
+                                class="border-b border-outline-variant/50 hover:bg-surface-container-low cursor-pointer transition-colors"
+                        >
+                            <td class="p-md pl-md font-medium" th:text="${route.fromLocation.slug} + '-' + ${route.toLocation.slug}">HN-HP</td>
+                            <td class="p-md">
+                                <div class="flex items-center gap-xs">
+                        <span th:text="${route.fromLocation.name}">Hà Nội</span
+                        ><span
+                                        class="material-symbols-outlined text-[14px] text-outline"
+                                >arrow_forward</span
+                                ><span th:text="${route.toLocation.name}">TP. Hồ Chí Minh</span>
+                                </div>
+                            </td>
+                            <td
+                                    class="p-md hidden md:table-cell text-on-surface-variant text-sm"
+                                    th:text="${route.distance} + 'km'"
+                            >
+                                1700km
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div
+                        class="p-sm border-t border-outline-variant flex justify-between items-center bg-surface-container-lowest mt-auto"
+                >
+              <span
+                      class="font-inter text-label-md text-on-surface-variant pl-md"
+              >Showing <span th:text="${currentPage+1}">1</span> - <span th:text="${currentPage+1 * 8}">8</span> of <span th:text="${totalItems}">42</span> routes</span
+              >
+                    <div class="flex gap-xs pr-md items-center">
+                        <button
+                                class="p-xs rounded hover:bg-surface-container text-on-surface-variant disabled:opacity-50"
+                                th:disabled="${currentPage == 0}"
+                        >
+                            <a class="material-symbols-outlined"
+                               th:href="@{/passenger/routes(page=${currentPage - 1}, size=${routePage.size})}"
+                               th:style="${currentPage == 0 ? 'pointer-events: none; color: inherit;' : ''}">
+                                chevron_left
+                            </a>
+                        </button>
+
+                        <span class="text-sm text-on-surface-variant">
+                  Trang <span th:text="${currentPage + 1}">1</span> / <span th:text="${totalPage}">1</span>
+                </span>
+
+                        <button
+                                class="p-xs rounded hover:bg-surface-container text-on-surface-variant disabled:opacity-50"
+                                th:disabled="${currentPage >= totalPage - 1}"
+                        >
+                            <a class="material-symbols-outlined"
+                               th:href="@{/passenger/routes(page=${currentPage + 1}, size=${routePage.size})}"
+                               th:style="${currentPage >= totalPage - 1 ? 'pointer-events: none; color: inherit;' : ''}">
+                                chevron_right
+                            </a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="~{fragments/component/footer :: footer(null, null, null, null, null, null)}"></footer>
+</main>
+</body>
+</html>

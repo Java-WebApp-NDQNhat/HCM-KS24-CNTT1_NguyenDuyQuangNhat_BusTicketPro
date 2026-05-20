@@ -1,18 +1,21 @@
 package com.re.trans_route.service;
 
-import com.re.trans_route.entity.Bus;
-import com.re.trans_route.entity.Seat;
-import com.re.trans_route.entity.Trip;
-import com.re.trans_route.repository.TripRepository;
-import com.re.trans_route.type.SeatStatus;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.re.trans_route.entity.Bus;
+import com.re.trans_route.entity.Seat;
+import com.re.trans_route.entity.Trip;
+import com.re.trans_route.repository.TripRepository;
+import com.re.trans_route.type.SeatStatus;
 
 @Service
 public class TripService {
@@ -49,4 +52,21 @@ public class TripService {
     public Trip getTripById(Long tripId) {
         return tripRepository.findById(tripId).orElse(null);
     }
+
+    public List<Trip> searchByDate(Long routeId, LocalDate date) {
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.plusDays(1).atStartOfDay();
+        return tripRepository.findByRouteAndDateRange(routeId, startOfDay, endOfDay);
+    }
+
+    public List<Trip> searchTrips(String fromPlace, String toPlace, LocalDate date) {
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.plusDays(1).atStartOfDay();
+        return tripRepository.searchByPlacesAndDate(
+                fromPlace.trim(),
+                toPlace.trim(),
+                startOfDay,
+                endOfDay);
+    }
+
 }

@@ -1,0 +1,92 @@
+<!doctype html>
+<html class="light" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: commonHead('Passenger Booking', null, 'passenger')}"></head>
+<body class="bg-background text-on-background antialiased font-body-md text-body-md selection:bg-surface-variant selection:text-on-surface">
+<div class="flex min-h-screen w-full">
+    <div th:replace="~{fragments/sidebar :: sidebar('my-booking')}"></div>
+
+    <div class="flex-1 flex flex-col min-w-0 md:ml-[280px]">
+        <header th:replace="~{fragments/component/header :: sharedTopbar}"></header>
+
+        <main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-surface-container-low max-w-7xl mx-auto w-full">
+            <div class="mb-lg">
+                <h2 class="font-headline-lg-mobile md:font-headline-lg text-on-surface">My Bookings</h2>
+                <p class="font-body-md text-on-surface-variant mt-xs">View and manage your current and past bus bookings.</p>
+            </div>
+
+<!--            search input-->
+            <section class="mb-xl bg-surface-container-lowest/90 backdrop-blur-md rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline-variant/30 p-lg relative overflow-hidden">
+                <div class="absolute inset-0 bg-surface-container-lowest/50 [mask-image:linear-gradient(to_bottom,rgba(255,255,255,1),rgba(255,255,255,0))] pointer-events-none"></div>
+                <div class="relative flex items-center gap-sm">
+                    <span class="material-symbols-outlined text-outline">search</span>
+                    <input class="w-full pl-xl pr-md py-sm bg-transparent border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search bookings..." type="text" />
+                </div>
+            </section>
+
+<!--            result-->
+            <div class="lg:col-span-2 flex flex-col gap-md">
+                <div class="flex justify-between items-center mb-xs">
+                    <h3 class="font-title-lg text-title-lg text-on-surface">Your Trip</h3>
+                </div>
+
+                <div class="bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline-variant/30 flex flex-col sm:flex-row overflow-hidden relative group hover:shadow-[0_10px_20px_-3px_rgba(0,0,0,0.1)] transition-shadow">
+                    <div class="w-full sm:w-1.5 h-1.5 sm:h-auto bg-primary"></div>
+                    <div class="p-lg flex-1 border-b sm:border-b-0 sm:border-r border-dashed border-outline-variant/50 relative bg-surface-container-lowest">
+                        <div class="flex justify-between items-start mb-lg">
+                            <div class="inline-flex items-center gap-xs px-sm py-1 bg-surface-container rounded-full text-primary font-label-sm text-label-sm uppercase tracking-wider">
+                                <span class="material-symbols-outlined text-[14px] fill">check_circle</span>
+                                On Time
+                            </div>
+                            <span class="font-label-md text-label-md text-on-surface-variant font-medium">Ticket #TR-8492A</span>
+                        </div>
+                        <div class="flex items-center justify-between relative">
+                            <div class="flex flex-col z-10">
+                                <span class="font-headline-md text-headline-md text-on-surface">08:30</span>
+                                <span class="font-body-md text-body-md text-on-surface-variant">New York</span>
+                                <span class="font-label-sm text-label-sm text-outline mt-1">Port Authority</span>
+                            </div>
+                            <div class="flex-1 flex items-center justify-center px-md relative">
+                                <div class="w-full h-px bg-outline-variant absolute top-1/2 -translate-y-1/2"></div>
+                                <div class="w-8 h-8 rounded-full bg-surface-container-lowest border border-outline-variant flex items-center justify-center z-10 text-on-surface-variant">
+                                    <span class="material-symbols-outlined text-[18px]">directions_bus</span>
+                                </div>
+                                <span class="absolute top-1/2 translate-y-3 font-label-sm text-label-sm text-outline-variant bg-surface-container-lowest px-1">4h 15m</span>
+                            </div>
+                            <div class="flex flex-col items-end z-10">
+                                <span class="font-headline-md text-headline-md text-on-surface">12:45</span>
+                                <span class="font-body-md text-body-md text-on-surface-variant">Boston</span>
+                                <span class="font-label-sm text-label-sm text-outline mt-1">South Station</span>
+                            </div>
+                        </div>
+                        <div class="mt-lg pt-md border-t border-outline-variant/20 grid grid-cols-3 gap-sm">
+                            <div>
+                                <span class="block font-label-sm text-label-sm text-outline uppercase">Date</span>
+                                <span class="font-label-md text-label-md text-on-surface font-semibold">Oct 24, 2024</span>
+                            </div>
+                            <div>
+                                <span class="block font-label-sm text-label-sm text-outline uppercase">Seat</span>
+                                <span class="font-label-md text-label-md text-on-surface font-semibold">14B <span class="text-outline-variant font-normal">(Window)</span></span>
+                            </div>
+                            <div>
+                                <span class="block font-label-sm text-label-sm text-outline uppercase">Bus</span>
+                                <span class="font-label-md text-label-md text-on-surface font-semibold">Express-5</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full sm:w-48 p-lg flex flex-col items-center justify-center bg-surface-bright bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px]">
+                        <div class="w-24 h-24 bg-surface-container-lowest rounded-lg p-2 shadow-sm border border-outline-variant/30 mb-md relative">
+                            <div class="absolute inset-2 border-2 border-primary rounded-sm opacity-20"></div>
+                        </div>
+                        <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Boarding Pass</span>
+                        <button class="mt-md w-full border border-primary text-primary font-label-md text-label-md py-1.5 rounded-lg hover:bg-primary/5 transition-colors">Download</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <footer th:replace="~{fragments/component/footer :: footer(null, null, null, null, null, null)}"></footer>
+    </div>
+</div>
+</body>
+</html>

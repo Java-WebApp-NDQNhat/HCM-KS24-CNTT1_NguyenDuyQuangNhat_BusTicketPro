@@ -11,7 +11,7 @@
         <main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-surface-container-low max-w-7xl mx-auto w-full">
           <div class="mb-lg">
             <h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">
-              Welcome back, Alex
+              Welcome back, <span th:text="${username}">Alex</span>
             </h2>
             <p class="font-body-md text-body-md text-on-surface-variant mt-xs">
               Here is what's happening with your travel plans today.
@@ -20,39 +20,140 @@
 
           <section class="mb-xl bg-surface-container-lowest/90 backdrop-blur-md rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline-variant/30 p-lg relative overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 bg-surface-variant rounded-full mix-blend-multiply filter blur-3xl opacity-50 translate-x-1/2 -translate-y-1/2"></div>
-            <div class="relative z-10">
+
+            <form th:action="@{/passenger/dashboard}" method="get" th:object="${search}" class="relative z-10">
               <h3 class="font-title-lg text-title-lg text-on-surface mb-md">Where are you going today?</h3>
+
+              <datalist id="locationList">
+                <option th:each="loc : ${locations}" th:value="${loc.name}"></option>
+              </datalist>
+
               <div class="grid grid-cols-1 md:grid-cols-4 gap-md items-end">
                 <div class="flex flex-col gap-xs">
                   <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">From</label>
                   <div class="relative">
                     <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">location_on</span>
-                    <input class="w-full pl-10 pr-md py-sm bg-surface rounded-lg border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 text-body-md font-body-md transition-all h-11" type="text" value="New York (NY)" />
+                    <input th:field="*{fromPlace}" list="locationList"
+                           class="w-full pl-10 pr-md py-sm bg-surface rounded-lg border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 text-body-md font-body-md transition-all h-11"
+                           type="text" placeholder="VD: Hà Nội" autocomplete="off" />
                   </div>
+                  <p class="text-sm text-error" th:if="${#fields.hasErrors('fromPlace')}" th:errors="*{fromPlace}"></p>
                 </div>
+
                 <div class="flex flex-col gap-xs">
                   <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">To</label>
                   <div class="relative">
                     <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">pin_drop</span>
-                    <input class="w-full pl-10 pr-md py-sm bg-surface rounded-lg border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 text-body-md font-body-md transition-all h-11" placeholder="Destination city" type="text" />
+                    <input th:field="*{toPlace}" list="locationList"
+                           class="w-full pl-10 pr-md py-sm bg-surface rounded-lg border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 text-body-md font-body-md transition-all h-11"
+                           type="text" placeholder="VD: Hồ Chí Minh" autocomplete="off" />
                   </div>
+                  <p class="text-sm text-error" th:if="${#fields.hasErrors('toPlace')}" th:errors="*{toPlace}"></p>
                 </div>
+
                 <div class="flex flex-col gap-xs">
                   <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Date</label>
                   <div class="relative">
                     <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">calendar_today</span>
-                    <input class="w-full pl-10 pr-md py-sm bg-surface rounded-lg border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 text-body-md font-body-md transition-all h-11 text-on-surface" type="date" />
+                    <input th:field="*{travelDate}"
+                           class="w-full pl-10 pr-md py-sm bg-surface rounded-lg border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 text-body-md font-body-md transition-all h-11 text-on-surface"
+                           type="date" />
                   </div>
+                  <p class="text-sm text-error" th:if="${#fields.hasErrors('travelDate')}" th:errors="*{travelDate}"></p>
                 </div>
-                <button class="h-11 bg-primary text-on-primary rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-tint shadow-sm transition-all flex items-center justify-center gap-sm active:scale-95">
+
+                <button type="submit" class="h-11 bg-primary text-on-primary rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-tint shadow-sm transition-all flex items-center justify-center gap-sm active:scale-95">
                   <span class="material-symbols-outlined text-[20px]">search</span>
-                  Find Tickets
+                  Find Trips
                 </button>
               </div>
-            </div>
+            </form>
+
           </section>
 
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg mb-xl">
+          <div class="bg-surface-container-lowest rounded-xl mb-xl border border-outline-variant/30 umbra-shadow overflow-hidden flex flex-col min-h-[400px]">
+            <div class="overflow-x-auto w-full flex-1">
+              <table class="w-full text-left border-collapse whitespace-nowrap">
+                <thead>
+                  <tr class="border-b border-outline-variant/30 bg-surface-bright">
+                    <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Trip ID</th>
+                    <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Route</th>
+                    <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Bus</th>
+                    <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Seat Type</th>
+                    <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Departure DateTime</th>
+                    <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider">Ticket Price</th>
+                    <th class="font-label-sm text-on-surface-variant px-md py-sm font-semibold uppercase tracking-wider text-right">Action</th>
+                  </tr>
+                </thead>
+
+                <tbody class="font-body-md divide-y divide-outline-variant/20">
+
+<!--                khi khach' chua search-->
+                  <tr th:if="${tripPage == null}">
+                    <td colspan="7" class="px-md py-24 text-center text-on-surface-variant">
+                      <div class="flex flex-col items-center justify-center gap-sm opacity-70">
+                        <span class="material-symbols-outlined text-[48px] text-primary">search_check</span>
+                        <p class="font-title-md text-on-surface font-medium">Vui lòng chọn tuyến đường và ngày đi để tìm kiếm chuyến xe</p>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- không có tuyến điểm đi → điểm đến trong hệ thống -->
+                  <tr th:if="${routeNotFound}">
+                    <td colspan="7" class="px-md py-24 text-center text-on-surface-variant">
+                      <div class="flex flex-col items-center justify-center gap-sm opacity-70">
+                        <span class="material-symbols-outlined text-[48px] text-outline">route</span>
+                        <p class="font-title-md text-on-surface font-medium">Không có tuyến từ <span th:text="${search.fromPlace}"></span> đến <span th:text="${search.toPlace}"></span>.</p>
+                        <p class="font-body-md">Vui lòng chọn đúng tên thành phố (VD: Hà Nội, Hồ Chí Minh).</p>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- có tuyến nhưng không có chuyến trong ngày -->
+                  <tr th:if="${tripPage != null && totalItems == 0 && routeNotFound == null}">
+                    <td colspan="7" class="px-md py-24 text-center text-on-surface-variant">
+                      <div class="flex flex-col items-center justify-center gap-sm opacity-70">
+                        <span class="material-symbols-outlined text-[48px] text-outline">directions_bus</span>
+                        <p class="font-title-md text-on-surface font-medium">Không có chuyến xe nào trong ngày đã chọn!</p>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr th:if="${tripPage != null}" th:each="trip : ${tripPage}" class="hover:bg-surface-container-low transition-colors group">
+                    <td th:text="${'TRP' + trip.id}" class="px-md py-sm font-medium text-primary">TRP001</td>
+                    <td class="px-md py-sm text-on-surface">
+                      <span th:text="${trip.route.fromLocation.name}">Hồ Chí Minh</span>
+                      <span class="material-symbols-outlined text-outline text-[16px] mx-1">arrow_right_alt</span>
+                      <span th:text="${trip.route.toLocation.name}">Đà Nẵng</span>
+                    </td>
+                    <td class="px-md py-sm text-on-surface-variant">
+                      <div class="flex items-center gap-sm">
+                        <span class="material-symbols-outlined text-outline-variant text-[18px]">directions_bus</span>
+                        <span th:text="${trip.bus.plateNumber}">51B-12345</span>
+                      </div>
+                    </td>
+                    <td class="px-md py-sm">
+                      <span th:text="${#strings.toUpperCase(trip.bus.model)}"
+                            th:classappend="${trip.bus.model == 'vip'} ? 'bg-tertiary-fixed text-on-tertiary-fixed' : (${trip.bus.model == 'standard'} ? 'bg-surface-container-high text-on-surface' : 'bg-surface-variant text-on-surface-variant')"
+                            class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold">VIP</span>
+                    </td>
+                    <td th:text="${#temporals.format(trip.departureTime, 'dd/MM/yyyy HH:mm')}" class="px-md py-sm text-on-surface-variant">20/05/2026 08:30</td>
+                    <td th:text="${#numbers.formatDecimal(trip.price, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}" class="px-md py-sm text-right font-label-md text-label-md">350,000 VNĐ</td>
+
+                    <td class="px-md py-sm text-right font-label-md text-label-md">
+                      <a th:href="@{/passenger/booking/{id}(id=${trip.id})}"
+                         class="inline-flex items-center text-primary hover:text-primary-hover transition-colors p-1 rounded-md hover:bg-surface-variant/50"
+                         title="Book-this-trip">
+                        <span class="material-symbols-outlined text-[20px]">Book</span>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg mb-xl mt-xl">
             <div class="lg:col-span-2 flex flex-col gap-md">
               <div class="flex justify-between items-center mb-xs">
                 <h3 class="font-title-lg text-title-lg text-on-surface">Upcoming Trips</h3>
@@ -123,7 +224,7 @@
                     <img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHUKFmfal03rJYC4akF3vEo1uqUSpO59up6wzPtwh70Ejbrmg4G-ZQqDKJ-OcVITEZ_LxIqXr0rKrAa6PxJl22ccqjAE7SDfepwafh_dgNo80g3f88AI3obfpKdCpN3NPVRGtVzuQ2HQSrY9EEjabnqkWagcTILwps4Q_e_xqbHqSlLmvdNB6h8ItzSsViScsNHwspiGv0hR5btr58fLBIV_c2az8_1Ckiu6jr93GHOlq_I059EGJJpg43jLnwQmt4chqi-PC2QQI" />
                   </div>
                   <div>
-                    <h4 class="font-title-lg text-title-lg text-on-surface">Alex Mercer</h4>
+                    <h4 th:text="${username}" class="font-title-lg text-title-lg text-on-surface">Alex Mercer</h4>
                     <span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1">
                       <span class="material-symbols-outlined text-[14px] fill">stars</span>
                       Frequent Traveler
