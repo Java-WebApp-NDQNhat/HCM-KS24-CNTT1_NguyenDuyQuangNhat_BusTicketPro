@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Admin avatar">
+  <rect width="128" height="128" fill="#1a1a1a"/>
+  <circle cx="64" cy="48" r="24" fill="#ffffff"/>
+  <path d="M24 112c8-28 32-40 40-40s32 12 40 40" fill="#ffffff"/>
+  <rect x="52" y="18" width="24" height="8" rx="2" fill="#1a1a1a"/>
+</svg>

@@ -160,7 +160,40 @@ public class PassengerController {
         }
 
         model.addAttribute("ticket", ticketFound);
+        model.addAttribute("canCancel", ticketService.canCancel(ticketFound));
+        model.addAttribute("ticketCode", ticketCode.trim());
+        model.addAttribute("phoneNum", phoneNum.trim());
         return "page/passenger/my-booking";
+    }
+
+    @PostMapping("/my-booking/cancel")
+    public String cancelBooking(@RequestParam String ticketCode,
+                                @RequestParam String phoneNum,
+                                Model model) {
+        if (!hasText(ticketCode) || !hasText(phoneNum)) {
+            model.addAttribute("inputError", "Vui lòng nhập đầy đủ mã vé và số điện thoại!");
+            return "page/passenger/my-booking";
+        }
+
+        try {
+            Ticket cancelled = ticketService.cancelTicket(ticketCode.trim(), phoneNum.trim());
+            model.addAttribute("ticket", cancelled);
+            model.addAttribute("canCancel", false);
+            model.addAttribute("ticketCode", ticketCode.trim());
+            model.addAttribute("phoneNum", phoneNum.trim());
+            model.addAttribute("cancelSuccess", "Hủy vé thành công. Ghế đã được giải phóng.");
+            return "page/passenger/my-booking";
+        } catch (IllegalArgumentException | IllegalStateException ex) {
+            Ticket ticket = ticketService.findByTicketCodeAndPassengerPhone(ticketCode.trim(), phoneNum.trim());
+            if (ticket != null) {
+                model.addAttribute("ticket", ticket);
+                model.addAttribute("canCancel", ticketService.canCancel(ticket));
+            }
+            model.addAttribute("ticketCode", ticketCode.trim());
+            model.addAttribute("phoneNum", phoneNum.trim());
+            model.addAttribute("cancelError", ex.getMessage());
+            return "page/passenger/my-booking";
+        }
     }
 
     @GetMapping("/booking/{id}")

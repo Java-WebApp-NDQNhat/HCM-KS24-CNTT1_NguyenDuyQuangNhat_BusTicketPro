@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head th:replace="~{fragments/head :: commonHead('TransRoute - User Profile & Security', @{/css/profile.css}, 'passenger')}"></head>
+  <head th:replace="~{fragments/head :: commonHead('TransRoute - Profile', @{/css/profile.css}, ${pageKind})}"></head>
   <body class="bg-background text-on-background font-body-md min-h-screen flex antialiased">
     <div th:replace="~{fragments/sidebar :: sidebar('settings')}"></div>
 
@@ -10,23 +10,24 @@
       <div class="p-margin-mobile md:p-margin-desktop max-w-7xl mx-auto w-full flex-1 flex flex-col gap-lg">
         <div class="mb-sm">
           <h2 class="font-headline-lg text-headline-lg md:text-display-lg font-bold text-on-surface tracking-tight">Profile & Security</h2>
-          <p class="font-body-lg text-body-lg text-on-surface-variant mt-xs">Manage your personal information and account security settings.</p>
+          <p class="font-body-lg text-body-lg text-on-surface-variant mt-xs">Quản lý thông tin cá nhân và bảo mật tài khoản.</p>
         </div>
+
+        <div th:if="${profileSuccess}" class="rounded-lg bg-[#dcfce7] text-[#166534] px-md py-sm font-body-md" th:text="${profileSuccess}"></div>
+        <div th:if="${passwordSuccess}" class="rounded-lg bg-[#dcfce7] text-[#166534] px-md py-sm font-body-md" th:text="${passwordSuccess}"></div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
           <div class="lg:col-span-1 flex flex-col gap-lg">
             <div class="glass-card rounded-xl p-lg flex flex-col items-center text-center relative overflow-hidden">
               <div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-surface-container-high to-surface-variant opacity-50"></div>
-              <div class="relative mt-md group">
-                <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-surface-container-lowest shadow-sm">
-                  <img alt="User avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVImBvNgjsJ2InGe97mzJt55osCx_m1bUMz4yEY15l3fPvwuCU6jeTGJhwpAAGKZbn_jLz2RU-WuyysUNvikulR4ga9Y3XeaK1jpLBvjPCY5sCuAZp6djcX9mRTnxvKi0Bu4Kn7ItgUkFZMQ-jRnJUI5Przw8sMrvwEAOmmkd_IWMwJF3d4wT8qdueRQ7fjgymw8iMy1ZOpX2ROgyyoknf5aaDhB-d0iqyOi9CymnUvj2NRG4gCSLo7lP6yO8CNDIKwKo9Dd9HNWg" />
+              <div class="relative mt-md">
+                <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-surface-container-lowest shadow-sm bg-surface-container">
+                  <img th:src="${avatarUrl}" alt="Avatar" class="w-full h-full object-cover" />
                 </div>
-                <button class="absolute bottom-0 right-0 bg-primary text-on-primary p-2 rounded-full shadow-md hover:bg-surface-tint transition-colors group-hover:scale-110 duration-200">
-                  <span class="material-symbols-outlined text-sm">edit</span>
-                </button>
               </div>
-              <h3 class="font-title-lg text-title-lg font-bold text-on-surface mt-md">Alex Mercer</h3>
-              <p class="font-label-md text-label-md text-on-surface-variant">Fleet Operations Manager</p>
+              <h3 class="font-title-lg text-title-lg font-bold text-on-surface mt-md" th:text="${user.userName}">User</h3>
+              <p class="font-label-md text-label-md text-on-surface-variant" th:text="${roleLabel}">Role</p>
+              <p class="font-label-sm text-label-sm text-on-surface-variant mt-xs" th:text="${user.email}">email</p>
               <div class="mt-lg w-full flex justify-center gap-md">
                 <span class="inline-flex items-center gap-xs px-2 py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm">
                   <span class="material-symbols-outlined text-[14px]">verified_user</span> Verified
@@ -39,33 +40,49 @@
             <div class="glass-card rounded-xl p-lg">
               <div class="flex items-center gap-sm mb-lg">
                 <span class="material-symbols-outlined text-primary">person</span>
-                <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Personal Information</h3>
+                <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Thông tin cá nhân</h3>
               </div>
-              <form class="grid grid-cols-1 md:grid-cols-2 gap-md">
-                <div class="flex flex-col gap-xs">
-                  <label class="font-label-md text-label-md text-on-surface-variant">First Name</label>
-                  <input class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="text" value="Alex" />
-                </div>
-                <div class="flex flex-col gap-xs">
-                  <label class="font-label-md text-label-md text-on-surface-variant">Last Name</label>
-                  <input class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="text" value="Mercer" />
+              <form th:action="@{/profile/update}" method="post" th:object="${profileForm}" class="grid grid-cols-1 md:grid-cols-2 gap-md">
+                <div class="flex flex-col gap-xs md:col-span-2">
+                  <label class="font-label-md text-label-md text-on-surface-variant">Tên người dùng <span class="text-error">*</span></label>
+                  <input th:field="*{userName}"
+                         class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200"
+                         type="text" required />
+                  <p class="text-sm text-error" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
                 </div>
                 <div class="flex flex-col gap-xs md:col-span-2">
-                  <label class="font-label-md text-label-md text-on-surface-variant">Email Address</label>
+                  <label class="font-label-md text-label-md text-on-surface-variant">Email</label>
                   <div class="relative">
                     <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline-variant">mail</span>
-                    <input class="w-full pl-xl pr-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="email" value="alex.mercer@transroute.com" />
+                    <input th:value="${user.email}" readonly
+                           class="w-full pl-xl pr-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-low font-body-md text-on-surface-variant cursor-not-allowed"
+                           type="email" />
                   </div>
+                  <p class="font-label-sm text-on-surface-variant">Email không thể thay đổi (dùng để đăng nhập).</p>
                 </div>
-                <div class="flex flex-col gap-xs md:col-span-2">
-                  <label class="font-label-md text-label-md text-on-surface-variant">Phone Number</label>
+                <div class="flex flex-col gap-xs">
+                  <label class="font-label-md text-label-md text-on-surface-variant">Số điện thoại <span class="text-error">*</span></label>
                   <div class="relative">
                     <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline-variant">phone</span>
-                    <input class="w-full pl-xl pr-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="tel" value="+1 (555) 123-4567" />
+                    <input th:field="*{phone}"
+                           class="w-full pl-xl pr-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200"
+                           type="tel" required />
+                  </div>
+                  <p class="text-sm text-error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></p>
+                </div>
+                <div class="flex flex-col gap-xs">
+                  <label class="font-label-md text-label-md text-on-surface-variant">Địa chỉ</label>
+                  <div class="relative">
+                    <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline-variant">home</span>
+                    <input th:field="*{address}"
+                           class="w-full pl-xl pr-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200"
+                           type="text" placeholder="VD: Hà Nội, Việt Nam" />
                   </div>
                 </div>
                 <div class="md:col-span-2 flex justify-end mt-sm">
-                  <button class="bg-primary text-on-primary hover:bg-surface-tint px-lg py-sm rounded-lg font-label-md text-label-md font-semibold transition-colors duration-200" type="button">Save Changes</button>
+                  <button class="bg-primary text-on-primary hover:bg-surface-tint px-lg py-sm rounded-lg font-label-md text-label-md font-semibold transition-colors duration-200" type="submit">
+                    Lưu thay đổi
+                  </button>
                 </div>
               </form>
             </div>
@@ -73,126 +90,38 @@
             <div class="glass-card rounded-xl p-lg">
               <div class="flex items-center gap-sm mb-lg">
                 <span class="material-symbols-outlined text-primary">lock</span>
-                <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Security</h3>
+                <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Đổi mật khẩu</h3>
               </div>
-              <form class="flex flex-col gap-md">
+              <form th:action="@{/profile/password}" method="post" th:object="${passwordForm}" class="flex flex-col gap-md">
                 <div class="flex flex-col gap-xs">
-                  <label class="font-label-md text-label-md text-on-surface-variant">Current Password</label>
-                  <input class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" placeholder="••••••••" type="password" />
+                  <label class="font-label-md text-label-md text-on-surface-variant">Mật khẩu hiện tại</label>
+                  <input th:field="*{currentPassword}"
+                         class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200"
+                         type="password" autocomplete="current-password" required />
+                  <p class="text-sm text-error" th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}"></p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
                   <div class="flex flex-col gap-xs">
-                    <label class="font-label-md text-label-md text-on-surface-variant">New Password</label>
-                    <input class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="password" />
+                    <label class="font-label-md text-label-md text-on-surface-variant">Mật khẩu mới</label>
+                    <input th:field="*{newPassword}"
+                           class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200"
+                           type="password" autocomplete="new-password" required />
+                    <p class="text-sm text-error" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}"></p>
                   </div>
                   <div class="flex flex-col gap-xs">
-                    <label class="font-label-md text-label-md text-on-surface-variant">Confirm New Password</label>
-                    <input class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200" type="password" />
+                    <label class="font-label-md text-label-md text-on-surface-variant">Xác nhận mật khẩu mới</label>
+                    <input th:field="*{confirmPassword}"
+                           class="w-full px-md py-sm rounded-lg border border-outline-variant/50 bg-surface-container-lowest font-body-md text-on-surface input-glow transition-all duration-200"
+                           type="password" autocomplete="new-password" required />
+                    <p class="text-sm text-error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
                   </div>
                 </div>
                 <div class="flex justify-end mt-sm">
-                  <button class="bg-surface-container-high text-primary hover:bg-surface-variant px-lg py-sm rounded-lg font-label-md text-label-md font-semibold transition-colors duration-200 border border-outline-variant/30" type="button">Update Password</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-lg mb-xl">
-          <div class="glass-card rounded-xl p-lg flex flex-col h-full">
-            <div class="flex items-center justify-between mb-lg">
-              <div class="flex items-center gap-sm">
-                <span class="material-symbols-outlined text-primary">history</span>
-                <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Recent Activity</h3>
-              </div>
-              <button class="font-label-sm text-label-sm text-primary hover:underline">View All</button>
-            </div>
-            <div class="flex-1 flex flex-col gap-0 divide-y divide-outline-variant/20">
-              <div class="py-sm flex items-center justify-between group hover:bg-surface-container-lowest/50 transition-colors px-xs rounded-sm">
-                <div class="flex items-center gap-md">
-                  <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined text-[18px]">login</span>
-                  </div>
-                  <div>
-                    <p class="font-body-md text-body-md text-on-surface font-medium">Successful Login</p>
-                    <p class="font-label-sm text-label-sm text-on-surface-variant">Mac OS • Chrome</p>
-                  </div>
-                </div>
-                <span class="font-label-sm text-label-sm text-on-surface-variant">2 mins ago</span>
-              </div>
-              <div class="py-sm flex items-center justify-between group hover:bg-surface-container-lowest/50 transition-colors px-xs rounded-sm">
-                <div class="flex items-center gap-md">
-                  <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined text-[18px]">settings_backup_restore</span>
-                  </div>
-                  <div>
-                    <p class="font-body-md text-body-md text-on-surface font-medium">Password Changed</p>
-                    <p class="font-label-sm text-label-sm text-on-surface-variant">IP: 192.168.1.1</p>
-                  </div>
-                </div>
-                <span class="font-label-sm text-label-sm text-on-surface-variant">Oct 12, 2023</span>
-              </div>
-              <div class="py-sm flex items-center justify-between group hover:bg-surface-container-lowest/50 transition-colors px-xs rounded-sm">
-                <div class="flex items-center gap-md">
-                  <div class="w-8 h-8 rounded-full bg-error-container flex items-center justify-center text-on-error-container">
-                    <span class="material-symbols-outlined text-[18px]">error</span>
-                  </div>
-                  <div>
-                    <p class="font-body-md text-body-md text-on-surface font-medium">Failed Login Attempt</p>
-                    <p class="font-label-sm text-label-sm text-on-surface-variant">Unknown Device</p>
-                  </div>
-                </div>
-                <span class="font-label-sm text-label-sm text-on-surface-variant">Oct 10, 2023</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="glass-card rounded-xl p-lg flex flex-col h-full">
-            <div class="flex items-center gap-sm mb-lg">
-              <span class="material-symbols-outlined text-primary">receipt_long</span>
-              <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Policies & History</h3>
-            </div>
-            <div class="flex-1 flex flex-col gap-md">
-              <div class="bg-surface-container-low p-md rounded-lg border border-outline-variant/30 flex items-start gap-md">
-                <span class="material-symbols-outlined text-primary mt-1">policy</span>
-                <div>
-                  <h4 class="font-label-md text-label-md text-on-surface font-bold">Standard Refund Policy</h4>
-                  <p class="font-body-md text-body-md text-on-surface-variant mt-xs text-sm">Cancellations made 24 hours prior to departure are eligible for a 90% refund. Cancellations within 24 hours are non-refundable.</p>
-                  <button class="mt-sm font-label-sm text-label-sm text-primary hover:underline flex items-center gap-xs">
-                    Read Full Policy <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  <button class="bg-surface-container-high text-primary hover:bg-surface-variant px-lg py-sm rounded-lg font-label-md text-label-md font-semibold transition-colors duration-200 border border-outline-variant/30" type="submit">
+                    Cập nhật mật khẩu
                   </button>
                 </div>
-              </div>
-              <div class="mt-sm">
-                <h4 class="font-label-md text-label-md text-on-surface-variant mb-sm uppercase tracking-wider">Recent Refunds</h4>
-                <div class="border border-outline-variant/20 rounded-lg overflow-hidden">
-                  <table class="w-full text-left">
-                    <thead class="bg-surface-container-lowest border-b border-outline-variant/20">
-                      <tr>
-                        <th class="px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-semibold">Booking ID</th>
-                        <th class="px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-semibold">Amount</th>
-                        <th class="px-sm py-xs font-label-sm text-label-sm text-on-surface-variant font-semibold">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline-variant/10 font-body-md text-body-md text-on-surface">
-                      <tr class="hover:bg-surface-container-lowest/50 transition-colors">
-                        <td class="px-sm py-xs font-mono text-xs">TR-9824</td>
-                        <td class="px-sm py-xs font-medium">$45.00</td>
-                        <td class="px-sm py-xs">
-                          <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-[10px] font-semibold">Completed</span>
-                        </td>
-                      </tr>
-                      <tr class="hover:bg-surface-container-lowest/50 transition-colors">
-                        <td class="px-sm py-xs font-mono text-xs">TR-7731</td>
-                        <td class="px-sm py-xs font-medium">$120.50</td>
-                        <td class="px-sm py-xs">
-                          <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-variant text-primary text-[10px] font-semibold">Processing</span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>

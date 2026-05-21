@@ -48,7 +48,9 @@
                     </div>
 
 <!--                    error binding-->
-                    <div th:if="${inputError}" class="text-sm text-error" th:text="${inputError}">Nhập cả hai!!</div>
+                    <div th:if="${inputError}" class="text-sm text-error mt-sm" th:text="${inputError}">Nhập cả hai!!</div>
+                    <div th:if="${cancelSuccess}" class="text-sm text-[#166534] mt-sm bg-[#dcfce7] rounded-lg px-sm py-xs" th:text="${cancelSuccess}"></div>
+                    <div th:if="${cancelError}" class="text-sm text-error mt-sm" th:text="${cancelError}"></div>
                 </form>
             </section>
 
@@ -63,8 +65,10 @@
                     <div class="w-full sm:w-1.5 h-1.5 sm:h-auto bg-primary"></div>
                     <div class="p-lg flex-1 border-b sm:border-b-0 sm:border-r border-dashed border-outline-variant/50 relative bg-surface-container-lowest">
                         <div class="flex justify-between items-start mb-lg">
-                            <div class="inline-flex items-center gap-xs px-sm py-1 bg-surface-container rounded-full text-primary font-label-sm text-label-sm uppercase tracking-wider">
-                                <span class="material-symbols-outlined text-[14px] fill">check_circle</span>
+                            <div class="inline-flex items-center gap-xs px-sm py-1 rounded-full font-label-sm text-label-sm uppercase tracking-wider"
+                                 th:classappend="${ticket.status.name() == 'CANCELLED'} ? 'bg-error-container text-on-error-container' : (${ticket.status.name() == 'CONFIRM'} ? 'bg-[#dcfce7] text-[#166534]' : 'bg-surface-container text-primary')">
+                                <span class="material-symbols-outlined text-[14px]"
+                                      th:text="${ticket.status.name() == 'CANCELLED'} ? 'cancel' : 'check_circle'">check_circle</span>
                                 <span th:text="${ticket.status}">PAID</span>
                             </div>
                             <span class="font-label-md text-label-md text-on-surface-variant font-medium"
@@ -119,14 +123,32 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w-full sm:w-48 p-lg flex flex-col items-center justify-center bg-surface-bright bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px]">
-                        <div class="w-24 h-24 bg-surface-container-lowest rounded-lg p-2 shadow-sm border border-outline-variant/30 mb-md relative">
+                    <div class="w-full sm:w-48 p-lg flex flex-col items-center justify-center bg-surface-bright bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] gap-md">
+                        <div class="w-24 h-24 bg-surface-container-lowest rounded-lg p-2 shadow-sm border border-outline-variant/30 relative">
                             <div class="absolute inset-2 border-2 border-primary rounded-sm opacity-20"></div>
                         </div>
                         <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Boarding Pass</span>
-                        <div class="mt-sm text-center">
+                        <div class="text-center">
                             <span class="font-label-xs text-label-xs text-outline" th:text="${ticket.ticketCode}">--</span>
                         </div>
+
+                        <form th:if="${canCancel}" th:action="@{/passenger/my-booking/cancel}" method="post"
+                              onsubmit="return confirm('Bạn chắc chắn muốn hủy vé? Ghế sẽ được trả lại cho hệ thống.');"
+                              class="w-full mt-sm">
+                            <input type="hidden" name="ticketCode" th:value="${ticketCode}" />
+                            <input type="hidden" name="phoneNum" th:value="${phoneNum}" />
+                            <button type="submit"
+                                    class="w-full bg-error text-on-error px-md py-sm rounded-lg font-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-xs">
+                                <span class="material-symbols-outlined text-[18px]">cancel</span>
+                                Hủy vé
+                            </button>
+                        </form>
+                        <p th:if="${canCancel}" class="font-label-xs text-on-surface-variant text-center px-xs">
+                            Hủy miễn phí trước 12 giờ khởi hành
+                        </p>
+                        <p th:if="${ticket.status.name() == 'CANCELLED'}" class="font-label-sm text-error text-center">
+                            Vé đã hủy — ghế đã được giải phóng
+                        </p>
                     </div>
                 </div>
 
