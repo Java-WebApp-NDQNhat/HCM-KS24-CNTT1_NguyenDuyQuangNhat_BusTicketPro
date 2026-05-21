@@ -2,6 +2,8 @@ package com.re.trans_route.service;
 
 import com.re.trans_route.entity.Ticket;
 import com.re.trans_route.repository.TicketRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,5 +22,13 @@ public class TicketService {
 
     public Ticket findByTicketCodeAndPassengerPhone(String ticketCode, String passengerPhone) {
         return ticketRepository.findByTicketCodeAndPassengerPhone(ticketCode, passengerPhone);
+    }
+
+    public Page<Ticket> getAllTickets(Pageable pageable) {
+        return ticketRepository.findAllWithTrip(pageable);
+    }
+
+    public Ticket findById(Long id) {
+        return ticketRepository.findById(id).orElse(null);
     }
 }

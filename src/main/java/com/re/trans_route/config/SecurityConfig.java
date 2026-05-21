@@ -51,7 +51,13 @@ public class SecurityConfig {
                         .requestMatchers("/error", "/error/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(AbstractHttpConfigurer::disable)
+                .formLogin(form -> form
+                        .loginPage("/auth/login")                        // trang login (GET)
+                        .loginProcessingUrl("/auth/login")               // URL ma` form POST toi' de? Spring xu? ly'
+                        .usernameParameter("email")                      // ten param cho username trong form (th:field là email)
+                        .passwordParameter("password")                   // ten param cho password
+                        .successHandler(roleBasedLoginSuccessHandler)    // handler đa~ có sẵn để redirect theo role
+                        .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/auth/logout")
                         .logoutSuccessUrl("/auth/login")

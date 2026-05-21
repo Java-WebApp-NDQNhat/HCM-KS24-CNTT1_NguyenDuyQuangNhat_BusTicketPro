@@ -1,5 +1,5 @@
 package com.re.trans_route.type;
 
 public enum BookingStatus {
-    PENDING, PAID, CANCELLED
+    PENDING, PAID, CANCELLED, CONFIRM
 }
