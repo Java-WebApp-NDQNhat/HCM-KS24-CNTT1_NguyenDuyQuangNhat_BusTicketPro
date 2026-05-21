@@ -17,4 +17,8 @@ public class TicketService {
     public Ticket save(Ticket ticket) {
         return ticketRepository.save(ticket);
     }
+
+    public Ticket findByTicketCodeAndPassengerPhone(String ticketCode, String passengerPhone) {
+        return ticketRepository.findByTicketCodeAndPassengerPhone(ticketCode, passengerPhone);
+    }
 }

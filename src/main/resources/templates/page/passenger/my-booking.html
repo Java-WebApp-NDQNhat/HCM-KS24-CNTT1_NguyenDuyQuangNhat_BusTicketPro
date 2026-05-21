@@ -17,10 +17,39 @@
 <!--            search input-->
             <section class="mb-xl bg-surface-container-lowest/90 backdrop-blur-md rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline-variant/30 p-lg relative overflow-hidden">
                 <div class="absolute inset-0 bg-surface-container-lowest/50 [mask-image:linear-gradient(to_bottom,rgba(255,255,255,1),rgba(255,255,255,0))] pointer-events-none"></div>
-                <div class="relative flex items-center gap-sm">
-                    <span class="material-symbols-outlined text-outline">search</span>
-                    <input class="w-full pl-xl pr-md py-sm bg-transparent border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search bookings..." type="text" />
-                </div>
+                <form th:action="@{/passenger/my-booking}" method="get" class="relative z-10">
+                    <h3 class="font-title-lg text-title-lg text-on-surface mb-md">Check your ticket now?</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-md items-end">
+                        <div class="flex flex-col gap-xs">
+                            <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Ticket Code</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">confirmation_number</span>
+                                <input name="ticketCode"
+                                       class="w-full pl-10 pr-md py-sm bg-surface rounded-lg border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 text-body-md font-body-md transition-all h-11"
+                                       type="text" placeholder="VD: TR12345678" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-xs">
+                            <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Phone Number</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">call</span>
+                                <input name="phoneNum"
+                                       class="w-full pl-10 pr-md py-sm bg-surface rounded-lg border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 text-body-md font-body-md transition-all h-11"
+                                       type="text" placeholder="VD: 0123456789" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <button type="submit" class="h-11 bg-primary text-on-primary rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-tint shadow-sm transition-all flex items-center justify-center gap-sm active:scale-95">
+                            <span class="material-symbols-outlined text-[20px]">search</span>
+                            Find Ticket
+                        </button>
+                    </div>
+
+<!--                    error binding-->
+                    <div th:if="${inputError}" class="text-sm text-error" th:text="${inputError}">Nhập cả hai!!</div>
+                </form>
             </section>
 
 <!--            result-->
@@ -29,47 +58,64 @@
                     <h3 class="font-title-lg text-title-lg text-on-surface">Your Trip</h3>
                 </div>
 
-                <div class="bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline-variant/30 flex flex-col sm:flex-row overflow-hidden relative group hover:shadow-[0_10px_20px_-3px_rgba(0,0,0,0.1)] transition-shadow">
+<!--                neu' co' result tra? ve`-->
+                <div th:if="${ticket}" class="bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline-variant/30 flex flex-col sm:flex-row overflow-hidden relative group hover:shadow-[0_10px_20px_-3px_rgba(0,0,0,0.1)] transition-shadow">
                     <div class="w-full sm:w-1.5 h-1.5 sm:h-auto bg-primary"></div>
                     <div class="p-lg flex-1 border-b sm:border-b-0 sm:border-r border-dashed border-outline-variant/50 relative bg-surface-container-lowest">
                         <div class="flex justify-between items-start mb-lg">
                             <div class="inline-flex items-center gap-xs px-sm py-1 bg-surface-container rounded-full text-primary font-label-sm text-label-sm uppercase tracking-wider">
                                 <span class="material-symbols-outlined text-[14px] fill">check_circle</span>
-                                On Time
+                                <span th:text="${ticket.status}">PAID</span>
                             </div>
-                            <span class="font-label-md text-label-md text-on-surface-variant font-medium">Ticket #TR-8492A</span>
+                            <span class="font-label-md text-label-md text-on-surface-variant font-medium"
+                                  th:text="'Ticket #' + ${ticket.ticketCode}">Ticket #TR-XXXXXXXX</span>
                         </div>
                         <div class="flex items-center justify-between relative">
                             <div class="flex flex-col z-10">
-                                <span class="font-headline-md text-headline-md text-on-surface">08:30</span>
-                                <span class="font-body-md text-body-md text-on-surface-variant">New York</span>
-                                <span class="font-label-sm text-label-sm text-outline mt-1">Port Authority</span>
+                                <span class="font-headline-md text-headline-md text-on-surface"
+                                      th:text="${#temporals.format(ticket.trip.departureTime, 'HH:mm')}">--:--</span>
+                                <span class="font-body-md text-body-md text-on-surface-variant"
+                                      th:text="${ticket.trip.route.fromLocation.name}">Điểm đi</span>
                             </div>
                             <div class="flex-1 flex items-center justify-center px-md relative">
                                 <div class="w-full h-px bg-outline-variant absolute top-1/2 -translate-y-1/2"></div>
                                 <div class="w-8 h-8 rounded-full bg-surface-container-lowest border border-outline-variant flex items-center justify-center z-10 text-on-surface-variant">
                                     <span class="material-symbols-outlined text-[18px]">directions_bus</span>
                                 </div>
-                                <span class="absolute top-1/2 translate-y-3 font-label-sm text-label-sm text-outline-variant bg-surface-container-lowest px-1">4h 15m</span>
                             </div>
                             <div class="flex flex-col items-end z-10">
-                                <span class="font-headline-md text-headline-md text-on-surface">12:45</span>
-                                <span class="font-body-md text-body-md text-on-surface-variant">Boston</span>
-                                <span class="font-label-sm text-label-sm text-outline mt-1">South Station</span>
+                                <span class="font-headline-md text-headline-md text-on-surface text-outline">---</span>
+                                <span class="font-body-md text-body-md text-on-surface-variant"
+                                      th:text="${ticket.trip.route.toLocation.name}">Điểm đến</span>
                             </div>
                         </div>
                         <div class="mt-lg pt-md border-t border-outline-variant/20 grid grid-cols-3 gap-sm">
                             <div>
-                                <span class="block font-label-sm text-label-sm text-outline uppercase">Date</span>
-                                <span class="font-label-md text-label-md text-on-surface font-semibold">Oct 24, 2024</span>
+                                <span class="block font-label-sm text-label-sm text-outline uppercase">Ngày đi</span>
+                                <span class="font-label-md text-label-md text-on-surface font-semibold"
+                                      th:text="${#temporals.format(ticket.trip.departureTime, 'dd/MM/yyyy')}">--/--/----</span>
                             </div>
                             <div>
-                                <span class="block font-label-sm text-label-sm text-outline uppercase">Seat</span>
-                                <span class="font-label-md text-label-md text-on-surface font-semibold">14B <span class="text-outline-variant font-normal">(Window)</span></span>
+                                <span class="block font-label-sm text-label-sm text-outline uppercase">Ghế số</span>
+                                <span class="font-label-md text-label-md text-on-surface font-semibold"
+                                      th:text="${ticket.seat.seatNumber}">--</span>
                             </div>
                             <div>
-                                <span class="block font-label-sm text-label-sm text-outline uppercase">Bus</span>
-                                <span class="font-label-md text-label-md text-on-surface font-semibold">Express-5</span>
+                                <span class="block font-label-sm text-label-sm text-outline uppercase">Giá vé</span>
+                                <span class="font-label-md text-label-md text-on-surface font-semibold"
+                                      th:text="${#numbers.formatDecimal(ticket.price, 0, 'COMMA', 0, 'POINT') + ' VNĐ'}">--</span>
+                            </div>
+                        </div>
+                        <div class="mt-md pt-md border-t border-outline-variant/20 grid grid-cols-2 gap-sm">
+                            <div>
+                                <span class="block font-label-sm text-label-sm text-outline uppercase">Hành khách</span>
+                                <span class="font-label-md text-label-md text-on-surface font-semibold"
+                                      th:text="${ticket.passengerName}">--</span>
+                            </div>
+                            <div>
+                                <span class="block font-label-sm text-label-sm text-outline uppercase">Số điện thoại</span>
+                                <span class="font-label-md text-label-md text-on-surface font-semibold"
+                                      th:text="${ticket.passengerPhone}">--</span>
                             </div>
                         </div>
                     </div>
@@ -78,8 +124,17 @@
                             <div class="absolute inset-2 border-2 border-primary rounded-sm opacity-20"></div>
                         </div>
                         <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Boarding Pass</span>
-                        <button class="mt-md w-full border border-primary text-primary font-label-md text-label-md py-1.5 rounded-lg hover:bg-primary/5 transition-colors">Download</button>
+                        <div class="mt-sm text-center">
+                            <span class="font-label-xs text-label-xs text-outline" th:text="${ticket.ticketCode}">--</span>
+                        </div>
                     </div>
+                </div>
+
+<!--                neu' khong co' gi` tra? ve`-->
+                <div th:if="${noResult}" class="bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-outline-variant/30 flex flex-col items-center justify-center py-16 gap-md">
+                    <span class="material-symbols-outlined text-outline-variant text-[48px]">search_off</span>
+                    <p class="font-title-lg text-title-lg text-on-surface-variant">Không tìm thấy vé</p>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Vui lòng kiểm tra lại mã vé và số điện thoại.</p>
                 </div>
             </div>
 

@@ -138,7 +138,28 @@ public class PassengerController {
     }
 
     @GetMapping("/my-booking")
-    public String booking(Model model) {
+    public String booking(Model model,
+                          @RequestParam(required = false) String ticketCode,
+                          @RequestParam(required = false) String phoneNum) {
+
+        // Chưa nhập gì -> hiển thị trang trống
+        if (!hasText(ticketCode) && !hasText(phoneNum)) {
+            return "page/passenger/my-booking";
+        }
+
+        // Thiếu 1 trong 2 trường
+        if (!hasText(ticketCode) || !hasText(phoneNum)) {
+            model.addAttribute("inputError", "Vui lòng nhập đầy đủ mã vé và số điện thoại!");
+            return "page/passenger/my-booking";
+        }
+
+        Ticket ticketFound = ticketService.findByTicketCodeAndPassengerPhone(ticketCode.trim(), phoneNum.trim());
+        if (ticketFound == null) {
+            model.addAttribute("noResult", true);
+            return "page/passenger/my-booking";
+        }
+
+        model.addAttribute("ticket", ticketFound);
         return "page/passenger/my-booking";
     }
 
@@ -215,4 +236,6 @@ public class PassengerController {
 
         return "page/passenger/ticket-booking/payment-success";
     }
+
+
 }
