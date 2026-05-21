@@ -16,6 +16,7 @@ INSERT IGNORE INTO role_permission (role_id, permission_id) VALUES (1, 1);
 INSERT IGNORE INTO role_permission (role_id, permission_id) VALUES (2, 2);
 INSERT IGNORE INTO role_permission (role_id, permission_id) VALUES (3, 3);
 
+-- Pass default cho admin và staff là: "12345678"
 INSERT IGNORE INTO users (id, user_name, email, phone, address, password_hash, role_id) VALUES (1, 'admin system', 'admin@gmail.com', '0987654321', 'VN', '$2a$10$jivQED6nsdZyJfBAtzD.seiFE3BnIVb/Numhn8crX4yJHrDF1I4Qa', 1);
 INSERT IGNORE INTO users (id, user_name, email, phone, address, password_hash, role_id) VALUES (99, 'staff', 'staff@gmail.com', '0987654321', 'VN', '$2a$10$jivQED6nsdZyJfBAtzD.seiFE3BnIVb/Numhn8crX4yJHrDF1I4Qa', 3);
 

@@ -48,6 +48,9 @@ dependencies {
 
     // dung` chung voi' lombok can` them:
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
+    // dung` thay java mail sender
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 tasks.named('test') {

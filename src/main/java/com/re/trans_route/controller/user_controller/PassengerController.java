@@ -5,11 +5,7 @@ import com.re.trans_route.entity.Route;
 import com.re.trans_route.entity.Seat;
 import com.re.trans_route.entity.Trip;
 import com.re.trans_route.entity.Ticket;
-import com.re.trans_route.service.LocationService;
-import com.re.trans_route.service.RouteService;
-import com.re.trans_route.service.SeatService;
-import com.re.trans_route.service.TicketService;
-import com.re.trans_route.service.TripService;
+import com.re.trans_route.service.*;
 import com.re.trans_route.type.BookingStatus;
 import com.re.trans_route.type.SeatStatus;
 import org.springframework.data.domain.Page;
@@ -37,17 +33,19 @@ public class PassengerController {
     private final LocationService locationService;
     private final SeatService seatService;
     private final TicketService ticketService;
+    private final EmailService emailService;
 
     public PassengerController(RouteService routeService,
                                TripService tripService,
                                LocationService locationService,
                                SeatService seatService,
-                               TicketService ticketService) {
+                               TicketService ticketService, EmailService emailService) {
         this.routeService = routeService;
         this.tripService = tripService;
         this.locationService = locationService;
         this.seatService = seatService;
         this.ticketService = ticketService;
+        this.emailService = emailService;
     }
 
     @ModelAttribute("search")
@@ -181,7 +179,7 @@ public class PassengerController {
             model.addAttribute("canCancel", false);
             model.addAttribute("ticketCode", ticketCode.trim());
             model.addAttribute("phoneNum", phoneNum.trim());
-            model.addAttribute("cancelSuccess", "Hủy vé thành công. Ghế đã được giải phóng.");
+            model.addAttribute("cancelSuccess", "Hủy vé thành công!!!");
             return "page/passenger/my-booking";
         } catch (IllegalArgumentException | IllegalStateException ex) {
             Ticket ticket = ticketService.findByTicketCodeAndPassengerPhone(ticketCode.trim(), phoneNum.trim());
@@ -266,6 +264,22 @@ public class PassengerController {
         model.addAttribute("trip_info", trip);
         model.addAttribute("fromLocation", trip.getRoute().getFromLocation().getName());
         model.addAttribute("toLocation", trip.getRoute().getToLocation().getName());
+
+        emailService.sendEmail(
+                passengerEmail,
+                "Thông tin vé xe của bạn - Mã vé: " + ticketCode,
+                "Xin chào " + passengerName + ",\n\n" +
+                        "Cảm ơn bạn đã đặt vé tại Bus Ticket! Dưới đây là thông tin chi tiết về vé của bạn:\n\n" +
+                        "Mã vé: " + ticketCode + "\n" +
+                        "Hành trình: " + trip.getRoute().getFromLocation().getName() + " → " + trip.getRoute().getToLocation().getName() + "\n" +
+                        "Ngày đi: " + trip.getDepartureTime().toLocalDate() + "\n" +
+                        "Giờ đi: " + trip.getDepartureTime().toLocalTime() + "\n" +
+                        "Số ghế: " + selectedSeat.getSeatNumber() + "\n" +
+                        "Giá vé: $" + trip.getPrice() + "\n\n" +
+                        "Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua email này.\n\n" +
+                        "Chúc bạn có một chuyến đi vui vẻ!\n" +
+                        "- Đội ngũ TransRoute"
+        );
 
         return "page/passenger/ticket-booking/payment-success";
     }

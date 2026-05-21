@@ -115,7 +115,7 @@
                 <td class="py-md px-md text-right">
                   <span th:if="${ticket.status.name() == 'PENDING'}"></span>
 
-                  <!-- CANCELLED: Refunded text -->
+                  <!-- CANCELLED -->
                   <span th:if="${ticket.status.name() == 'CANCELLED'}"
                         class="font-label-sm text-outline">Refunded</span>
 
@@ -129,7 +129,7 @@
                     </button>
                   </form>
 
-                  <!-- CONFIRM: Confirmed text -->
+                  <!-- CONFIRM -->
                   <span th:if="${ticket.status.name() == 'CONFIRM'}"
                         class="font-label-sm text-[#1e40af]">Confirmed</span>
                 </td>
