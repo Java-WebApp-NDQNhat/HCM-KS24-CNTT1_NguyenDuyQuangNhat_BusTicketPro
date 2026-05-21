@@ -275,7 +275,7 @@ public class PassengerController {
                         "Ngày đi: " + trip.getDepartureTime().toLocalDate() + "\n" +
                         "Giờ đi: " + trip.getDepartureTime().toLocalTime() + "\n" +
                         "Số ghế: " + selectedSeat.getSeatNumber() + "\n" +
-                        "Giá vé: $" + trip.getPrice() + "\n\n" +
+                        "Giá vé: " + trip.getPrice() +"VNĐ" + "\n\n" +
                         "Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua email này.\n\n" +
                         "Chúc bạn có một chuyến đi vui vẻ!\n" +
                         "- Đội ngũ TransRoute"
